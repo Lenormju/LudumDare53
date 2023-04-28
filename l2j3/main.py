@@ -3,6 +3,7 @@ import enum
 
 import pygame
 from enum import Enum
+from objects.Character import Character
 
 # pygame setup
 pygame.init()
@@ -71,6 +72,11 @@ black = (0, 0, 0)
 pygame.mixer.init()
 pygame.mixer.music.load('sound/AMBForst_Foret (ID 0100)_LS.wav')
 pygame.mixer.music.play()
+# get the size for the screen
+xScreen, yScreen = screen.get_size()
+
+# Set the character
+character = Character(pygame.Rect(600, 620, 100, 100), 10, "assets/kaizen.png")
 
 while running:
     current_tick_number += 1
@@ -82,7 +88,15 @@ while running:
         #son des mechants
         pygame.mixer.Channel(1).play(pygame.mixer.Sound('sound\WEAPWhip_Fouet 4 (ID 2952)_LS.wav'))
 
-
+    keys = pygame.key.get_pressed() 
+    if keys[pygame.K_DOWN]: 
+            print ("DOWN") 
+    if keys[pygame.K_UP]: 
+            print ("UP") 
+    if keys[pygame.K_LEFT]:
+            character.GoToLeft()
+    if keys[pygame.K_RIGHT]:
+            character.GoToRight(xScreen)
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
@@ -91,7 +105,7 @@ while running:
 
     screen.fill(black)  # === draw _AFTER_ this line ===
     alien1.update()
-    print(alien1.rect)
+    screen.blit(character.image, (character.rect.x, character.rect.y))
 
     # flip() the display to put your work on screen
     pygame.display.flip()  # === draw _BEFORE_ this line ===
