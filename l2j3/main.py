@@ -1,15 +1,18 @@
 import pygame
 from objects.Character import Character
 from objects.Alien import Alien
-from objects.Sounds import background_sound
+from objects.Sounds import background_sound, destroy_sound
 
 # pygame setup
 pygame.init()
 clock = pygame.time.Clock()
 running = True
+pygame.font.init()
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 600, 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+my_font = pygame.font.SysFont('Comic Sans MS', 30)
 
 alien_image1 = pygame.image.load("assets/alien.png")
 ennemies = []
@@ -30,15 +33,13 @@ xScreen, yScreen = screen.get_size()
 # Set the character
 character = Character(pygame.Rect(xScreen/2, yScreen-100, 100, 100), 10, "assets/kaizen.png")
 
+player_has_lost = False
+
 while running:
     shooting = False
     current_tick_number += 1
     if current_tick_number % TARGET_FPS == 0:
         current_tick_number = 0
-        #son des gentils
-        # pygame.mixer.Channel(0).play(pygame.mixer.Sound('sound\LASRGun_Blaster star wars 3 (ID 1759)_LS.wav'))
-        #son des mechants
-        # pygame.mixer.Channel(1).play(pygame.mixer.Sound('sound\WEAPWhip_Fouet 4 (ID 2952)_LS.wav'))
 
     keys = pygame.key.get_pressed() 
     if keys[pygame.K_LEFT]:
@@ -65,6 +66,16 @@ while running:
         ennemies.remove(ennemy)
     screen.blit(character.image, character.rect)
 
+    # check if alien destroys the player
+    if alien1.rect.colliderect(character.rect):
+        destroy_sound.play()
+        player_has_lost = True
+
+    if player_has_lost:
+        alien1.rect = pygame.Rect(5000, 5000, 0, 0)  # out of sight !
+        red_color = (255, 0, 0)
+        text_surface = my_font.render('You have lost!', False, red_color)
+        screen.blit(text_surface, (0, 0))
 
     # flip() the display to put your work on screen
     pygame.display.flip()  # === draw _BEFORE_ this line ===
