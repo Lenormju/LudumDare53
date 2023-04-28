@@ -4,6 +4,7 @@ from GameInfo import GAME_INFO
 from objects.Alien import Alien
 from objects.Character import Character
 from objects.Sounds import background_sound, explosion_sound
+from objects.Animation import Animation
 
 background_sound.play(loops=-1)
 
@@ -18,15 +19,42 @@ enemies.append(Alien(alien_image1, GAME_INFO.SCREEN_WIDTH, 300, 0))
 character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, "assets/kaizen.png")
 player_has_lost = False
 
+animations = []
+
 
 def render(screen, events, keys):
     global enemies, player_has_lost
+
+    def DetermineEndGame():
+        if player_has_lost:
+            character.rect = pygame.Rect(5000, 5000, 0, 0)  # out of sight !
+            ColoredTextEnd((255, 0, 0), 'You have lost!')
+        else:
+            if not enemies:
+                ColoredTextEnd((0, 255, 0), 'You have win!')
+            screen.blit(character.image, character.rect)
+
+    def ColoredTextEnd(color, text):
+        text_surface = comic_sans_ms.render(text, False, color)
+        screen.blit(text_surface, (0, 0))
+
+    def AnimationsShoots():
+        for key, val in character.ApplyShoots(screen, enemies).items():
+            animations.append(Animation(lambda: screen.blit(key.image, key.rect)))
+            enemies.remove(val)
+
+        for animation in animations:
+            isPlay = animation.Increment()
+            if not isPlay:
+                animations.remove(animation)
+
+
     shooting = False
 
     if keys[pygame.K_LEFT]:
         character.GoToLeft()
     if keys[pygame.K_RIGHT]:
-        character.GoToRight(SCREEN_WIDTH)
+        character.GoToRight(GAME_INFO.SCREEN_WIDTH)
 
     for event in events:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -40,8 +68,7 @@ def render(screen, events, keys):
     if shooting:
         character.DoShoot(screen)
 
-    for enemy in character.ApplyShoots(screen, enemies):
-        enemies.remove(enemy)
+    AnimationsShoots()
 
     # check if alien destroys the player
     for enemy in enemies:
@@ -50,16 +77,6 @@ def render(screen, events, keys):
             player_has_lost = True
             break
 
-    if player_has_lost:
-        character.rect = pygame.Rect(5000, 5000, 0, 0)  # out of sight !
-        red_color = (255, 0, 0)
-        text_surface = comic_sans_ms.render('You have lost!', False, red_color)
-        screen.blit(text_surface, (0, 0))
-    else:
-        if not enemies:
-            green_color = (0, 255, 0)
-            text_surface = comic_sans_ms.render('You have win!', False, green_color)
-            screen.blit(text_surface, (0, 0))
-        screen.blit(character.image, character.rect)
+    DetermineEndGame()
 
     pygame.display.flip()  # === draw _BEFORE_ this line ===

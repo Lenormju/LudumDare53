@@ -18,13 +18,14 @@ class Character(Thing):
         screen.blit(shoot.image, shoot.rect)
 
     def ApplyShoots(self, screen, ennemies):
-        destroying = []
+        destroying = {}
         for shoot in self.shoots:
             isMoving = shoot.GoToUp()
             isDestroy = shoot.isCollideEnnemy(ennemies)
             if isDestroy is not None:
                 self.shoots.remove(shoot)
-                destroying.append(isDestroy)
+                shoot.UpdateImage("assets/shoot_explosion.png", 100, 50)
+                destroying[shoot] = isDestroy
             
             if isMoving:
                 screen.blit(shoot.image, shoot.rect)
