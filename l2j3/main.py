@@ -78,6 +78,10 @@ while running:
         text_surface = my_font.render('You have lost!', False, red_color)
         screen.blit(text_surface, (0, 0))
     else:
+        if not ennemies:
+            green_color = (0, 255, 0)
+            text_surface = my_font.render('You have win!', False, green_color)
+            screen.blit(text_surface, (0, 0))
         screen.blit(character.image, character.rect)
 
 
