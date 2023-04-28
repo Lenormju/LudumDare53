@@ -12,7 +12,10 @@ SCREEN_WIDTH, SCREEN_HEIGHT = 600, 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 alien_image1 = pygame.image.load("assets/alien.png")
-alien1 = Alien(alien_image1, SCREEN_WIDTH, 0, 0)
+ennemies = []
+ennemies.append(Alien(alien_image1, SCREEN_WIDTH, 0, 0))
+ennemies.append(Alien(alien_image1, SCREEN_WIDTH, 120, 0))
+ennemies.append(Alien(alien_image1, SCREEN_WIDTH, 300, 0))
 
 current_tick_number = 0
 TARGET_FPS = 60
@@ -53,10 +56,13 @@ while running:
                 shooting = True
 
     screen.fill(black)  # === draw _AFTER_ this line ===
-    alien1.update(screen)
+    for ennemy in ennemies:
+        ennemy.update(screen)
     if shooting:
         character.DoShoot(screen)
-    character.ApplyShoots(screen)
+        
+    for ennemy in character.ApplyShoots(screen, ennemies):
+        ennemies.remove(ennemy)
     screen.blit(character.image, character.rect)
 
 
