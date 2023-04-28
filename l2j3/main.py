@@ -94,7 +94,7 @@ pygame.mixer.music.play()
 xScreen, yScreen = screen.get_size()
 
 # Set the character
-character = Character(pygame.Rect(600, 620, 100, 100), 10, "assets/kaizen.png")
+character = Character(pygame.Rect(xScreen/2, yScreen-100, 100, 100), 10, "assets/kaizen.png")
 
 while running:
     current_tick_number += 1
