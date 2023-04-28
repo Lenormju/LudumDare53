@@ -67,12 +67,20 @@ TARGET_FPS = 60
 
 black = (0, 0, 0)
 
+#musique de fond
+pygame.mixer.init()
+pygame.mixer.music.load('sound/AMBForst_Foret (ID 0100)_LS.wav')
+pygame.mixer.music.play()
 
 while running:
     current_tick_number += 1
     if current_tick_number % TARGET_FPS == 0:
         current_tick_number = 0
         print(current_tick_number)
+        #son des gentils
+        pygame.mixer.Channel(0).play(pygame.mixer.Sound('sound\LASRGun_Blaster star wars 3 (ID 1759)_LS.wav'))
+        #son des mechants
+        pygame.mixer.Channel(1).play(pygame.mixer.Sound('sound\WEAPWhip_Fouet 4 (ID 2952)_LS.wav'))
 
 
     # poll for events
@@ -88,5 +96,6 @@ while running:
     # flip() the display to put your work on screen
     pygame.display.flip()  # === draw _BEFORE_ this line ===
     clock.tick(TARGET_FPS)
+
 
 pygame.quit()
