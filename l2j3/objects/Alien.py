@@ -8,8 +8,6 @@ class Alien:
         self.image = image
         self.rect = pygame.Rect(pos_x, pos_y, self.IMAGE_SIZE, self.IMAGE_SIZE)
         self.current_direction = Direction.RIGHT
-        print(self.rect)
-        print(self.rect.x, self.rect.y)
         self.previous_line_y = self.rect.y
 
     def update(self, screen):
@@ -27,26 +25,22 @@ class Alien:
 
         # change direction
         if self.rect.x + self.IMAGE_SIZE + dx > self.SCREEN_WIDTH and self.current_direction is not Direction.DOWN:
-            print("switching down")
             self.current_direction = Direction.DOWN
             self.update(screen)
             return
         elif self.rect.x + dx < 0 and self.current_direction is not Direction.UP:
-            print("switching down")
             self.current_direction = Direction.DOWN
             self.update(screen)
             return
         elif self.rect.y + dy > self.previous_line_y + self.IMAGE_SIZE:
             if self.rect.x > self.SCREEN_WIDTH / 2:
                 if self.current_direction is not Direction.LEFT:
-                    print("switching left")
                     self.previous_line_y = self.rect.y
                     self.current_direction = Direction.LEFT
                     self.update(screen)
                     return
             else:
                 if self.current_direction is not Direction.RIGHT:
-                    print("switching right")
                     self.previous_line_y = self.rect.y
                     self.current_direction = Direction.RIGHT
                     self.update(screen)
