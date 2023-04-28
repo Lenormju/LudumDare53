@@ -29,6 +29,9 @@ class Alien:
         self.image = image
         self.rect = pygame.Rect(pos_x, pos_y, IMAGE_SIZE, IMAGE_SIZE)
         self.current_direction = Direction.RIGHT
+        print(self.rect)
+        print(self.rect.x, self.rect.y)
+        self.previous_line_y = self.rect.y
 
     def update(self):
         dx, dy = (
@@ -38,23 +41,38 @@ class Alien:
             else (0, 1) if self.current_direction is Direction.DOWN
             else (None, None)
         )
-        # change direction
-        if self.rect.x + IMAGE_SIZE + dx > SCREEN_WIDTH + 5:
-            print("switching down")
-            self.current_direction = Direction.DOWN
-        elif self.rect.x - dx < -5:
-            print("switching up")
-            self.current_direction = Direction.UP
-        elif self.rect.y + IMAGE_SIZE + dy > SCREEN_HEIGHT + 5:
-            print("switching left")
-            self.current_direction = Direction.LEFT
-        elif self.rect.y - dy < -5:
-            print("switching right")
-            self.current_direction = Direction.RIGHT
         # speed up
-        k = 5
+        k = 10
         dx *= k
         dy *= k
+
+        # change direction
+        if self.rect.x + IMAGE_SIZE + dx > SCREEN_WIDTH and self.current_direction is not Direction.DOWN:
+            print("switching down")
+            self.current_direction = Direction.DOWN
+            self.update()
+            return
+        elif self.rect.x + dx < 0 and self.current_direction is not Direction.UP:
+            print("switching down")
+            self.current_direction = Direction.DOWN
+            self.update()
+            return
+        elif self.rect.y + dy > self.previous_line_y + IMAGE_SIZE:
+            if self.rect.x > SCREEN_WIDTH / 2:
+                if self.current_direction is not Direction.LEFT:
+                    print("switching left")
+                    self.previous_line_y = self.rect.y
+                    self.current_direction = Direction.LEFT
+                    self.update()
+                    return
+            else:
+                if self.current_direction is not Direction.RIGHT:
+                    print("switching right")
+                    self.previous_line_y = self.rect.y
+                    self.current_direction = Direction.RIGHT
+                    self.update()
+                    return
+
         self.rect = self.rect.move(dx, dy)
         screen.blit(self.image, self.rect)
 
@@ -110,6 +128,5 @@ while running:
     # flip() the display to put your work on screen
     pygame.display.flip()  # === draw _BEFORE_ this line ===
     clock.tick(TARGET_FPS)
-
 
 pygame.quit()
