@@ -29,11 +29,16 @@ enemies.append(Stork(enemies_images, 160, 198))
 
 character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, "assets/panier.png")
 player_has_lost = False
+firstTick = True
 
 shoot_animations = []
+start_ticks = 0
 
 def render(screen, events, keys):
-    global enemies, player_has_lost, character, babies
+    global enemies, player_has_lost, character, babies, firstTick,start_ticks
+    if firstTick:
+        start_ticks=pygame.time.get_ticks()
+        firstTick = False
 
     def ClearBoard(nextScreen):
         character = None
@@ -121,9 +126,10 @@ def render(screen, events, keys):
         isCollide = baby.isCollideBabies(character)
         if isCollide:
             babies.remove(baby)
-
+        
+    seconds=(pygame.time.get_ticks()-start_ticks)/1000
     ColoredTextEnd((0,0,0), "Score : "+str(GAME_INFO.SCORE), GAME_INFO.SCREEN_WIDTH-150, 0)
-    ColoredTextEnd((0,0,0), "Timer : "+str(round(GAME_INFO.CURRENT_TICK_NUMBER / 60)), GAME_INFO.SCREEN_WIDTH/3, 0)
+    ColoredTextEnd((0,0,0), "Timer : "+str(round(seconds)), GAME_INFO.SCREEN_WIDTH/3, 0)
 
     # check if alien destroys the player
     for enemy in enemies:
