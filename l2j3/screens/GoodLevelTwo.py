@@ -2,6 +2,8 @@ import pygame
 
 from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
+from objects.Unicorn import Unicorn
+from objects.Direction import Direction
 from objects.Character import Character
 from objects.Sounds import background_sound, explosion_sound
 from objects.Animation import Animation
@@ -25,6 +27,11 @@ for _ in range(number_of_enemies):
     enemies.append(Stork(enemies_images,
                          randint(0, GAME_INFO.SCREEN_WIDTH),
                          randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
+unicorn_image = pygame.image.load("assets/unicorn.png")
+enemies.append(Unicorn(unicorn_image,
+                    Direction.RIGHT,
+                    randint(0, 0),
+                    randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
 
 character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, "assets/panier.png")
 player_has_lost = False
