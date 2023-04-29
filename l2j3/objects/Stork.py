@@ -1,4 +1,5 @@
 import pygame
+from random import *
 from objects.Baby import Baby
 from objects.Direction import Direction
 from objects.Animation import Animation
@@ -22,27 +23,6 @@ class Stork:
         self.current_direction = Direction.RIGHT
         self.previous_line_y = self.rect.y
 
-    def DropBaby(self, screen):        
-        baby = Baby(self.rect, 5, "assets/baby.png")
-        self.babies.append(baby)
-        screen.blit(baby.image, baby.rect)
-        pygame.mixer.find_channel(force=True).play(down_turn_sound)
-        return baby
-
-    def isCollideBabies(self, character):
-        for baby in self.babies:
-            if(baby.rect.colliderect(character.rect)):
-                GAME_INFO.SCORE += 1
-                self.babies.remove(baby)
-    
-    def ApplyMoveBaby(self, baby, screen):
-        isMoving = baby.GoToDown()
-        if isMoving:
-            screen.blit(baby.image, baby.rect)
-        if not isMoving:
-            GAME_INFO.SCORE -= 1
-            self.babies.remove(baby)
-
     def Animation(self, screen, flip):
         if flip:
             images = self.images_flip
@@ -62,7 +42,7 @@ class Stork:
             else (None, None)
         )
         # speed up
-        k = 5
+        k = randint(3,7)
         dx *= k
         dy *= k
 

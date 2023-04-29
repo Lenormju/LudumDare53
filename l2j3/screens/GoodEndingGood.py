@@ -17,6 +17,6 @@ def render(screen, events, keys):
 
     screen.blit(comic_sans_ms.render("thanks to have played !", False, ludum_light_orange), (0, 0))
     screen.blit(comic_sans_ms.render("your score was :", False, ludum_dark_orange), (0, 50))
-    screen.blit(comic_sans_ms.render("TODO", False, granny_color), (240, 50))
+    screen.blit(comic_sans_ms.render(str(GAME_INFO.SCORE), False, granny_color), (240, 50))
     screen.blit(comic_sans_ms_small.render("PS: have you tried not to catch the babies ?", False, evil_red), (0, 400))
     screen.blit(comic_sans_ms.render("press [escape] to quit", False, yellow_color), (0, 500))
