@@ -99,7 +99,8 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         pygame.mixer.find_channel(force=True).play(down_turn_sound)
         return baby
 
-    shooting = False
+    shootingLeft = False
+    shootingRight = False
 
     if (pygame.mouse.get_pos()[0] - character.gunRight.rect.x) < 0:
         character.GoToLeft()
@@ -108,9 +109,9 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
 
     for event in events:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == MY_MOUSE_BUTTON_LEFT:
-            shooting = True
+            shootingLeft = True
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == MY_MOUSE_BUTTON_RIGHT:
-            shooting = True
+            shootingRight = True
 
     screen.fill(evil_red)  # === draw _AFTER_ this line ===
 
@@ -120,9 +121,11 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         enemy.Move(screen)
         if enemy.HasExit(screen):
             enemies.remove(enemy)
-    
-    if shooting:
-        character.DoShoot(screen)
+
+    if shootingLeft:
+        character.DoShootLeft(screen)
+    if shootingRight:
+        character.DoShootRight(screen)
 
     DropAndMoveBabies()
     AnimationsShoots()

@@ -28,13 +28,15 @@ class CharacterBadLevel2():
             self.gunRight.rect = self.gunRight.rect.move(speedx, self.gunRight.speedy)
             self.gunLeft.rect = self.gunLeft.rect.move(speedx, self.gunLeft.speedy)
 
-    def DoShoot(self, screen):
-        shoot1 = Shoot(pygame.Rect(self.gunLeft.rect.x, self.gunLeft.rect.y, 50, 50), 0, 10, "assets/shoot.png")
-        shoot2 = Shoot(pygame.Rect(self.gunRight.rect.x, self.gunRight.rect.y, 50, 50), 0, 10, "assets/shoot.png")
-        self.shoots.append(shoot1)
-        self.shoots.append(shoot2)
-        screen.blit(shoot1.image, shoot1.rect)
-        screen.blit(shoot2.image, shoot2.rect)
+    def DoShootLeft(self, screen):
+        shoot = Shoot(pygame.Rect(self.gunLeft.rect.x, self.gunLeft.rect.y, 50, 50), 0, 10, "assets/shoot.png")
+        self.shoots.append(shoot)
+        screen.blit(shoot.image, shoot.rect)
+
+    def DoShootRight(self, screen):
+        shoot = Shoot(pygame.Rect(self.gunRight.rect.x, self.gunRight.rect.y, 50, 50), 0, 10, "assets/shoot.png")
+        self.shoots.append(shoot)
+        screen.blit(shoot.image, shoot.rect)
     
     def ApplyShoots(self, screen, ennemies):
         destroying = {}
