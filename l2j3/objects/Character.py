@@ -25,12 +25,15 @@ class Character(Thing):
             isDestroy = shoot.isCollideEnnemy(ennemies)
             if isDestroy is not None:
                 self.shoots.remove(shoot)
-                shoot.UpdateImage("assets/shoot_explosion.png", 100, 50)
+                shoot.UpdateImage("assets/shoot_explosion_min.png", 50, 25)
                 destroying[shoot] = isDestroy
             
             if isMoving:
                 screen.blit(shoot.image, shoot.rect)
             if not isMoving:
-                self.shoots.remove(shoot)
+                try:
+                    self.shoots.remove(shoot)
+                except ValueError:
+                    pass
             
         return destroying

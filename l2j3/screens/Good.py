@@ -5,6 +5,7 @@ from objects.Stork import Stork
 from objects.Character import Character
 from objects.Sounds import background_sound, explosion_sound
 from objects.Animation import Animation
+from objects.Shoot import Shoot
 from objects.Colors import *
 import random
 
@@ -44,9 +45,18 @@ def render(screen, events, keys):
         screen.blit(text_surface, (x, y))
 
     def AnimationsShoots():
-        for key, val in character.ApplyShoots(screen, enemies).items():
-            shoot_animations.append(Animation(lambda: screen.blit(key.image, key.rect)))
-            enemies.remove(val)
+        for shoot, enemy in character.ApplyShoots(screen, enemies).items():
+            animation = Animation(10)
+            def my_anim_action():
+                nonlocal shoot
+                if animation.currentTick <= (animation.duration // 2):
+                    screen.blit(shoot.image, shoot.rect)
+                else:
+                    shoot.UpdateImage("assets/shoot_explosion_max.png", 100, 50)
+                    screen.blit(shoot.image, shoot.rect)
+            animation.animation = my_anim_action
+            shoot_animations.append(animation)
+            enemies.remove(enemy)
 
         for animation in shoot_animations:
             isPlay = animation.Increment()

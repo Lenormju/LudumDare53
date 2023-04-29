@@ -77,7 +77,8 @@ class Stork:
 
         self.rect = self.rect.move(dx, dy)
         if self.animation == None:
-            self.animation = Animation(lambda: screen.blit(self.images[self.current_image], self.rect), self.ANIMATION_SPEED)
+            self.animation = Animation(self.ANIMATION_SPEED)
+            self.animation.animation = lambda: screen.blit(self.images[self.current_image], self.rect)
             self.current_image = (self.current_image+1) % len(self.images)
         if not self.animation.Increment():
             self.animation = None

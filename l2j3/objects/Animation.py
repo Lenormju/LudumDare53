@@ -1,9 +1,9 @@
 class Animation:
-    currentTick = 0
-
+    
     # 60 ticks = 1 seconde
-    def __init__(self, action, duration = 60):
-        self.animation = action
+    def __init__(self, duration = 60):
+        self.currentTick = 0
+        self.animation = None
         self.duration = duration
 
     def Increment(self):
