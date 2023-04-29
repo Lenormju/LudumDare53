@@ -3,6 +3,7 @@ from random import *
 from objects.Baby import Baby
 from objects.Direction import Direction
 from objects.Animation import Animation
+from objects.DropType import DropType
 from objects.Sounds import left_turn_sound, right_turn_sound, down_turn_sound
 from GameInfo import GAME_INFO
 
@@ -13,6 +14,7 @@ class Stork:
     def __init__(self, images, pos_x=0, pos_y=0):
         self.animation = None
         self.images = images
+        self.type = DropType.BABY_TYPE
         self.images_flip = []
         self.baby_picture_path = "assets/baby.png"
         for img in self.images:

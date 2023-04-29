@@ -3,6 +3,7 @@ from random import *
 from objects.Baby import Baby
 from objects.Direction import Direction
 from objects.Animation import Animation
+from objects.DropType import DropType
 from objects.Sounds import left_turn_sound, right_turn_sound, down_turn_sound
 from GameInfo import GAME_INFO
 
@@ -12,6 +13,7 @@ class Unicorn:
 
     def __init__(self, image, direction, pos_x=0, pos_y=0):
         self.baby_picture_path = "assets/poop.png" 
+        self.type = DropType.POOP_TYPE
         image = pygame.transform.scale(image, (self.IMAGE_SIZE,self.IMAGE_SIZE))
         if direction == Direction.RIGHT:
             image = pygame.transform.flip(image, True, False)

@@ -4,6 +4,9 @@ import pygame
 from random import *
 
 class Baby(Thing):
+    def SetType(self, type):
+        self.type = type
+
     def GoToDown(self):
         if self.rect.y < GAME_INFO.SCREEN_HEIGHT + self.speed:
             self.Move(0, self.speed)
@@ -11,8 +14,8 @@ class Baby(Thing):
         if self.rect.y >= GAME_INFO.SCREEN_HEIGHT + self.speed:
             return False
         
-    def isCollideBabies(self, character):        
-        if(self.rect.colliderect(character.rect)):
+    def isCollideBabies(self, rect):        
+        if(self.rect.colliderect(rect)):
             GAME_INFO.SCORE += 1
             return True
         return False
