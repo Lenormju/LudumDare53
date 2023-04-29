@@ -53,27 +53,35 @@ class Stork:
         dy *= k
 
         # change direction
-        if self.rect.x + self.IMAGE_SIZE + dx > GAME_INFO.SCREEN_WIDTH and self.current_direction is not Direction.DOWN:
+        would_exit_on_the_right_side = (self.rect.x + self.IMAGE_SIZE + dx > GAME_INFO.SCREEN_WIDTH)
+        would_exit_on_the_left_side = (self.rect.x + dx < 0)
+        not_going_down = (self.current_direction is not Direction.DOWN)
+        not_going_left = (self.current_direction is not Direction.LEFT)
+        not_going_right = (self.current_direction is not Direction.RIGHT)
+        is_very_low = (self.rect.y > GAME_INFO.SCREEN_HEIGHT - 250)
+        has_gone_down_enough = (self.rect.y + dy > self.previous_line_y + self.IMAGE_SIZE)
+        is_on_the_left_side = (self.rect.x < GAME_INFO.SCREEN_WIDTH / 2)
+        is_on_the_right_side = (self.rect.x > GAME_INFO.SCREEN_WIDTH / 2)
+
+        if would_exit_on_the_right_side and not_going_down and not is_very_low:
             self.current_direction = Direction.DOWN
             self.Move(screen)
             return
-        elif self.rect.x + dx < 0 and self.current_direction is not Direction.UP:
+        elif would_exit_on_the_left_side and not_going_down and not is_very_low:
             self.current_direction = Direction.DOWN
             self.Move(screen)
             return
-        elif self.rect.y + dy > self.previous_line_y + self.IMAGE_SIZE:
-            if self.rect.x > GAME_INFO.SCREEN_WIDTH / 2:
-                if self.current_direction is not Direction.LEFT:
-                    self.previous_line_y = self.rect.y
-                    self.current_direction = Direction.LEFT
-                    self.Move(screen)
-                    return
-            else:
-                if self.current_direction is not Direction.RIGHT:
-                    self.previous_line_y = self.rect.y
-                    self.current_direction = Direction.RIGHT
-                    self.Move(screen)
-                    return
+        elif has_gone_down_enough:
+            if is_on_the_right_side and not_going_left:
+                self.previous_line_y = self.rect.y
+                self.current_direction = Direction.LEFT
+                self.Move(screen)
+                return
+            elif is_on_the_left_side and not_going_right:
+                self.previous_line_y = self.rect.y
+                self.current_direction = Direction.RIGHT
+                self.Move(screen)
+                return
 
         self.rect = self.rect.move(dx, dy)
         if self.animation == None:
