@@ -1,5 +1,5 @@
 from objects.Thing import Thing
 
-class Panier(Thing):
+class PanierGun(Thing):
     def SetType(self, type):
         self.Type = type

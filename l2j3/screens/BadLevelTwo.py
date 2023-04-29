@@ -2,7 +2,7 @@ import pygame
 
 from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
-from objects.Character import Character
+from objects.CharacterBadLevel2 import CharacterBadLevel2
 from objects.Sounds import background_sound, explosion_sound
 from objects.Animation import Animation
 from objects.Sounds import down_turn_sound
@@ -26,7 +26,7 @@ for _ in range(number_of_enemies):
                          randint(-2000, 2000 + GAME_INFO.SCREEN_WIDTH),
                          randint(0, GAME_INFO.SCREEN_HEIGHT/4)))
 
-character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, 0, "assets/gun_left.png")
+character = CharacterBadLevel2()
 player_has_lost = False
 firstTick = True
 
@@ -48,7 +48,7 @@ def render(screen, events, keys):
     def DetermineEndGame():
         global character, enemies
         if not enemies:
-            if GAME_INFO.SCORE > 15:
+            if GAME_INFO.SCORE >= 100:
                 ClearBoard(GameScreen.BAD_LEVEL_THREE)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
@@ -108,7 +108,8 @@ def render(screen, events, keys):
 
     screen.fill(evil_red)  # === draw _AFTER_ this line ===
 
-    screen.blit(character.image, character.rect)
+    screen.blit(character.gunLeft.image, character.gunLeft.rect)
+    screen.blit(character.gunRight.image, character.gunRight.rect)
     for enemy in enemies:
         enemy.Move(screen)
         if enemy.HasExit(screen):
@@ -121,19 +122,14 @@ def render(screen, events, keys):
     AnimationsShoots()
 
     for baby in babies:
-        isCollide = baby.isCollideBabies(character)
-        if isCollide:
+        isCollideRight = baby.isCollideBabies(character.gunRight.rect)
+        isCollideLeft = baby.isCollideBabies(character.gunLeft.rect)
+        if isCollideRight or isCollideLeft:
+            GAME_INFO.SCORE -= 4
             babies.remove(baby)
         
     seconds=(pygame.time.get_ticks()-start_ticks)/1000
     ColoredTextEnd((0,0,0), "Score : "+str(GAME_INFO.SCORE), GAME_INFO.SCREEN_WIDTH-150, 0)
     ColoredTextEnd((0,0,0), "Timer : "+str(round(seconds)), GAME_INFO.SCREEN_WIDTH/3, 0)
-
-    # check if alien destroys the player
-    for enemy in enemies:
-        if enemy.rect.colliderect(character.rect):
-            explosion_sound.play()
-            player_has_lost = True
-            break
 
     DetermineEndGame()

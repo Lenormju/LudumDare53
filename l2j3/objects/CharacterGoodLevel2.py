@@ -1,14 +1,13 @@
 import pygame
-from objects.Panier import Panier
+from objects.Panier import PanierGun
 from GameInfo import GAME_INFO
 from objects.DropType import DropType
 
-class CharacterLevel2():
-    shoots = []
+class CharacterGoodLevel2():
     def __init__(self):
-        self.panierBaby = Panier(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100,100, 100), 10, 0, "assets/panier_baby.png")
+        self.panierBaby = PanierGun(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100,100, 100), 10, 0, "assets/panier_baby.png")
         self.panierBaby.SetType(DropType.BABY_TYPE)
-        self.panierPoop = Panier(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2-110, GAME_INFO.SCREEN_HEIGHT-100,100, 100), 10, 0, "assets/panier_poop.png")
+        self.panierPoop = PanierGun(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2-110, GAME_INFO.SCREEN_HEIGHT-100,100, 100), 10, 0, "assets/panier_poop.png")
         self.panierPoop.SetType(DropType.POOP_TYPE)
 
     def GoToRight(self):

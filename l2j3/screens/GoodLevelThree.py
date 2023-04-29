@@ -8,7 +8,7 @@ from objects.Unicorn import Unicorn
 from objects.BigUnicorn import BigUnicorn
 from objects.Direction import Direction
 from objects.DropType import DropType
-from objects.CharacterLevel2 import CharacterLevel2
+from objects.CharacterGoodLevel2 import CharacterGoodLevel2
 from objects.Sounds import background_sound
 from objects.Animation import Animation
 from objects.Sounds import down_turn_sound
@@ -33,7 +33,7 @@ for _ in range(number_of_storks):
 unicorn_images = [pygame.image.load("assets/big_unicorn.png")]  # FIXME: missing poop animation
 enemies.append(BigUnicorn(unicorn_images, 20, 200))
 
-character = CharacterLevel2()
+character = CharacterGoodLevel2()
 
 imageInTheBox = pygame.image.load("assets/in_the_box.png").convert_alpha()
 imageInTheBox = pygame.transform.scale(imageInTheBox, (100,100))

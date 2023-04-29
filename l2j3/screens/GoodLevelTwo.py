@@ -5,7 +5,7 @@ from objects.Stork import Stork
 from objects.Unicorn import Unicorn
 from objects.Direction import Direction
 from objects.DropType import DropType
-from objects.CharacterLevel2 import CharacterLevel2
+from objects.CharacterGoodLevel2 import CharacterGoodLevel2
 from objects.Sounds import background_sound
 from objects.Animation import Animation
 from objects.Sounds import down_turn_sound
@@ -38,7 +38,7 @@ for _ in range(unicorn_number):
                     randint(0, GAME_INFO.SCREEN_HEIGHT/2),
                     randint(60, 1000)))
 
-character = CharacterLevel2()
+character = CharacterGoodLevel2()
 
 imageInTheBox = pygame.image.load("assets/in_the_box.png").convert_alpha()
 imageInTheBox = pygame.transform.scale(imageInTheBox, (100,100))
