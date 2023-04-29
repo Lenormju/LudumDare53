@@ -1,11 +1,12 @@
 import pygame
 from objects.Thing import Thing
 from objects.Shoot import Shoot
+from GameInfo import GAME_INFO
 
 class Character(Thing):
     shoots = []
-    def GoToRight(self, xScreen):
-        if self.rect.x + self.rect.width < xScreen + self.speed:
+    def GoToRight(self):
+        if self.rect.x + self.rect.width < GAME_INFO.SCREEN_WIDTH + self.speed:
             self.Move(self.speed, 0)
     
     def GoToLeft(self):

@@ -1,10 +1,11 @@
 import pygame
 
 from GameInfo import GAME_INFO
-from objects.Alien import Alien
+from objects.Stork import Stork
 from objects.Character import Character
 from objects.Sounds import background_sound, explosion_sound
 from objects.Animation import Animation
+import random
 
 background_sound.play(loops=-1)
 
@@ -12,9 +13,9 @@ comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
 alien_image1 = pygame.image.load("assets/alien.png")
 enemies = []
-enemies.append(Alien(alien_image1, GAME_INFO.SCREEN_WIDTH, 0, 0))
-enemies.append(Alien(alien_image1, GAME_INFO.SCREEN_WIDTH, 120, 0))
-enemies.append(Alien(alien_image1, GAME_INFO.SCREEN_WIDTH, 300, 0))
+enemies.append(Stork(alien_image1, 0, 0))
+enemies.append(Stork(alien_image1, 120, 0))
+enemies.append(Stork(alien_image1, 300, 0))
 
 character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, "assets/kaizen.png")
 player_has_lost = False
@@ -47,14 +48,22 @@ def render(screen, events, keys):
             isPlay = animation.Increment()
             if not isPlay:
                 animations.remove(animation)
-
+    
+    def DropAndMoveBabies():
+        if GAME_INFO.CURRENT_TICK_NUMBER % 60 == 0:
+            if enemies:
+                stork = random.choice(enemies)
+                stork.DropBaby(screen)
+        for enemy in enemies:
+            for baby in enemy.babies:
+                enemy.ApplyMoveBaby(baby, screen)
 
     shooting = False
 
     if keys[pygame.K_LEFT]:
         character.GoToLeft()
     if keys[pygame.K_RIGHT]:
-        character.GoToRight(GAME_INFO.SCREEN_WIDTH)
+        character.GoToRight()
 
     for event in events:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -64,10 +73,11 @@ def render(screen, events, keys):
     screen.fill(black_color)  # === draw _AFTER_ this line ===
 
     for enemy in enemies:
-        enemy.update(screen)
+        enemy.Move(screen)
     if shooting:
         character.DoShoot(screen)
 
+    DropAndMoveBabies()
     AnimationsShoots()
 
     # check if alien destroys the player
