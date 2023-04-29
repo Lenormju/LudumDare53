@@ -20,6 +20,9 @@ enemies = []
 enemies.append(Stork(enemies_images, 0, 0))
 enemies.append(Stork(enemies_images, 120, 0))
 enemies.append(Stork(enemies_images, 300, 0))
+enemies.append(Stork(enemies_images, 172, 80))
+enemies.append(Stork(enemies_images, 290, 150))
+enemies.append(Stork(enemies_images, 160, 198))
 
 character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, "assets/kaizen.png")
 player_has_lost = False
