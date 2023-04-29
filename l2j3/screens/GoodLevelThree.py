@@ -20,17 +20,18 @@ background_sound.play(loops=-1)
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
-enemies_images = []
-enemies_images.append(pygame.image.load("assets/stork_blue_1.png"))
-enemies_images.append(pygame.image.load("assets/stork_blue_2.png"))
+storks_images = []
+storks_images.append(pygame.image.load("assets/stork_blue_1.png"))
+storks_images.append(pygame.image.load("assets/stork_blue_2.png"))
 enemies = []
 babies = []
 number_of_storks = 6
 for _ in range(number_of_storks):
-    enemies.append(StorkGood3(enemies_images,
+    enemies.append(StorkGood3(storks_images,
                               randint(50, GAME_INFO.SCREEN_WIDTH-50),
                               randint(0, 70)))
-enemies.append(BigUnicorn(enemies_images, 20, 200))
+unicorn_images = [pygame.image.load("assets/big_unicorn.png")]  # FIXME: missing poop animation
+enemies.append(BigUnicorn(unicorn_images, 20, 200))
 
 character = CharacterLevel2()
 
