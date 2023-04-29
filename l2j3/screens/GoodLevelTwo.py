@@ -66,10 +66,11 @@ def render(screen, events, keys):
     def DetermineEndGame():
         global character, enemies
         if not enemies:
-            if GAME_INFO.SCORE > 15:
+            if GAME_INFO.SCORE >= 15:
                 ClearBoard(GameScreen.GOOD_LEVEL_THREE)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
+            GAME_INFO.SCORE = 0
         else:
             pass  # on continue le jeu
 

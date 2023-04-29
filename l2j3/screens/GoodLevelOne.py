@@ -48,37 +48,19 @@ def render(screen, events, keys):
     def DetermineEndGame():
         global character, enemies
         if not enemies:
-            if GAME_INFO.SCORE > 15:
+            if GAME_INFO.SCORE >= 15:
                 ClearBoard(GameScreen.GOOD_LEVEL_TWO)
             elif GAME_INFO.SCORE < 0:
                 ClearBoard(GameScreen.BAD_INTERLUDE)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
+            GAME_INFO.SCORE = 0
         else:
             pass  # on continue le jeu
 
     def ColoredTextEnd(color, text, x = 0, y = 0):
         text_surface = comic_sans_ms.render(text, False, color)
         screen.blit(text_surface, (x, y))
-
-    def AnimationsShoots():
-        for shoot, enemy in character.ApplyShoots(screen, enemies).items():
-            animation = Animation(10)
-            def my_anim_action():
-                nonlocal shoot
-                if animation.currentTick <= (animation.duration // 2):
-                    screen.blit(shoot.image, shoot.rect)
-                else:
-                    shoot.UpdateImage("assets/shoot_explosion_max.png", 100, 50)
-                    screen.blit(shoot.image, shoot.rect)
-            animation.animation = my_anim_action
-            shoot_animations.append(animation)
-            enemies.remove(enemy)
-
-        for animation in shoot_animations:
-            isPlay = animation.Increment()
-            if not isPlay:
-                shoot_animations.remove(animation)
 
     def DropAndMoveBabies():
         if GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
@@ -97,16 +79,11 @@ def render(screen, events, keys):
         pygame.mixer.find_channel(force=True).play(down_turn_sound)
         return baby
 
-    shooting = False
 
     if keys[pygame.K_LEFT]:
         character.GoToLeft()
     if keys[pygame.K_RIGHT]:
         character.GoToRight()
-
-    # for event in events:
-    #     if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-    #         shooting = True
 
     screen.fill(sky_color)  # === draw _AFTER_ this line ===
 
@@ -116,11 +93,7 @@ def render(screen, events, keys):
         if enemy.HasExit(screen):
             enemies.remove(enemy)
     
-    if shooting:
-        character.DoShoot(screen)
-
     DropAndMoveBabies()
-    AnimationsShoots()
 
     for baby in babies:
         isCollide = baby.isCollideBabies(character)

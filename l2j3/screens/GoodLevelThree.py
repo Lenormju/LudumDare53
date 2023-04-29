@@ -36,6 +36,8 @@ character = CharacterLevel2()
 
 imageInTheBox = pygame.image.load("assets/in_the_box.png").convert_alpha()
 imageInTheBox = pygame.transform.scale(imageInTheBox, (100,100))
+imageNotGoodBox = pygame.image.load("assets/not_good_box.png").convert_alpha()
+imageNotGoodBox = pygame.transform.scale(imageNotGoodBox, (100,100))
 
 player_has_lost = False
 firstTick = True
@@ -57,8 +59,8 @@ def render(screen, events, keys):
 
     def DetermineEndGame():
         global character, enemies
-        if not enemies:
-            if GAME_INFO.SCORE > 15:
+        if seconds >= 60:
+            if GAME_INFO.SCORE >= 50:
                 ClearBoard(GameScreen.GOOD_ENDING)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
@@ -114,16 +116,33 @@ def render(screen, events, keys):
 
     for baby in babies:
             animation = Animation(15)
+            isCollideBabyInBaby = False
+            isCollideBabyInPoop = False
+            isCollidePoopInPoop = False
+            isCollidePoopInBaby = False
             if baby.type is DropType.BABY_TYPE:
-                isCollide = baby.isCollideBabies(character.panierBaby)
-                if isCollide:                
+                isCollideBabyInBaby = baby.isCollideBabies(character.panierBaby)
+                isCollideBabyInPoop = baby.isCollideBabies(character.panierPoop)
+                if isCollideBabyInBaby:    
+                    #on fait +1 dans isCollideBabies
                     animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.panierBaby.rect.x, character.panierBaby.rect.y-100, 100,100))
+                elif isCollideBabyInPoop:
+                    #on fait +1 dans isCollideBabies donc -2+1 = -1
+                    GAME_INFO.SCORE -= 2
+                    animation.animation = lambda: screen.blit(imageNotGoodBox, pygame.Rect(character.panierPoop.rect.x, character.panierPoop.rect.y-100, 100,100))
             elif baby.type is DropType.POOP_TYPE:
-                isCollide = baby.isCollideBabies(character.panierPoop)
-                if isCollide:
+                isCollidePoopInPoop = baby.isCollideBabies(character.panierPoop)
+                isCollidePoopInBaby = baby.isCollideBabies(character.panierBaby)
+                if isCollidePoopInPoop:
+                    #on fait +1 dans isCollideBabies donc 1+2 = +3
+                    GAME_INFO.SCORE += 2
                     animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.panierPoop.rect.x, character.panierPoop.rect.y-100, 100,100))
+                elif isCollidePoopInBaby:
+                    #on fait +1 dans isCollideBabies donc -4+1 = -3
+                    GAME_INFO.SCORE -= 4
+                    animation.animation = lambda: screen.blit(imageNotGoodBox, pygame.Rect(character.panierBaby.rect.x, character.panierBaby.rect.y-100, 100,100))
             
-            if isCollide:
+            if isCollideBabyInBaby or isCollidePoopInPoop or isCollidePoopInBaby or isCollideBabyInPoop:
                 animations_youpi.append(animation)
                 babies.remove(baby)
         
