@@ -21,7 +21,7 @@ while keep_running:
 
     render_function = {
         GameScreen.TITLE: Title.render,
-        GameScreen.GOOD_LEVEL_ONE: GoodLevelTwo.render,
+        GameScreen.GOOD_LEVEL_ONE: GoodLevelOne.render,
         GameScreen.GOOD_LEVEL_TWO: GoodLevelTwo.render,
         GameScreen.GOOD_ENDING: GoodEnding.render,
         GameScreen.BAD_INTERLUDE: BadInterlude.render,
