@@ -93,7 +93,7 @@ def render(screen, events, keys):
                 babies.remove(baby)
 
     def DropBaby(enemy):
-        baby = Baby(enemy.rect, randint(1, 10), enemy.baby_picture_path)
+        baby = Baby(enemy.rect, 0, randint(1, 10), enemy.baby_picture_path)
         baby.SetType(enemy.type)
         babies.append(baby)
         screen.blit(baby.image, baby.rect)

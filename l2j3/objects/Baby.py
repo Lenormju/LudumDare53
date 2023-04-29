@@ -8,10 +8,10 @@ class Baby(Thing):
         self.type = type
 
     def GoToDown(self):
-        if self.rect.y < GAME_INFO.SCREEN_HEIGHT + self.speed:
-            self.Move(0, self.speed)
+        if self.rect.y < GAME_INFO.SCREEN_HEIGHT + self.speedy:
+            self.Move(self.speedx, self.speedy)
             return True
-        if self.rect.y >= GAME_INFO.SCREEN_HEIGHT + self.speed:
+        if self.rect.y >= GAME_INFO.SCREEN_HEIGHT + self.speedy:
             return False
         
     def isCollideBabies(self, rect):        

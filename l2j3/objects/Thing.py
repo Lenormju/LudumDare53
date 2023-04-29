@@ -1,9 +1,10 @@
 import pygame
 
 class Thing:
-    def __init__(self, rect, speed, image):
+    def __init__(self, rect, speedx, speedy, image):
         self.rect = rect
-        self.speed = speed
+        self.speedx = speedx
+        self.speedy = speedy
         self.DEFAULT_IMAGE_SIZE = (rect.width, rect.height)
         self.image = pygame.image.load(image).convert_alpha()
         self.image = pygame.transform.scale(self.image, self.DEFAULT_IMAGE_SIZE)

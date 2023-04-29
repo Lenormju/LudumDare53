@@ -6,15 +6,15 @@ from GameInfo import GAME_INFO
 class Character(Thing):
     shoots = []
     def GoToRight(self):
-        if self.rect.x + self.rect.width < GAME_INFO.SCREEN_WIDTH + self.speed:
-            self.Move(self.speed, 0)
+        if self.rect.x + self.rect.width < GAME_INFO.SCREEN_WIDTH + self.speedx:
+            self.Move(self.speedx, self.speedy)
     
     def GoToLeft(self):
-        if self.rect.x >= self.speed:
-            self.Move(-self.speed, 0)
+        if self.rect.x >= self.speedx:
+            self.Move(-self.speedx, self.speedy)
     
     def DoShoot(self, screen):
-        shoot = Shoot(pygame.Rect(self.rect.x, self.rect.y, 50, 50), 10, "assets/shoot.png")
+        shoot = Shoot(pygame.Rect(self.rect.x, self.rect.y, 50, 50), 0, 10, "assets/shoot.png")
         self.shoots.append(shoot)
         screen.blit(shoot.image, shoot.rect)
     

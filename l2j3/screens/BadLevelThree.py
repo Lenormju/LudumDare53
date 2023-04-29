@@ -27,7 +27,7 @@ for _ in range(number_of_enemies):
                               20,
                               200))
 
-character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, "assets/gun_left.png")
+character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, 0, "assets/gun_left.png")
 player_has_lost = False
 firstTick = True
 
@@ -92,7 +92,7 @@ def render(screen, events, keys):
                 babies.remove(baby)
 
     def DropBaby(stork):
-        baby = Baby(stork.rect, randint(1, 10), "assets/bomb.png")
+        baby = Baby(stork.rect,  randint(-3, 3), randint(1, 10), "assets/bomb.png")
         babies.append(baby)
         screen.blit(baby.image, baby.rect)
         pygame.mixer.find_channel(force=True).play(down_turn_sound)

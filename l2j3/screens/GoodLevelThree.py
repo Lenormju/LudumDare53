@@ -86,8 +86,8 @@ def render(screen, events, keys):
             if not isMoving:
                 babies.remove(baby)
 
-    def DropBaby(enemy):
-        baby = Baby(enemy.rect, randint(1, 10), enemy.baby_picture_path)
+    def DropBaby(enemy):        
+        baby = Baby(enemy.rect, randint(-3, 3) if enemy.type == DropType.POOP_TYPE else 0, randint(1, 10), enemy.baby_picture_path)
         baby.SetType(enemy.type)
         babies.append(baby)
         screen.blit(baby.image, baby.rect)

@@ -4,10 +4,10 @@ from objects.Sounds import explosion_sound
 
 class Shoot(Thing):    
     def GoToUp(self):
-        if self.rect.y >= self.speed:
-            self.Move(0, -self.speed)
+        if self.rect.y >= self.speedy:
+            self.Move(self.speedx, -self.speedy)
             return True
-        if self.rect.y < self.speed:
+        if self.rect.y < self.speedy:
             return False
         
     def isCollideEnnemy(self, ennemies):
