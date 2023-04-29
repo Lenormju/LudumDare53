@@ -50,9 +50,7 @@ def render(screen, events, keys):
         global character, enemies
         if not enemies:
             if GAME_INFO.SCORE > 15:
-                ClearBoard(GameScreen.GOOD_LEVEL_TWO)
-            elif GAME_INFO.SCORE < 0:
-                ClearBoard(GameScreen.BAD_INTERLUDE)
+                ClearBoard(GameScreen.BAD_ENDING)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
         else:
