@@ -6,10 +6,9 @@ from objects.Unicorn import Unicorn
 from objects.Direction import Direction
 from objects.DropType import DropType
 from objects.CharacterLevel2 import CharacterLevel2
-from objects.Sounds import background_sound, explosion_sound
+from objects.Sounds import background_sound
 from objects.Animation import Animation
 from objects.Sounds import down_turn_sound
-from objects.Shoot import Shoot
 from objects.Baby import Baby
 from objects.Colors import *
 from random import *
@@ -37,10 +36,13 @@ enemies.append(Unicorn(unicorn_image,
 
 character = CharacterLevel2()
 
+imageInTheBox = pygame.image.load("assets/in_the_box.png").convert_alpha()
+imageInTheBox = pygame.transform.scale(imageInTheBox, (100,100))
+
 player_has_lost = False
 firstTick = True
 
-shoot_animations = []
+animations_youpi = []
 start_ticks = 0
 
 def render(screen, events, keys):
@@ -110,20 +112,24 @@ def render(screen, events, keys):
     DropAndMoveBabies()
 
     for baby in babies:
-        if baby.type is DropType.BABY_TYPE:
-            isCollide = baby.isCollideBabies(character.panierBaby)  
-        elif baby.type is DropType.POOP_TYPE:
-            isCollide = baby.isCollideBabies(character.panierPoop)
+            animation = Animation(15)
+            if baby.type is DropType.BABY_TYPE:
+                isCollide = baby.isCollideBabies(character.panierBaby)
+                if isCollide:                
+                    animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.panierBaby.rect.x, character.panierBaby.rect.y-100, 100,100))
+            elif baby.type is DropType.POOP_TYPE:
+                isCollide = baby.isCollideBabies(character.panierPoop)
+                if isCollide:
+                    animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.panierPoop.rect.x, character.panierPoop.rect.y-100, 100,100))
+            
+            if isCollide:
+                animations_youpi.append(animation)
+                babies.remove(baby)
         
-        if isCollide:
-            babies.remove(baby)
+    for anim in animations_youpi:
+        if not anim.Increment():
+            animations_youpi.remove(anim)
 
-    for poop in poops:
-        print("poop")
-        # isCollide = baby.isCollideBabies(character.panierBaby)
-        # if isCollide:
-        #     babies.remove(baby)
-        
     seconds=(pygame.time.get_ticks()-start_ticks)/1000
     ColoredTextEnd((0,0,0), "Score : "+str(GAME_INFO.SCORE), GAME_INFO.SCREEN_WIDTH-150, 0)
     ColoredTextEnd((0,0,0), "Timer : "+str(round(seconds)), GAME_INFO.SCREEN_WIDTH/3, 0)
