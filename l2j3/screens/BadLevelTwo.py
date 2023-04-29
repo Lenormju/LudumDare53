@@ -79,7 +79,7 @@ def render(screen, events, keys):
                 shoot_animations.remove(animation)
 
     def DropAndMoveBabies():
-        if GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
+        if GAME_INFO.CURRENT_TICK_NUMBER % randint(10, 25) == 0:
             if enemies:
                 stork = choice(enemies)
                 DropBaby(stork)
