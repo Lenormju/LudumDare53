@@ -5,7 +5,8 @@ from GameInfo import GAME_INFO, GameScreen
 
 pygame_screen = pygame.display.set_mode((GAME_INFO.SCREEN_WIDTH, GAME_INFO.SCREEN_HEIGHT))
 
-from screens import Title, GoodLevelOne, GoodLevelTwo, GoodLevelThree, GoodEnding, BadInterlude, BadLevelOne, BadLevelThree, BadEnding, NeutralEnding
+from screens import Title, GoodLevelOne, GoodLevelTwo, GoodLevelThree, GoodEnding, BadInterlude, BadLevelOne, \
+    BadLevelTwo, BadLevelThree, BadEnding, NeutralEnding
 
 clock = pygame.time.Clock()
 
@@ -13,7 +14,7 @@ keep_running = True
 while keep_running:
     GAME_INFO.CURRENT_TICK_NUMBER += 1
 
-    keys = pygame.key.get_pressed() 
+    keys = pygame.key.get_pressed()
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.QUIT:
@@ -27,6 +28,7 @@ while keep_running:
         GameScreen.GOOD_ENDING: GoodEnding.render,
         GameScreen.BAD_INTERLUDE: BadInterlude.render,
         GameScreen.BAD_LEVEL_ONE: BadLevelOne.render,
+        GameScreen.BAD_LEVEL_TWO: BadLevelTwo.render,
         GameScreen.BAD_LEVEL_THREE: BadLevelThree.render,
         GameScreen.NEUTRAL_ENDING: NeutralEnding.render,
         GameScreen.BAD_ENDING: BadEnding.render,

@@ -24,6 +24,7 @@ class Stork:
         self.rect = pygame.Rect(pos_x, pos_y, self.IMAGE_SIZE, self.IMAGE_SIZE)
         self.current_direction = Direction.RIGHT
         self.previous_line_y = self.rect.y
+        self.has_exited = False
 
     def Animation(self, screen, flip):
         if flip:
@@ -36,7 +37,7 @@ class Stork:
             self.current_image = (self.current_image+1) % len(images)
 
     def HasExit(self, screen):
-        return not self.rect.colliderect(screen.get_rect())
+        return (not self.rect.colliderect(screen.get_rect())) and self.has_exited
 
     def Move(self, screen):
         dx, dy = (
@@ -62,14 +63,16 @@ class Stork:
         is_on_the_left_side = (self.rect.x < GAME_INFO.SCREEN_WIDTH / 2)
         is_on_the_right_side = (self.rect.x > GAME_INFO.SCREEN_WIDTH / 2)
         
-        if would_exit_on_the_right_side and not_going_down and not is_very_low:
+        if would_exit_on_the_right_side and not_going_down and not is_very_low and self.current_direction is Direction.RIGHT:
             self.current_direction = Direction.DOWN
             self.Move(screen)
             return
-        elif would_exit_on_the_left_side and not_going_down and not is_very_low:
+        elif would_exit_on_the_left_side and not_going_down and not is_very_low and self.current_direction is Direction.LEFT:
             self.current_direction = Direction.DOWN
             self.Move(screen)
             return
+        elif not_going_down and (would_exit_on_the_left_side or would_exit_on_the_right_side) and is_very_low and not self.has_exited:
+            self.has_exited = True
         elif has_gone_down_enough:
             if is_on_the_right_side and not_going_left:
                 self.previous_line_y = self.rect.y
