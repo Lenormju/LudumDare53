@@ -30,14 +30,14 @@ for _ in range(number_of_enemies):
                          randint(0, GAME_INFO.SCREEN_WIDTH),
                          randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
 unicorn_image = pygame.image.load("assets/unicorn.png")
-unicorn_number = 1
+unicorn_number = 5
 for _ in range(unicorn_number):
     direction = choice([Direction.LEFT, Direction.RIGHT])
     enemies.append(Unicorn(unicorn_image,
                     direction,
                     0 if direction == Direction.RIGHT else GAME_INFO.SCREEN_WIDTH,
                     randint(0, GAME_INFO.SCREEN_HEIGHT/2),
-                    randint(50, 100)))
+                    randint(60, 1000)))
 
 character = CharacterLevel2()
 
@@ -75,9 +75,12 @@ def render(screen, events, keys):
 
     
     def DropAndMoveBabies():
-        if GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
-            if enemies:
-                enemy = choice(enemies)
+        if enemies:
+            enemy = choice(enemies)
+            if enemy.type == DropType.POOP_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(15, 30) == 0:
+                if not enemy.waiting:
+                    DropBaby(enemy)
+            elif enemy.type == DropType.BABY_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
                 DropBaby(enemy)
         for baby in babies:
             isMoving = baby.ApplyMoveBaby(screen)

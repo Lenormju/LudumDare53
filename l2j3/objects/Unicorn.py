@@ -21,19 +21,20 @@ class Unicorn:
         self.rect = pygame.Rect(pos_x, pos_y, self.IMAGE_SIZE, self.IMAGE_SIZE)
         self.current_direction = direction
         self.previous_line_y = self.rect.y
-        print(f"{delay=}")
         self.delay = delay
         self.currentTick = 0
+        self.waiting = True
 
     def HasExit(self, screen):
+        if self.currentTick < self.delay:
+            return False
         return not self.rect.colliderect(screen.get_rect())
 
     def Move(self, screen):
         self.currentTick += 1
         if self.currentTick < self.delay:
-            print(f"{self.currentTick=}")
             return
-        print(f"Unicorn pop")
+        self.waiting = False
         dx, dy = (
             (1, 0) if self.current_direction is Direction.RIGHT
             else (-1, 0) if self.current_direction is Direction.LEFT
