@@ -20,12 +20,11 @@ enemies_images.append(pygame.image.load("assets/stork_blue_1.png"))
 enemies_images.append(pygame.image.load("assets/stork_blue_2.png"))
 enemies = []
 babies = []
-enemies.append(Stork(enemies_images, 0, 0))
-enemies.append(Stork(enemies_images, 120, 0))
-enemies.append(Stork(enemies_images, 300, 0))
-enemies.append(Stork(enemies_images, 172, 80))
-enemies.append(Stork(enemies_images, 290, 150))
-enemies.append(Stork(enemies_images, 160, 198))
+number_of_enemies = 15
+for _ in range(number_of_enemies):
+    enemies.append(Stork(enemies_images,
+                         randint(0, GAME_INFO.SCREEN_WIDTH),
+                         randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
 
 character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, "assets/panier.png")
 player_has_lost = False
@@ -48,14 +47,15 @@ def render(screen, events, keys):
 
     def DetermineEndGame():
         global character, enemies
-        if player_has_lost:
-            character.rect = pygame.Rect(5000, 5000, 0, 0)  # out of sight !
-            ColoredTextEnd((255, 0, 0), 'You have lost!')
-            ClearBoard(GameScreen.BAD_INTERLUDE)
-        else:
-            if not enemies:
-                ColoredTextEnd((0, 255, 0), 'You have win!')
+        if not enemies:
+            if GAME_INFO.SCORE > 15:
                 ClearBoard(GameScreen.GOOD_ENDING)
+            elif GAME_INFO.SCORE < 0:
+                ClearBoard(GameScreen.BAD_INTERLUDE)
+            else:
+                ClearBoard(GameScreen.NEUTRAL_ENDING)
+        else:
+            pass  # on continue le jeu
 
     def ColoredTextEnd(color, text, x = 0, y = 0):
         text_surface = comic_sans_ms.render(text, False, color)
@@ -104,9 +104,9 @@ def render(screen, events, keys):
     if keys[pygame.K_RIGHT]:
         character.GoToRight()
 
-    for event in events:
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            shooting = True
+    # for event in events:
+    #     if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+    #         shooting = True
 
     screen.fill(sky_color)  # === draw _AFTER_ this line ===
 
