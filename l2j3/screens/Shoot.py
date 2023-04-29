@@ -78,5 +78,3 @@ def render(screen, events, keys):
             break
 
     DetermineEndGame()
-
-    pygame.display.flip()  # === draw _BEFORE_ this line ===
