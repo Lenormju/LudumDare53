@@ -13,6 +13,10 @@ class Stork:
         self.babies = []
         self.animation = None
         self.images = images
+        self.images_flip = []
+        for img in self.images:
+            img_copy = img.copy()
+            self.images_flip.append(pygame.transform.flip(img_copy, True, False))
         self.current_image = 0
         self.rect = pygame.Rect(pos_x, pos_y, self.IMAGE_SIZE, self.IMAGE_SIZE)
         self.current_direction = Direction.RIGHT
@@ -38,6 +42,16 @@ class Stork:
         if not isMoving:
             GAME_INFO.SCORE -= 1
             self.babies.remove(baby)
+
+    def Animation(self, screen, flip):
+        if flip:
+            images = self.images_flip
+        else :
+            images = self.images
+        if self.animation == None or not self.animation.Increment():
+            self.animation = Animation(self.ANIMATION_SPEED)
+            self.animation.animation = lambda: screen.blit(images[self.current_image], self.rect)
+            self.current_image = (self.current_image+1) % len(images)
 
     def Move(self, screen):
         dx, dy = (
@@ -84,10 +98,6 @@ class Stork:
                 return
 
         self.rect = self.rect.move(dx, dy)
-        if self.animation == None:
-            self.animation = Animation(self.ANIMATION_SPEED)
-            self.animation.animation = lambda: screen.blit(self.images[self.current_image], self.rect)
-            self.current_image = (self.current_image+1) % len(self.images)
-        if not self.animation.Increment():
-            self.animation = None
+        has_to_flip = (self.current_direction == Direction.RIGHT)
+        self.Animation(screen, has_to_flip )
 
