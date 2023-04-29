@@ -5,6 +5,8 @@ from enum import Enum
 class GameScreen(Enum):
     TITLE = "title"
     GAME_GOOD = "good"
+    GAME_GOOD_ENDING_GOOD = "good / good ending"
+    QUIT = "quit"
 
 
 @dataclass

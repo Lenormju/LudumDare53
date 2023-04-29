@@ -1,10 +1,11 @@
 import pygame
 
-from GameInfo import GAME_INFO
+from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
 from objects.Character import Character
 from objects.Sounds import background_sound, explosion_sound
 from objects.Animation import Animation
+from objects.Colors import *
 import random
 
 background_sound.play(loops=-1)
@@ -34,6 +35,8 @@ def render(screen, events, keys):
         else:
             if not enemies:
                 ColoredTextEnd((0, 255, 0), 'You have win!')
+                # TODO: remove character and enemies' sounds !
+                GAME_INFO.NEXT_GAME_SCREEN = GameScreen.GAME_GOOD_ENDING_GOOD
             screen.blit(character.image, character.rect)
 
     def ColoredTextEnd(color, text):
@@ -70,7 +73,6 @@ def render(screen, events, keys):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             shooting = True
 
-    black_color = (204, 230, 255)
     screen.fill(black_color)  # === draw _AFTER_ this line ===
 
     for enemy in enemies:

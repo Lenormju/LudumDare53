@@ -6,7 +6,8 @@ from GameInfo import GAME_INFO, GameScreen
 pygame_screen = pygame.display.set_mode((GAME_INFO.SCREEN_WIDTH, GAME_INFO.SCREEN_HEIGHT))
 
 from screens.Title import render as render_screen_title
-from screens.Shoot import render as render_screen_shoot
+from screens.Good import render as render_screen_good
+from screens.GoodEndingGood import render as render_screen_good_ending_good
 
 clock = pygame.time.Clock()
 
@@ -20,17 +21,18 @@ while keep_running:
         if event.type == pygame.QUIT:
             keep_running = False
 
-    if GAME_INFO.CURRENT_GAME_SCREEN is GameScreen.TITLE:
-        render_function = render_screen_title
-    elif GAME_INFO.CURRENT_GAME_SCREEN is GameScreen.GAME_GOOD:
-        render_function = render_screen_shoot
-    else:
-        render_function = None
+    render_function = {
+        GameScreen.TITLE: render_screen_title,
+        GameScreen.GAME_GOOD: render_screen_good,
+        GameScreen.GAME_GOOD_ENDING_GOOD: render_screen_good_ending_good,
+    }.get(GAME_INFO.CURRENT_GAME_SCREEN)
     render_function(pygame_screen, events, keys)
 
     pygame.display.flip()  # === draw _BEFORE_ this line ===
     clock.tick(GAME_INFO.TARGET_FPS)
 
     GAME_INFO.CURRENT_GAME_SCREEN = GAME_INFO.NEXT_GAME_SCREEN
+    if GAME_INFO.CURRENT_GAME_SCREEN is GameScreen.QUIT:
+        keep_running = False
 
 pygame.quit()

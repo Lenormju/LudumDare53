@@ -1,0 +1,6 @@
+black_color = (0, 0, 0)
+ludum_light_orange = (247, 145, 34)
+ludum_dark_orange = (238, 85, 51)
+evil_red = (255, 57, 17)
+granny_color = (140, 237, 87)
+yellow_color = (237, 225, 35)
