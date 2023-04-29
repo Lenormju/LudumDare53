@@ -46,7 +46,7 @@ def render(screen, events, keys):
         if player_has_lost:
             character.rect = pygame.Rect(5000, 5000, 0, 0)  # out of sight !
             ColoredTextEnd((255, 0, 0), 'You have lost!')
-            ClearBoard(GameScreen.BAD_ENDING)
+            ClearBoard(GameScreen.BAD_INTERLUDE)
         else:
             if not enemies:
                 ColoredTextEnd((0, 255, 0), 'You have win!')

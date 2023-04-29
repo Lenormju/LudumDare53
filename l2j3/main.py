@@ -6,7 +6,7 @@ from GameInfo import GAME_INFO, GameScreen
 pygame_screen = pygame.display.set_mode((GAME_INFO.SCREEN_WIDTH, GAME_INFO.SCREEN_HEIGHT))
 
 from screens.Title import render as render_screen_title
-from screens import GoodLevelOne, GoodEnding, BadEnding, NeutralEnding
+from screens import GoodLevelOne, GoodEnding, BadInterlude, NeutralEnding
 
 clock = pygame.time.Clock()
 
@@ -24,7 +24,7 @@ while keep_running:
         GameScreen.TITLE: render_screen_title,
         GameScreen.GOOD_LEVEL_ONE: GoodLevelOne.render,
         GameScreen.GOOD_ENDING: GoodEnding.render,
-        GameScreen.BAD_ENDING: BadEnding.render,
+        GameScreen.BAD_INTERLUDE: BadInterlude.render,
         GameScreen.NEUTRAL_ENDING: NeutralEnding.render,
     }.get(GAME_INFO.CURRENT_GAME_SCREEN)
     render_function(pygame_screen, events, keys)
