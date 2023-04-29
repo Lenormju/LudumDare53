@@ -72,7 +72,7 @@ def render(screen, events, keys):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             shooting = True
 
-    screen.fill(black_color)  # === draw _AFTER_ this line ===
+    screen.fill(sky_color)  # === draw _AFTER_ this line ===
 
     for enemy in enemies:
         enemy.Move(screen)
