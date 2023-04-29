@@ -20,7 +20,7 @@ enemies_images.append(pygame.image.load("assets/evil_stork1.png"))
 enemies_images.append(pygame.image.load("assets/evil_stork2.png"))
 enemies = []
 babies = []
-number_of_enemies = 15
+number_of_enemies = 30
 for _ in range(number_of_enemies):
     enemies.append(Stork(enemies_images,
                          randint(0, GAME_INFO.SCREEN_WIDTH),
@@ -48,10 +48,11 @@ def render(screen, events, keys):
     def DetermineEndGame():
         global character, enemies
         if not enemies:
-            if GAME_INFO.SCORE > 15:
-                ClearBoard(GameScreen.BAD_LEVEL_TWO)
+            if GAME_INFO.SCORE >= 15:
+                ClearBoard(GameScreen.BAD_LEVEL_THREE)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
+            GAME_INFO.SCORE = 0
         else:
             pass  # on continue le jeu
 
@@ -123,6 +124,7 @@ def render(screen, events, keys):
     for baby in babies:
         isCollide = baby.isCollideBabies(character)
         if isCollide:
+            GAME_INFO.SCORE -= 4
             babies.remove(baby)
         
     seconds=(pygame.time.get_ticks()-start_ticks)/1000
