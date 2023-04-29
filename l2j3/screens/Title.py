@@ -9,7 +9,7 @@ comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 def render(screen, events, keys):
     for event in events:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            GAME_INFO.NEXT_GAME_SCREEN = GameScreen.GAME_GOOD
+            GAME_INFO.NEXT_GAME_SCREEN = GameScreen.GOOD_LEVEL_ONE
 
     screen.fill(black_color)  # === draw _AFTER_ this line ===
 

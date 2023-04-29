@@ -46,11 +46,11 @@ def render(screen, events, keys):
         if player_has_lost:
             character.rect = pygame.Rect(5000, 5000, 0, 0)  # out of sight !
             ColoredTextEnd((255, 0, 0), 'You have lost!')
-            ClearBoard(GameScreen.GAME_GOOD_ENDING_BAD)
+            ClearBoard(GameScreen.BAD_ENDING)
         else:
             if not enemies:
                 ColoredTextEnd((0, 255, 0), 'You have win!')
-                ClearBoard(GameScreen.GAME_GOOD_ENDING_GOOD)
+                ClearBoard(GameScreen.GOOD_ENDING)
 
     def ColoredTextEnd(color, text, x = 0, y = 0):
         text_surface = comic_sans_ms.render(text, False, color)
@@ -74,7 +74,7 @@ def render(screen, events, keys):
             isPlay = animation.Increment()
             if not isPlay:
                 shoot_animations.remove(animation)
-                
+
     def DropAndMoveBabies():
         if GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
             if enemies:
@@ -84,14 +84,14 @@ def render(screen, events, keys):
             isMoving = baby.ApplyMoveBaby(screen)
             if not isMoving:
                 babies.remove(baby)
-    
-    def DropBaby(stork):        
+
+    def DropBaby(stork):
         baby = Baby(stork.rect, randint(1, 10), "assets/baby.png")
         babies.append(baby)
         screen.blit(baby.image, baby.rect)
         pygame.mixer.find_channel(force=True).play(down_turn_sound)
         return baby
-    
+
     shooting = False
 
     if keys[pygame.K_LEFT]:

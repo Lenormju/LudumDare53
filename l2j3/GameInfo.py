@@ -4,9 +4,10 @@ from enum import Enum
 
 class GameScreen(Enum):
     TITLE = "title"
-    GAME_GOOD = "good"
-    GAME_GOOD_ENDING_GOOD = "good / good ending"
-    GAME_GOOD_ENDING_BAD = "good / good bad"
+    GOOD_LEVEL_ONE = "good 1"
+    GOOD_ENDING = "good ending"
+    BAD_ENDING = "bad ending"
+    NEUTRAL_ENDING = "neutral ending"
     QUIT = "quit"
 
 
