@@ -9,6 +9,7 @@ class GameScreen(Enum):
     GOOD_ENDING = "good ending"
     BAD_INTERLUDE = "bad interlude"
     BAD_LEVEL_ONE = "bad 1"
+    BAD_LEVEL_THREE = "bad 3"
     BAD_ENDING = "bad ending"
     NEUTRAL_ENDING = "neutral ending"
     QUIT = "quit"
