@@ -11,7 +11,7 @@ class Unicorn:
     IMAGE_SIZE = 60  # carré
     ANIMATION_SPEED = 10
 
-    def __init__(self, image, direction, pos_x=0, pos_y=0):
+    def __init__(self, image, direction, pos_x=0, pos_y=0, delay=0):
         self.baby_picture_path = "assets/poop.png" 
         self.type = DropType.POOP_TYPE
         image = pygame.transform.scale(image, (self.IMAGE_SIZE,self.IMAGE_SIZE))
@@ -21,11 +21,19 @@ class Unicorn:
         self.rect = pygame.Rect(pos_x, pos_y, self.IMAGE_SIZE, self.IMAGE_SIZE)
         self.current_direction = direction
         self.previous_line_y = self.rect.y
+        print(f"{delay=}")
+        self.delay = delay
+        self.currentTick = 0
 
     def HasExit(self, screen):
         return not self.rect.colliderect(screen.get_rect())
 
     def Move(self, screen):
+        self.currentTick += 1
+        if self.currentTick < self.delay:
+            print(f"{self.currentTick=}")
+            return
+        print(f"Unicorn pop")
         dx, dy = (
             (1, 0) if self.current_direction is Direction.RIGHT
             else (-1, 0) if self.current_direction is Direction.LEFT

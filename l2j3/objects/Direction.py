@@ -5,3 +5,6 @@ class Direction(enum.Enum):
     DOWN = "down"
     LEFT = "left"
     RIGHT = "right"
+
+import random
+random.choice([Direction.LEFT, Direction.RIGHT])

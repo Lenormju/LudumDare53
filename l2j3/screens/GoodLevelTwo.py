@@ -30,10 +30,14 @@ for _ in range(number_of_enemies):
                          randint(0, GAME_INFO.SCREEN_WIDTH),
                          randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
 unicorn_image = pygame.image.load("assets/unicorn.png")
-enemies.append(Unicorn(unicorn_image,
-                    Direction.RIGHT,
-                    randint(0, 0),
-                    randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
+unicorn_number = 1
+for _ in range(unicorn_number):
+    direction = choice([Direction.LEFT, Direction.RIGHT])
+    enemies.append(Unicorn(unicorn_image,
+                    direction,
+                    0 if direction == Direction.RIGHT else GAME_INFO.SCREEN_WIDTH,
+                    randint(0, GAME_INFO.SCREEN_HEIGHT/2),
+                    randint(50, 100)))
 
 character = CharacterLevel2()
 
