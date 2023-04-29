@@ -12,17 +12,18 @@ background_sound.play(loops=-1)
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
-spork_image_1 = pygame.image.load("assets/spork_blue_1.png")
-spork_image_2 = pygame.image.load("assets/spork_blue_2.png")
+enemies_images = []
+enemies_images.append(pygame.image.load("assets/stork_blue_1.png"))
+enemies_images.append(pygame.image.load("assets/stork_blue_2.png"))
 enemies = []
-enemies.append(Stork(spork_image_1, 0, 0))
-enemies.append(Stork(spork_image_1, 120, 0))
-enemies.append(Stork(spork_image_1, 300, 0))
+enemies.append(Stork(enemies_images, 0, 0))
+enemies.append(Stork(enemies_images, 120, 0))
+enemies.append(Stork(enemies_images, 300, 0))
 
 character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, "assets/kaizen.png")
 player_has_lost = False
 
-animations = []
+shoot_animations = []
 
 def render(screen, events, keys):
     global enemies, player_has_lost
@@ -44,13 +45,13 @@ def render(screen, events, keys):
 
     def AnimationsShoots():
         for key, val in character.ApplyShoots(screen, enemies).items():
-            animations.append(Animation(lambda: screen.blit(key.image, key.rect)))
+            shoot_animations.append(Animation(lambda: screen.blit(key.image, key.rect)))
             enemies.remove(val)
 
-        for animation in animations:
+        for animation in shoot_animations:
             isPlay = animation.Increment()
             if not isPlay:
-                animations.remove(animation)
+                shoot_animations.remove(animation)
 
     def DropAndMoveBabies():
         if GAME_INFO.CURRENT_TICK_NUMBER % 60 == 0:

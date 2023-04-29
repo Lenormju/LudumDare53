@@ -1,15 +1,19 @@
 import pygame
 from objects.Baby import Baby
 from objects.Direction import Direction
+from objects.Animation import Animation
 from objects.Sounds import left_turn_sound, right_turn_sound, down_turn_sound
 from GameInfo import GAME_INFO
 
 class Stork:
     IMAGE_SIZE = 40  # carré
+    ANIMATION_SPEED = 10
 
-    def __init__(self, image, pos_x=0, pos_y=0):
+    def __init__(self, images, pos_x=0, pos_y=0):
         self.babies = []
-        self.image = image
+        self.animation = None
+        self.images = images
+        self.current_image = 0
         self.rect = pygame.Rect(pos_x, pos_y, self.IMAGE_SIZE, self.IMAGE_SIZE)
         self.current_direction = Direction.RIGHT
         self.previous_line_y = self.rect.y
@@ -44,7 +48,7 @@ class Stork:
             else (None, None)
         )
         # speed up
-        k = 10
+        k = 5
         dx *= k
         dy *= k
 
@@ -72,5 +76,9 @@ class Stork:
                     return
 
         self.rect = self.rect.move(dx, dy)
-        screen.blit(self.image, self.rect)
+        if self.animation == None:
+            self.animation = Animation(lambda: screen.blit(self.images[self.current_image], self.rect), self.ANIMATION_SPEED)
+            self.current_image = (self.current_image+1) % len(self.images)
+        if not self.animation.Increment():
+            self.animation = None
 
