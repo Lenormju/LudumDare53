@@ -87,6 +87,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             isMoving = baby.ApplyMoveBaby(screen)
             if not isMoving:
                 babies.remove(baby)
+                GAME_INFO.SCORE += 1  # contrebalancer le fait qu'on l'ait enlevé auparavant
 
     def DropBaby(stork):
         baby = Baby(stork.rect,  randint(-3, 3), randint(1, 10), "assets/bomb.png")
