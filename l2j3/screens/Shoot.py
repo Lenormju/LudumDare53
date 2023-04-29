@@ -11,11 +11,12 @@ background_sound.play(loops=-1)
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
-alien_image1 = pygame.image.load("assets/alien.png")
+spork_image_1 = pygame.image.load("assets/spork_blue_1.png")
+spork_image_2 = pygame.image.load("assets/spork_blue_2.png")
 enemies = []
-enemies.append(Stork(alien_image1, 0, 0))
-enemies.append(Stork(alien_image1, 120, 0))
-enemies.append(Stork(alien_image1, 300, 0))
+enemies.append(Stork(spork_image_1, 0, 0))
+enemies.append(Stork(spork_image_1, 120, 0))
+enemies.append(Stork(spork_image_1, 300, 0))
 
 character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, "assets/kaizen.png")
 player_has_lost = False
@@ -48,7 +49,7 @@ def render(screen, events, keys):
             isPlay = animation.Increment()
             if not isPlay:
                 animations.remove(animation)
-    
+
     def DropAndMoveBabies():
         if GAME_INFO.CURRENT_TICK_NUMBER % 60 == 0:
             if enemies:
@@ -69,7 +70,7 @@ def render(screen, events, keys):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             shooting = True
 
-    black_color = (0, 0, 0)
+    black_color = (204, 230, 255)
     screen.fill(black_color)  # === draw _AFTER_ this line ===
 
     for enemy in enemies:
