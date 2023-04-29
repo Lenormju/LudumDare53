@@ -5,7 +5,6 @@ from GameInfo import GAME_INFO, GameScreen
 from objects.Colors import *
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
-comic_sans_ms_small = pygame.font.SysFont('Comic Sans MS', 15)
 
 
 def render(screen, events, keys):
@@ -15,8 +14,9 @@ def render(screen, events, keys):
 
     screen.fill(black_color)  # === draw _AFTER_ this line ===
 
-    screen.blit(comic_sans_ms.render("thanks to have played !", False, ludum_light_orange), (0, 0))
-    screen.blit(comic_sans_ms.render("your score was :", False, ludum_dark_orange), (0, 50))
-    screen.blit(comic_sans_ms.render(str(GAME_INFO.SCORE), False, granny_color), (240, 50))
-    screen.blit(comic_sans_ms_small.render("PS: have you tried NOT to catch the babies ?", False, evil_red), (0, 400))
+    screen.blit(comic_sans_ms.render("Nice slaughter :)", False, granny_color), (0, 0))
+    screen.blit(comic_sans_ms.render("You sure you are a sane person ?", False, granny_color), (0, 70))
+    screen.blit(comic_sans_ms.render("We are a bit concerned", False, granny_color), (0, 140))
+    screen.blit(comic_sans_ms.render("You should try to be more kind", False, granny_color), (0, 210))
+    screen.blit(comic_sans_ms.render("Hope you enjoyed nonetheless", False, granny_color), (0, 350))
     screen.blit(comic_sans_ms.render("press [escape] to quit", False, yellow_color), (0, 500))
