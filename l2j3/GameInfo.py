@@ -6,6 +6,7 @@ class GameScreen(Enum):
     TITLE = "title"
     GAME_GOOD = "good"
     GAME_GOOD_ENDING_GOOD = "good / good ending"
+    GAME_GOOD_ENDING_BAD = "good / good bad"
     QUIT = "quit"
 
 

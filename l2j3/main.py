@@ -8,6 +8,7 @@ pygame_screen = pygame.display.set_mode((GAME_INFO.SCREEN_WIDTH, GAME_INFO.SCREE
 from screens.Title import render as render_screen_title
 from screens.Good import render as render_screen_good
 from screens.GoodEndingGood import render as render_screen_good_ending_good
+from screens.GoodEndingBad import render as render_screen_good_ending_bad
 
 clock = pygame.time.Clock()
 
@@ -25,6 +26,7 @@ while keep_running:
         GameScreen.TITLE: render_screen_title,
         GameScreen.GAME_GOOD: render_screen_good,
         GameScreen.GAME_GOOD_ENDING_GOOD: render_screen_good_ending_good,
+        GameScreen.GAME_GOOD_ENDING_BAD: render_screen_good_ending_bad,
     }.get(GAME_INFO.CURRENT_GAME_SCREEN)
     render_function(pygame_screen, events, keys)
 
