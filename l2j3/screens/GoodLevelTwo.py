@@ -88,15 +88,15 @@ def render(screen, events, keys):
     def DropAndMoveBabies():
         if GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
             if enemies:
-                stork = choice(enemies)
-                DropBaby(stork)
+                enemy = choice(enemies)
+                DropBaby(enemy)
         for baby in babies:
             isMoving = baby.ApplyMoveBaby(screen)
             if not isMoving:
                 babies.remove(baby)
 
-    def DropBaby(stork):
-        baby = Baby(stork.rect, randint(1, 10), "assets/baby.png")
+    def DropBaby(enemy):
+        baby = Baby(enemy.rect, randint(1, 10), enemy.baby_picture_path)
         babies.append(baby)
         screen.blit(baby.image, baby.rect)
         pygame.mixer.find_channel(force=True).play(down_turn_sound)

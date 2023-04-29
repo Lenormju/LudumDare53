@@ -11,10 +11,10 @@ class Stork:
     ANIMATION_SPEED = 10
 
     def __init__(self, images, pos_x=0, pos_y=0):
-        self.babies = []
         self.animation = None
         self.images = images
         self.images_flip = []
+        self.baby_picture_path = "assets/baby.png"
         for img in self.images:
             img_copy = img.copy()
             self.images_flip.append(pygame.transform.flip(img_copy, True, False))

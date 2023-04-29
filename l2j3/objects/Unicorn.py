@@ -7,11 +7,12 @@ from objects.Sounds import left_turn_sound, right_turn_sound, down_turn_sound
 from GameInfo import GAME_INFO
 
 class Unicorn:
-    IMAGE_SIZE = 40  # carré
+    IMAGE_SIZE = 60  # carré
     ANIMATION_SPEED = 10
 
     def __init__(self, image, direction, pos_x=0, pos_y=0):
-        self.shits = []
+        self.baby_picture_path = "assets/poop.png" 
+        image = pygame.transform.scale(image, (self.IMAGE_SIZE,self.IMAGE_SIZE))
         if direction == Direction.RIGHT:
             image = pygame.transform.flip(image, True, False)
         self.image = image
