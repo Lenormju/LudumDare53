@@ -108,6 +108,9 @@ def render(screen, events, keys):
     screen.blit(character.image, character.rect)
     for enemy in enemies:
         enemy.Move(screen)
+        if enemy.HasExit(screen):
+            enemies.remove(enemy)
+    
     if shooting:
         character.DoShoot(screen)
 

@@ -33,6 +33,9 @@ class Stork:
             self.animation.animation = lambda: screen.blit(images[self.current_image], self.rect)
             self.current_image = (self.current_image+1) % len(images)
 
+    def HasExit(self, screen):
+        return not self.rect.colliderect(screen.get_rect())
+
     def Move(self, screen):
         dx, dy = (
             (1, 0) if self.current_direction is Direction.RIGHT
@@ -56,7 +59,7 @@ class Stork:
         has_gone_down_enough = (self.rect.y + dy > self.previous_line_y + self.IMAGE_SIZE)
         is_on_the_left_side = (self.rect.x < GAME_INFO.SCREEN_WIDTH / 2)
         is_on_the_right_side = (self.rect.x > GAME_INFO.SCREEN_WIDTH / 2)
-
+        
         if would_exit_on_the_right_side and not_going_down and not is_very_low:
             self.current_direction = Direction.DOWN
             self.Move(screen)
