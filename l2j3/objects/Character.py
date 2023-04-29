@@ -17,7 +17,7 @@ class Character(Thing):
         shoot = Shoot(pygame.Rect(self.rect.x, self.rect.y, 50, 50), 10, "assets/shoot.png")
         self.shoots.append(shoot)
         screen.blit(shoot.image, shoot.rect)
-
+    
     def ApplyShoots(self, screen, ennemies):
         destroying = {}
         for shoot in self.shoots:

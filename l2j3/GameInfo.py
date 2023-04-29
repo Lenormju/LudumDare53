@@ -11,9 +11,10 @@ class GameScreen(Enum):
 
 @dataclass
 class _GameInfo:
-    SCREEN_WIDTH, SCREEN_HEIGHT = 600, 600
+    SCREEN_WIDTH, SCREEN_HEIGHT = 580, 600
     CURRENT_TICK_NUMBER = 0
     TARGET_FPS = 60
+    SCORE = 0
     CURRENT_GAME_SCREEN = GameScreen.TITLE
     NEXT_GAME_SCREEN = GameScreen.TITLE
 

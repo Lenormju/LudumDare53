@@ -15,17 +15,24 @@ class Stork:
         self.previous_line_y = self.rect.y
 
     def DropBaby(self, screen):        
-        baby = Baby(self.rect, 1, "assets/baby.png")
+        baby = Baby(self.rect, 5, "assets/baby.png")
         self.babies.append(baby)
         screen.blit(baby.image, baby.rect)
         pygame.mixer.find_channel(force=True).play(down_turn_sound)
         return baby
 
+    def isCollideBabies(self, character):
+        for baby in self.babies:
+            if(baby.rect.colliderect(character.rect)):
+                GAME_INFO.SCORE += 1
+                self.babies.remove(baby)
+    
     def ApplyMoveBaby(self, baby, screen):
         isMoving = baby.GoToDown()
         if isMoving:
             screen.blit(baby.image, baby.rect)
         if not isMoving:
+            GAME_INFO.SCORE -= 1
             self.babies.remove(baby)
 
     def Move(self, screen):

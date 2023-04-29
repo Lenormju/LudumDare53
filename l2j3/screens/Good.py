@@ -24,7 +24,6 @@ player_has_lost = False
 
 animations = []
 
-
 def render(screen, events, keys):
     global enemies, player_has_lost
 
@@ -39,9 +38,9 @@ def render(screen, events, keys):
                 GAME_INFO.NEXT_GAME_SCREEN = GameScreen.GAME_GOOD_ENDING_GOOD
             screen.blit(character.image, character.rect)
 
-    def ColoredTextEnd(color, text):
+    def ColoredTextEnd(color, text, x = 0, y = 0):
         text_surface = comic_sans_ms.render(text, False, color)
-        screen.blit(text_surface, (0, 0))
+        screen.blit(text_surface, (x, y))
 
     def AnimationsShoots():
         for key, val in character.ApplyShoots(screen, enemies).items():
@@ -82,6 +81,11 @@ def render(screen, events, keys):
 
     DropAndMoveBabies()
     AnimationsShoots()
+
+    for enemy in enemies:
+        enemy.isCollideBabies(character)
+    ColoredTextEnd((0,0,0), "Score : "+str(GAME_INFO.SCORE), GAME_INFO.SCREEN_WIDTH-150, 0)
+    ColoredTextEnd((0,0,0), "Timer : "+str(round(GAME_INFO.CURRENT_TICK_NUMBER / 60)), GAME_INFO.SCREEN_WIDTH/3, 0)
 
     # check if alien destroys the player
     for enemy in enemies:
