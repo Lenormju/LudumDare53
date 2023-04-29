@@ -16,14 +16,18 @@ class CharacterBadLevel2():
 
     def GoToRight(self):
         if self.gunLeft.rect.x + self.gunLeft.rect.width < GAME_INFO.SCREEN_WIDTH + self.gunLeft.speedx:
-            self.gunLeft.rect = self.gunLeft.rect.move(self.gunLeft.speedx, self.gunLeft.speedy)
-            self.gunRight.rect = self.gunRight.rect.move(self.gunRight.speedx, self.gunRight.speedy)
-    
+            distance_to_mouse_x = pygame.mouse.get_pos()[0] - self.gunRight.rect.x
+            speedx = min(self.gunLeft.speedx, distance_to_mouse_x)
+            self.gunRight.rect = self.gunRight.rect.move(speedx, self.gunRight.speedy)
+            self.gunLeft.rect = self.gunLeft.rect.move(speedx, self.gunLeft.speedy)
+
     def GoToLeft(self):
         if self.gunRight.rect.x >= self.gunRight.speedx:
-            self.gunRight.rect = self.gunRight.rect.move(-self.gunRight.speedx, self.gunRight.speedy)
-            self.gunLeft.rect = self.gunLeft.rect.move(-self.gunLeft.speedx, self.gunLeft.speedy)
-    
+            distance_to_mouse_x = self.gunRight.rect.x - pygame.mouse.get_pos()[0]
+            speedx = max(-self.gunRight.speedx, -distance_to_mouse_x)
+            self.gunRight.rect = self.gunRight.rect.move(speedx, self.gunRight.speedy)
+            self.gunLeft.rect = self.gunLeft.rect.move(speedx, self.gunLeft.speedy)
+
     def DoShoot(self, screen):
         shoot1 = Shoot(pygame.Rect(self.gunLeft.rect.x, self.gunLeft.rect.y, 50, 50), 0, 10, "assets/shoot.png")
         shoot2 = Shoot(pygame.Rect(self.gunRight.rect.x, self.gunRight.rect.y, 50, 50), 0, 10, "assets/shoot.png")

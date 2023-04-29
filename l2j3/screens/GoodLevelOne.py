@@ -4,9 +4,8 @@ from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
 from objects.Character import Character
 from objects.Sounds import background_sound, explosion_sound
-from objects.Animation import Animation
 from objects.Sounds import down_turn_sound
-from objects.Shoot import Shoot
+from objects.Mouse import MouseButtons
 from objects.Baby import Baby
 from objects.Colors import *
 from random import *
@@ -33,7 +32,7 @@ firstTick = True
 shoot_animations = []
 start_ticks = 0
 
-def render(screen, events, keys):
+def render(screen, events, keys, mouse_buttons: MouseButtons):
     global enemies, player_has_lost, character, babies, firstTick,start_ticks
     if firstTick:
         start_ticks=pygame.time.get_ticks()
@@ -79,10 +78,9 @@ def render(screen, events, keys):
         pygame.mixer.find_channel(force=True).play(down_turn_sound)
         return baby
 
-
-    if keys[pygame.K_LEFT]:
+    if (pygame.mouse.get_pos()[0] - character.rect.x) < 0:
         character.GoToLeft()
-    if keys[pygame.K_RIGHT]:
+    elif (pygame.mouse.get_pos()[0] - character.rect.x) > 0:
         character.GoToRight()
 
     screen.fill(sky_color)  # === draw _AFTER_ this line ===
@@ -112,3 +110,9 @@ def render(screen, events, keys):
             break
 
     DetermineEndGame()
+
+    # if mouse_buttons.left_is_pressed: print("left")
+    # if mouse_buttons.middle_is_pressed: print("middle")
+    # if mouse_buttons.right_is_pressed: print("right")
+    # if (pygame.mouse.get_pos()[0] - character.rect.x) > 0: print("<<<-")
+    # elif (pygame.mouse.get_pos()[0] - character.rect.x) < 0: print("->>>")

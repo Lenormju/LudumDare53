@@ -9,6 +9,7 @@ from objects.CharacterGoodLevel2 import CharacterGoodLevel2
 from objects.Sounds import background_sound
 from objects.Animation import Animation
 from objects.Sounds import down_turn_sound
+from objects.Mouse import MouseButtons
 from objects.Baby import Baby
 from objects.Colors import *
 from random import *
@@ -51,7 +52,7 @@ firstTick = True
 animations_youpi = []
 start_ticks = 0
 
-def render(screen, events, keys):
+def render(screen, events, keys, mouse_buttons: MouseButtons):
     global enemies, player_has_lost, character, babies, firstTick,start_ticks
     if firstTick:
         start_ticks=pygame.time.get_ticks()
@@ -100,9 +101,9 @@ def render(screen, events, keys):
         pygame.mixer.find_channel(force=True).play(down_turn_sound)
         return baby
 
-    if keys[pygame.K_LEFT]:
+    if (pygame.mouse.get_pos()[0] - character.panierBaby.rect.x) < 0:
         character.GoToLeft()
-    if keys[pygame.K_RIGHT]:
+    elif (pygame.mouse.get_pos()[0] - character.panierBaby.rect.x) > 0:
         character.GoToRight()
 
     screen.fill(sky_color)  # === draw _AFTER_ this line ===

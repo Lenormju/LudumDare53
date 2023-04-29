@@ -6,7 +6,7 @@ from objects.CharacterBadLevel2 import CharacterBadLevel2
 from objects.Sounds import background_sound, explosion_sound
 from objects.Animation import Animation
 from objects.Sounds import down_turn_sound
-from objects.Shoot import Shoot
+from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT, MY_MOUSE_BUTTON_RIGHT
 from objects.Baby import Baby
 from objects.Colors import *
 from random import *
@@ -33,7 +33,7 @@ firstTick = True
 shoot_animations = []
 start_ticks = 0
 
-def render(screen, events, keys):
+def render(screen, events, keys, mouse_buttons: MouseButtons):
     global enemies, player_has_lost, character, babies, firstTick,start_ticks
     if firstTick:
         start_ticks=pygame.time.get_ticks()
@@ -52,6 +52,7 @@ def render(screen, events, keys):
                 ClearBoard(GameScreen.BAD_LEVEL_THREE)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
+            GAME_INFO.SCORE = 0
         else:
             pass  # on continue le jeu
 
@@ -71,7 +72,10 @@ def render(screen, events, keys):
                     screen.blit(shoot.image, shoot.rect)
             animation.animation = my_anim_action
             shoot_animations.append(animation)
-            enemies.remove(enemy)
+            try:
+                enemies.remove(enemy)
+            except ValueError:
+                pass  # Lou dit que c'est sans danger, on verra bien .....
 
         for animation in shoot_animations:
             isPlay = animation.Increment()
@@ -97,13 +101,15 @@ def render(screen, events, keys):
 
     shooting = False
 
-    if keys[pygame.K_LEFT]:
+    if (pygame.mouse.get_pos()[0] - character.gunRight.rect.x) < 0:
         character.GoToLeft()
-    if keys[pygame.K_RIGHT]:
+    elif (pygame.mouse.get_pos()[0] - character.gunRight.rect.x) > 0:
         character.GoToRight()
 
     for event in events:
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == MY_MOUSE_BUTTON_LEFT:
+            shooting = True
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == MY_MOUSE_BUTTON_RIGHT:
             shooting = True
 
     screen.fill(evil_red)  # === draw _AFTER_ this line ===

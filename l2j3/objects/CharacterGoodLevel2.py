@@ -12,10 +12,14 @@ class CharacterGoodLevel2():
 
     def GoToRight(self):
         if self.panierPoop.rect.x + self.panierPoop.rect.width < GAME_INFO.SCREEN_WIDTH + self.panierPoop.speedx:
-            self.panierBaby.rect = self.panierBaby.rect.move(self.panierBaby.speedx, self.panierBaby.speedy)
-            self.panierPoop.rect = self.panierPoop.rect.move(self.panierPoop.speedx, self.panierPoop.speedy)
-    
+            distance_to_mouse_x = pygame.mouse.get_pos()[0] - self.panierBaby.rect.x
+            speedx = min(self.panierPoop.speedx, distance_to_mouse_x)
+            self.panierBaby.rect = self.panierBaby.rect.move(speedx, self.panierBaby.speedy)
+            self.panierPoop.rect = self.panierPoop.rect.move(speedx, self.panierPoop.speedy)
+
     def GoToLeft(self):
         if self.panierBaby.rect.x >= self.panierBaby.speedx:
-            self.panierBaby.rect = self.panierBaby.rect.move(-self.panierBaby.speedx, self.panierBaby.speedy)
-            self.panierPoop.rect = self.panierPoop.rect.move(-self.panierPoop.speedx, self.panierPoop.speedy)
+            distance_to_mouse_x = self.panierBaby.rect.x - pygame.mouse.get_pos()[0]
+            speedx = max(-self.panierBaby.speedx, -distance_to_mouse_x)
+            self.panierBaby.rect = self.panierBaby.rect.move(speedx, self.panierBaby.speedy)
+            self.panierPoop.rect = self.panierPoop.rect.move(speedx, self.panierPoop.speedy)

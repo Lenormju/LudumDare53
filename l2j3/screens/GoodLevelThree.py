@@ -4,7 +4,7 @@ import pygame
 
 from GameInfo import GAME_INFO, GameScreen
 from objects.StorkGood3 import StorkGood3
-from objects.Unicorn import Unicorn
+from objects.Mouse import MouseButtons
 from objects.BigUnicorn import BigUnicorn
 from objects.Direction import Direction
 from objects.DropType import DropType
@@ -46,7 +46,7 @@ firstTick = True
 animations_youpi = []
 start_ticks = 0
 
-def render(screen, events, keys):
+def render(screen, events, keys, mouse_buttons: MouseButtons):
     global enemies, player_has_lost, character, babies, firstTick,start_ticks
     if firstTick:
         start_ticks=pygame.time.get_ticks()
@@ -96,9 +96,9 @@ def render(screen, events, keys):
 
     shooting = False
 
-    if keys[pygame.K_LEFT]:
+    if (pygame.mouse.get_pos()[0] - character.panierBaby.rect.x) < 0:
         character.GoToLeft()
-    if keys[pygame.K_RIGHT]:
+    elif (pygame.mouse.get_pos()[0] - character.panierBaby.rect.x) > 0:
         character.GoToRight()
 
     screen.fill(sky_color)  # === draw _AFTER_ this line ===

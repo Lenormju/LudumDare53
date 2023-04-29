@@ -1,13 +1,12 @@
 import pygame
 
 from GameInfo import GAME_INFO, GameScreen
-from objects.Stork import Stork
+from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT, MY_MOUSE_BUTTON_RIGHT
 from objects.BigUnicorn import BigUnicorn
 from objects.Character import Character
 from objects.Sounds import background_sound, explosion_sound
 from objects.Animation import Animation
 from objects.Sounds import down_turn_sound
-from objects.Shoot import Shoot
 from objects.Baby import Baby
 from objects.Colors import *
 from random import *
@@ -34,7 +33,7 @@ firstTick = True
 shoot_animations = []
 start_ticks = 0
 
-def render(screen, events, keys):
+def render(screen, events, keys, mouse_buttons: MouseButtons):
     global enemies, player_has_lost, character, babies, firstTick,start_ticks
     if firstTick:
         start_ticks=pygame.time.get_ticks()
@@ -98,13 +97,15 @@ def render(screen, events, keys):
 
     shooting = False
 
-    if keys[pygame.K_LEFT]:
+    if (pygame.mouse.get_pos()[0] - character.rect.x) < 0:
         character.GoToLeft()
-    if keys[pygame.K_RIGHT]:
+    elif (pygame.mouse.get_pos()[0] - character.rect.x) > 0:
         character.GoToRight()
 
     for event in events:
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == MY_MOUSE_BUTTON_LEFT:
+            shooting = True
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == MY_MOUSE_BUTTON_RIGHT:
             shooting = True
 
     screen.fill(evil_red)  # === draw _AFTER_ this line ===

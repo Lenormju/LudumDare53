@@ -5,13 +5,18 @@ from GameInfo import GAME_INFO
 
 class Character(Thing):
     shoots = []
+
     def GoToRight(self):
         if self.rect.x + self.rect.width < GAME_INFO.SCREEN_WIDTH + self.speedx:
-            self.Move(self.speedx, self.speedy)
-    
+            distance_to_mouse_x = pygame.mouse.get_pos()[0] - self.rect.x
+            speedx = min(self.speedx, distance_to_mouse_x)
+            self.Move(speedx, self.speedy)
+
     def GoToLeft(self):
         if self.rect.x >= self.speedx:
-            self.Move(-self.speedx, self.speedy)
+            distance_to_mouse_x = self.rect.x - pygame.mouse.get_pos()[0]
+            speedx = max(-self.speedx, -distance_to_mouse_x)
+            self.Move(speedx, self.speedy)
     
     def DoShoot(self, screen):
         shoot = Shoot(pygame.Rect(self.rect.x, self.rect.y, 50, 50), 0, 10, "assets/shoot.png")
