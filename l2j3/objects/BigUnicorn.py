@@ -5,6 +5,7 @@ from random import *
 from objects.Baby import Baby
 from objects.Direction import Direction
 from objects.Animation import Animation
+from objects.DropType import DropType
 from objects.Sounds import left_turn_sound, right_turn_sound, down_turn_sound
 from GameInfo import GAME_INFO
 from itertools import cycle
@@ -26,6 +27,9 @@ class BigUnicorn:
         self.rect = pygame.Rect(pos_x, pos_y, self.IMAGE_SIZE, self.IMAGE_SIZE)
         self._move_deltas = itertools.cycle([(3,-1)]*90 + [(3,1)]*90 + [(-3,1)]*90 + [(-3,-1)]*90)
         self._initial_dx = 3
+        self.type = DropType.POOP_TYPE
+        self.waiting = False
+        self.baby_picture_path = "assets/poop.png"
 
     def HasExit(self, screen):
         return False
