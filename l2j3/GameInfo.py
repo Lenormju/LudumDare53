@@ -5,6 +5,7 @@ from enum import Enum
 class GameScreen(Enum):
     TITLE = "title"
     GOOD_LEVEL_ONE = "good 1"
+    GOOD_LEVEL_TWO = "good 2"
     GOOD_ENDING = "good ending"
     BAD_INTERLUDE = "bad interlude"
     BAD_ENDING = "bad ending"
