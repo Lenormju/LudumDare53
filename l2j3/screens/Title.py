@@ -8,9 +8,8 @@ from objects.Mouse import MouseButtons
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    for event in events:
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            GAME_INFO.NEXT_GAME_SCREEN = GameScreen.GOOD_LEVEL_ONE
+    if mouse_buttons.left_is_pressed:
+        GAME_INFO.NEXT_GAME_SCREEN = GameScreen.GOOD_LEVEL_ONE
 
     screen.fill(black_color)  # === draw _AFTER_ this line ===
 
@@ -26,5 +25,5 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
     screen.blit(comic_sans_ms.render(" • Julien3", False, granny_color), (50, 350))
     screen.blit(comic_sans_ms.render(" • Jonathan", False, granny_color), (50, 400))
 
-    screen.blit(comic_sans_ms.render("Press [space] to start", False, yellow_color), (0, 500))
+    screen.blit(comic_sans_ms.render("Click to start", False, yellow_color), (0, 500))
     screen.blit(comic_sans_ms.render("Press [escape] to quit", False, yellow_color), (0, 550))
