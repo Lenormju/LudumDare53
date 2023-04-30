@@ -79,7 +79,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 if animation.currentTick <= (animation.duration // 2):
                     screen.blit(shoot.image, shoot.rect)
                 else:
-                    shoot.UpdateImage("assets/shoot_explosion_max.png", 100, 50)
+                    shoot.UpdateImage("assets/shoot_explosion_max.png", 30, 30)
                     screen.blit(shoot.image, shoot.rect)
             animation.animation = my_anim_action
             shoot_animations.append(animation)

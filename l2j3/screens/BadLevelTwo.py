@@ -3,10 +3,11 @@ import pygame
 from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
 from objects.CharacterBadLevel2 import CharacterBadLevel2
-from objects.Sounds import *
+from objects.Sounds import down_turn_sound, metal_bad2_music,left_turn_sound, play_music, play_sound
 from objects.Animation import Animation
 from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT, MY_MOUSE_BUTTON_RIGHT
 from objects.Baby import Baby
+from objects.Colors import *
 from random import *
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
@@ -80,9 +81,6 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             def my_anim_action():
                 nonlocal shoot
                 if animation.currentTick <= (animation.duration // 2):
-                    screen.blit(shoot.image, shoot.rect)
-                else:
-                    shoot.UpdateImage("assets/shoot_explosion_max.png", 100, 50)
                     screen.blit(shoot.image, shoot.rect)
             animation.animation = my_anim_action
             shoot_animations.append(animation)
