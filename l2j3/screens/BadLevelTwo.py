@@ -165,7 +165,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         if not isRunning:
             bomb_animations.remove(anim)
     seconds=(pygame.time.get_ticks()-start_ticks)/1000
-    ColoredTextEnd((0,0,0), "Score : "+str(GAME_INFO.SCORE), GAME_INFO.SCREEN_WIDTH-150, 0)
-    ColoredTextEnd((0,0,0), "Timer : "+str(round(seconds)), GAME_INFO.SCREEN_WIDTH/3, 0)
+    ColoredTextEnd((255,0,0), "Score : "+str(GAME_INFO.SCORE), GAME_INFO.SCREEN_WIDTH-150, 0)
+    ColoredTextEnd((255,0,0), "Timer : "+str(round(seconds)), GAME_INFO.SCREEN_WIDTH/3, 0)
 
     DetermineEndGame()

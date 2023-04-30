@@ -20,12 +20,15 @@ storks_images = []
 storks_images.append(pygame.image.load("assets/stork_blue_1.png"))
 storks_images.append(pygame.image.load("assets/stork_blue_2.png"))
 imageInTheBox = pygame.image.load("assets/in_the_box.png").convert_alpha()
-imageInTheBox = pygame.transform.scale(imageInTheBox, (100,100))
+imageInTheBox = pygame.transform.scale(imageInTheBox, (100,50))
 imageNotGoodBox = pygame.image.load("assets/not_good_box.png").convert_alpha()
-imageNotGoodBox = pygame.transform.scale(imageNotGoodBox, (100,100))
+imageNotGoodBox = pygame.transform.scale(imageNotGoodBox, (50,50))
 unicorn_images = [pygame.image.load("assets/unicorn_boss_1.png"),
                     pygame.image.load("assets/unicorn_boss_2.png"),
                     pygame.image.load("assets/unicorn_boss_3.png")]
+backgroundgood = pygame.image.load("assets/backgroundgood.png")
+backgroundgood = pygame.transform.scale(backgroundgood, (GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT))
+backgroundgood = backgroundgood.convert()
 def init_level():
     global enemies,babies,character,player_has_lost,firstTick,animations_youpi,start_ticks, has_started_music
     enemies = []
@@ -106,7 +109,8 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
     elif (pygame.mouse.get_pos()[0] - character.panierBaby.rect.x) > 0:
         character.GoToRight()
 
-    screen.fill(sky_color)  # === draw _AFTER_ this line ===
+    # screen.fill(sky_color)  # === draw _AFTER_ this line ===
+    screen.blit(backgroundgood, pygame.Rect((0,0),(GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT)))  # === draw _AFTER_ this line ===
 
     screen.blit(character.panierBaby.image, character.panierBaby.rect)
     screen.blit(character.panierPoop.image, character.panierPoop.rect)
@@ -131,12 +135,12 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 isCollideBabyInPoop = baby.isCollideBabies(character.panierPoop)
                 if isCollideBabyInBaby:    
                     #on fait +1 dans isCollideBabies
-                    animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.panierBaby.rect.x, character.panierBaby.rect.y-100, 100,100))
+                    animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.panierBaby.rect.x, character.panierBaby.rect.y-40, 100,100))
                     play_sound(good_box_sound)
                 elif isCollideBabyInPoop:
                     #on fait +1 dans isCollideBabies donc -2+1 = -1
                     GAME_INFO.SCORE -= 2
-                    animation.animation = lambda: screen.blit(imageNotGoodBox, pygame.Rect(character.panierPoop.rect.x, character.panierPoop.rect.y-100, 100,100))
+                    animation.animation = lambda: screen.blit(imageNotGoodBox, pygame.Rect(character.panierPoop.rect.x+25, character.panierPoop.rect.y-40, 100,100))
                     play_sound(bad_box_sound)
             elif baby.type is DropType.POOP_TYPE:
                 isCollidePoopInPoop = baby.isCollideBabies(character.panierPoop)
@@ -144,12 +148,12 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 if isCollidePoopInPoop:
                     #on fait +1 dans isCollideBabies donc 1+2 = +3
                     GAME_INFO.SCORE += 2
-                    animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.panierPoop.rect.x, character.panierPoop.rect.y-100, 100,100))
+                    animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.panierPoop.rect.x, character.panierPoop.rect.y-40, 100,100))
                     play_sound(good_box_sound)
                 elif isCollidePoopInBaby:
                     #on fait +1 dans isCollideBabies donc -4+1 = -3
                     GAME_INFO.SCORE -= 4
-                    animation.animation = lambda: screen.blit(imageNotGoodBox, pygame.Rect(character.panierBaby.rect.x, character.panierBaby.rect.y-100, 100,100))
+                    animation.animation = lambda: screen.blit(imageNotGoodBox, pygame.Rect(character.panierBaby.rect.x+25, character.panierBaby.rect.y-40, 100,100))
                     play_sound(bad_box_sound)
 
             if isCollideBabyInBaby or isCollidePoopInPoop or isCollidePoopInBaby or isCollideBabyInPoop:
