@@ -82,9 +82,6 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 nonlocal shoot
                 if animation.currentTick <= (animation.duration // 2):
                     screen.blit(shoot.image, shoot.rect)
-                else:
-                    shoot.UpdateImage("assets/shoot_explosion_max.png", 100, 50)
-                    screen.blit(shoot.image, shoot.rect)
             animation.animation = my_anim_action
             shoot_animations.append(animation)
             try:

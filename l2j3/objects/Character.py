@@ -30,7 +30,7 @@ class Character(Thing):
             isDestroy = shoot.isCollideEnnemy(ennemies)
             if isDestroy is not None:
                 self.shoots.remove(shoot)
-                shoot.UpdateImage("assets/shoot_explosion_min.png", 50, 25)
+                shoot.UpdateImage("assets/shoot_explosion_min.png", 30, 30)
                 destroying[shoot] = isDestroy
             
             if isMoving:
