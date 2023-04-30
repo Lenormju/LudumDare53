@@ -36,7 +36,7 @@ def init_level():
                                 randint(50, GAME_INFO.SCREEN_WIDTH-50),
                                 randint(0, 70)))
     
-    enemies.append(BigUnicorn(unicorn_images, 0, 150))
+    enemies.append(BigUnicorn(unicorn_images, 120, 0, 150))
     character = CharacterGoodLevel2()
     player_has_lost = False
     firstTick = True
