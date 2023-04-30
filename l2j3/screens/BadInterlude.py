@@ -10,7 +10,7 @@ comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
     if mouse_buttons.left_is_pressed:
-        GAME_INFO.NEXT_GAME_SCREEN = GameScreen.GOOD_LEVEL_ONE
+        GAME_INFO.NEXT_GAME_SCREEN = GameScreen.BAD_LEVEL_ONE
 
     screen.fill(black_color)  # === draw _AFTER_ this line ===
 
