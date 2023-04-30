@@ -9,7 +9,7 @@ class CharacterBadLevel2():
     shoots = []
 
     def __init__(self):
-        self.gunLeft = PanierGun(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2-110, GAME_INFO.SCREEN_HEIGHT-100,75, 75), 15, 0, "assets/gun_left.png")
+        self.gunLeft = PanierGun(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2-50, GAME_INFO.SCREEN_HEIGHT-100,75, 75), 15, 0, "assets/gun_left.png")
         self.gunLeft.SetType(DropType.BABY_TYPE)
         self.gunRight = PanierGun(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100,75, 75), 15, 0, "assets/gun_right.png")
         self.gunRight.SetType(DropType.BABY_TYPE)
@@ -29,12 +29,12 @@ class CharacterBadLevel2():
             self.gunLeft.rect = self.gunLeft.rect.move(speedx, self.gunLeft.speedy)
 
     def DoShootLeft(self, screen):
-        shoot = Shoot(pygame.Rect(self.gunLeft.rect.x, self.gunLeft.rect.y, 50, 50), 0, 10, "assets/shoot.png")
+        shoot = Shoot(pygame.Rect(self.gunLeft.rect.x+2, self.gunLeft.rect.y-15, 15, 20), 0, 10, "assets/shoot.png")
         self.shoots.append(shoot)
         screen.blit(shoot.image, shoot.rect)
 
     def DoShootRight(self, screen):
-        shoot = Shoot(pygame.Rect(self.gunRight.rect.x, self.gunRight.rect.y, 50, 50), 0, 10, "assets/shoot.png")
+        shoot = Shoot(pygame.Rect(self.gunRight.rect.x+56, self.gunRight.rect.y-15, 15, 20), 0, 10, "assets/shoot.png")
         self.shoots.append(shoot)
         screen.blit(shoot.image, shoot.rect)
     

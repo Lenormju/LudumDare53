@@ -23,7 +23,7 @@ for _ in range(number_of_enemies):
                          randint(0, GAME_INFO.SCREEN_WIDTH),
                          randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
 
-character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 15, 0, "assets/gun_left.png")
+character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 75, 75), 15, 0, "assets/gun_left.png")
 player_has_lost = False
 firstTick = True
 
@@ -94,7 +94,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 GAME_INFO.SCORE += 1  # contrebalancer le fait qu'on l'ait enlevé auparavant
 
     def DropBaby(stork):
-        baby = Baby(stork.rect, 0, randint(1, 10), "assets/bomb.png")
+        baby = Baby(stork.rect.scale_by(0.5), 0, randint(1, 10), "assets/bomb.png")
         babies.append(baby)
         screen.blit(baby.image, baby.rect)
         play_sound(down_turn_sound)

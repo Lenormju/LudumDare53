@@ -19,7 +19,7 @@ class Character(Thing):
             self.Move(speedx, self.speedy)
     
     def DoShoot(self, screen):
-        shoot = Shoot(pygame.Rect(self.rect.x, self.rect.y, 50, 50), 0, 10, "assets/shoot.png")
+        shoot = Shoot(pygame.Rect(self.rect.x+3, self.rect.y-15, 15, 20), 0, 10, "assets/shoot.png")
         self.shoots.append(shoot)
         screen.blit(shoot.image, shoot.rect)
     
