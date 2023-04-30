@@ -25,8 +25,8 @@ boss_enemies_form3= []
 boss_enemies_form3.append(pygame.image.load("assets/stork_boss_form3_1.png"))
 boss_enemies_form3.append(pygame.image.load("assets/stork_boss_form3_2.png"))
 enemies_images = []
-enemies_images.append(pygame.image.load("assets/stork_boss_form1_1.png"))
-enemies_images.append(pygame.image.load("assets/stork_boss_form1_2.png"))
+enemies_images.append(pygame.image.load("assets/evil_stork1.png"))
+enemies_images.append(pygame.image.load("assets/evil_stork2.png"))
 
 backgroundbad = pygame.image.load("assets/backgroundevil.png")
 backgroundbad = pygame.transform.scale(backgroundbad, (GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT))
