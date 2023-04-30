@@ -28,7 +28,7 @@ def init_level():
                             randint(0, GAME_INFO.SCREEN_WIDTH),
                             randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
 
-    character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 15, 0, "assets/gun_left.png")
+    character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 75, 75), 15, 0, "assets/gun_left.png")
     player_has_lost = False
     firstTick = True
 
