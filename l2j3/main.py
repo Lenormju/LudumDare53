@@ -21,7 +21,7 @@ while keep_running:
     keys = pygame.key.get_pressed()
     events = pygame.event.get()
     for event in events:
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             keep_running = False
 
     render_function = {

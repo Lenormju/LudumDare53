@@ -27,3 +27,4 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
     screen.blit(comic_sans_ms.render(" • Jonathan", False, granny_color), (50, 400))
 
     screen.blit(comic_sans_ms.render("Press [space] to start", False, yellow_color), (0, 500))
+    screen.blit(comic_sans_ms.render("Press [escape] to quit", False, yellow_color), (0, 550))
