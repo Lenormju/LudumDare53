@@ -109,7 +109,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         baby = Baby(stork.rect.scale_by(0.5), 0, randint(1, 10), "assets/bomb.png")
         babies.append(baby)
         screen.blit(baby.image, baby.rect)
-        play_sound(down_turn_sound)
+        # TODO: sound ?
         return baby
 
     shootingLeft = False
@@ -153,10 +153,10 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             babies.remove(baby)
             if isCollideRight:
                 animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.gunRight.rect.x, character.gunRight.rect.y, 100,100))
-                play_sound(left_turn_sound)
+                play_sound(bomb_sound)
             if isCollideLeft:
-                animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.gunLeft.rect.x-20, character.gunLeft.rect.y, 100,100))
-                play_sound(left_turn_sound)
+                animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.gunLeft.rect.x, character.gunLeft.rect.y, 100,100))
+                play_sound(bomb_sound)
             
             bomb_animations.append(animation)
         

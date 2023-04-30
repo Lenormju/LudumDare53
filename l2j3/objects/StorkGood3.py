@@ -4,7 +4,6 @@ from objects.Baby import Baby
 from objects.Direction import Direction
 from objects.Animation import Animation
 from objects.DropType import DropType
-from objects.Sounds import left_turn_sound, right_turn_sound, down_turn_sound
 from GameInfo import GAME_INFO
 
 class StorkGood3:

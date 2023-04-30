@@ -1,6 +1,7 @@
 import pygame
 from objects.Thing import Thing
 from objects.Shoot import Shoot
+from objects.Sounds import *
 from GameInfo import GAME_INFO
 
 class Character(Thing):
@@ -22,6 +23,7 @@ class Character(Thing):
         shoot = Shoot(pygame.Rect(self.rect.x+3, self.rect.y-15, 15, 20), 0, 10, "assets/shoot.png")
         self.shoots.append(shoot)
         screen.blit(shoot.image, shoot.rect)
+        play_sound(shoot_sound)
     
     def ApplyShoots(self, screen, ennemies):
         destroying = {}

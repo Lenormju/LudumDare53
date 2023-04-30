@@ -1,5 +1,5 @@
 import pygame
-from objects.Thing import Thing
+from objects.Sounds import *
 from objects.Panier import PanierGun
 from objects.DropType import DropType
 from objects.Shoot import Shoot
@@ -32,11 +32,13 @@ class CharacterBadLevel2():
         shoot = Shoot(pygame.Rect(self.gunLeft.rect.x+2, self.gunLeft.rect.y-15, 15, 20), 0, 10, "assets/shoot.png")
         self.shoots.append(shoot)
         screen.blit(shoot.image, shoot.rect)
+        play_sound(shoot_sound)
 
     def DoShootRight(self, screen):
         shoot = Shoot(pygame.Rect(self.gunRight.rect.x+56, self.gunRight.rect.y-15, 15, 20), 0, 10, "assets/shoot.png")
         self.shoots.append(shoot)
         screen.blit(shoot.image, shoot.rect)
+        play_sound(shoot_sound)
     
     def ApplyShoots(self, screen, ennemies):
         destroying = {}

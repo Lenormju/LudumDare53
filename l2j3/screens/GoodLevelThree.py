@@ -8,7 +8,7 @@ from objects.Mouse import MouseButtons
 from objects.BigUnicorn import BigUnicorn
 from objects.DropType import DropType
 from objects.CharacterGoodLevel2 import CharacterGoodLevel2
-from objects.Sounds import down_turn_sound, play_sound
+from objects.Sounds import *
 from objects.Animation import Animation
 from objects.Baby import Baby
 from objects.Colors import *
@@ -25,9 +25,9 @@ imageNotGoodBox = pygame.image.load("assets/not_good_box.png").convert_alpha()
 imageNotGoodBox = pygame.transform.scale(imageNotGoodBox, (100,100))
 unicorn_images = [pygame.image.load("assets/unicorn_boss_1.png"),
                     pygame.image.load("assets/unicorn_boss_2.png"),
-                    pygame.image.load("assets/unicorn_boss_3.png")]  # FIXME: missing poop animation
+                    pygame.image.load("assets/unicorn_boss_3.png")]
 def init_level():
-    global enemies,babies,character,player_has_lost,firstTick,animations_youpi,start_ticks
+    global enemies,babies,character,player_has_lost,firstTick,animations_youpi,start_ticks, has_started_music
     enemies = []
     babies = []
     number_of_storks = 6
@@ -36,19 +36,25 @@ def init_level():
                                 randint(50, GAME_INFO.SCREEN_WIDTH-50),
                                 randint(0, 70)))
     
-    enemies.append(BigUnicorn(unicorn_images, 0, 150))
+    enemies.append(BigUnicorn(unicorn_images, 120, 0, 150))
     character = CharacterGoodLevel2()
     player_has_lost = False
     firstTick = True
     animations_youpi = []
     start_ticks = 0
+    has_started_music = False
     
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies,babies,character,player_has_lost,firstTick,animations_youpi,start_ticks
+    global enemies,babies,character,player_has_lost,firstTick,animations_youpi,start_ticks, has_started_music
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
+
+    if not has_started_music:
+        has_started_music = True
+        play_music(nyan_music)
+        play_music_next(birds_music)
 
     def ClearBoard(nextScreen):
         character = None
@@ -77,19 +83,21 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             if enemy.type == DropType.POOP_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(15, 30) == 0:
                 if not enemy.waiting:
                     DropBaby(enemy, enemy.rect.scale_by(0.3))
+                    play_sound(prout_sound)
             elif enemy.type == DropType.BABY_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
                 DropBaby(enemy, enemy.rect)
+                play_sound(baby_sound)
         for baby in babies:
             isMoving = baby.ApplyMoveBaby(screen)
             if not isMoving:
                 babies.remove(baby)
+                play_sound(miss_box_sound)
 
     def DropBaby(enemy, baby_rect):
         baby = Baby(baby_rect, randint(-3, 3) if enemy.type == DropType.POOP_TYPE else 0, randint(1, 10), enemy.baby_picture_path)
         baby.SetType(enemy.type)
         babies.append(baby)
         screen.blit(baby.image, baby_rect)
-        play_sound(down_turn_sound)
         return baby
 
     shooting = False
@@ -125,10 +133,12 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 if isCollideBabyInBaby:    
                     #on fait +1 dans isCollideBabies
                     animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.panierBaby.rect.x, character.panierBaby.rect.y-100, 100,100))
+                    play_sound(good_box_sound)
                 elif isCollideBabyInPoop:
                     #on fait +1 dans isCollideBabies donc -2+1 = -1
                     GAME_INFO.SCORE -= 2
                     animation.animation = lambda: screen.blit(imageNotGoodBox, pygame.Rect(character.panierPoop.rect.x, character.panierPoop.rect.y-100, 100,100))
+                    play_sound(bad_box_sound)
             elif baby.type is DropType.POOP_TYPE:
                 isCollidePoopInPoop = baby.isCollideBabies(character.panierPoop)
                 isCollidePoopInBaby = baby.isCollideBabies(character.panierBaby)
@@ -136,11 +146,13 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                     #on fait +1 dans isCollideBabies donc 1+2 = +3
                     GAME_INFO.SCORE += 2
                     animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.panierPoop.rect.x, character.panierPoop.rect.y-100, 100,100))
+                    play_sound(good_box_sound)
                 elif isCollidePoopInBaby:
                     #on fait +1 dans isCollideBabies donc -4+1 = -3
                     GAME_INFO.SCORE -= 4
                     animation.animation = lambda: screen.blit(imageNotGoodBox, pygame.Rect(character.panierBaby.rect.x, character.panierBaby.rect.y-100, 100,100))
-            
+                    play_sound(bad_box_sound)
+
             if isCollideBabyInBaby or isCollidePoopInPoop or isCollidePoopInBaby or isCollideBabyInPoop:
                 animations_youpi.append(animation)
                 babies.remove(baby)
