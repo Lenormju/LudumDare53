@@ -19,7 +19,7 @@ enemies_images.append(pygame.image.load("assets/stork_blue_1.png"))
 enemies_images.append(pygame.image.load("assets/stork_blue_2.png"))
 
 def init_level():
-    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music
     enemies = []
     babies = []
     number_of_enemies = 20
@@ -33,12 +33,17 @@ def init_level():
     firstTick = True
     shoot_animations = []
     start_ticks = 0
+    has_started_music = False
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
+
+    if not has_started_music:
+        has_started_music = True
+        play_music(birds_music)
 
     def ClearBoard(nextScreen):
         global character
@@ -79,7 +84,6 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         baby = Baby(stork.rect, 0, randint(1, 10), "assets/baby.png")
         babies.append(baby)
         screen.blit(baby.image, baby.rect)
-        play_sound(down_turn_sound)
         return baby
 
     if (pygame.mouse.get_pos()[0] - character.rect.x) < 0:

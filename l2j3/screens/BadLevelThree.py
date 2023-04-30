@@ -2,11 +2,10 @@ import pygame
 
 from GameInfo import GAME_INFO, GameScreen
 from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT, MY_MOUSE_BUTTON_RIGHT
-from objects.Stork import Stork
 from objects.DropType import DropType
 from objects.BigUnicorn import BigUnicorn
 from objects.Character import Character
-from objects.Sounds import explosion_sound, down_turn_sound, play_sound
+from objects.Sounds import *
 from objects.Animation import Animation
 from objects.Baby import Baby
 from objects.Colors import *
@@ -23,7 +22,7 @@ enemies_images.append(pygame.image.load("assets/stork_boss_form1_2.png"))
 
 
 def init_level():
-    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music
     enemies = []
     babies = []
     number_of_enemies = 1
@@ -39,12 +38,18 @@ def init_level():
 
     shoot_animations = []
     start_ticks = 0
+    has_started_music = False
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
+
+    if not has_started_music:
+        has_started_music = True
+        play_music(boss_stork_sound)
+        play_music_next(metal_bad2_music)
 
     def ClearBoard(nextScreen):
         character = None
@@ -102,7 +107,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         baby = Baby(rect.scale_by(0.5),  randint(-3, 3), randint(1, 10), "assets/bomb.png")
         babies.append(baby)
         screen.blit(baby.image, rect)
-        play_sound(down_turn_sound)
+        # TODO: sound ?
         return baby
 
     shooting = False

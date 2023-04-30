@@ -27,7 +27,7 @@ unicorn_images = [pygame.image.load("assets/unicorn_boss_1.png"),
                     pygame.image.load("assets/unicorn_boss_2.png"),
                     pygame.image.load("assets/unicorn_boss_3.png")]
 def init_level():
-    global enemies,babies,character,player_has_lost,firstTick,animations_youpi,start_ticks
+    global enemies,babies,character,player_has_lost,firstTick,animations_youpi,start_ticks, has_started_music
     enemies = []
     babies = []
     number_of_storks = 6
@@ -42,13 +42,19 @@ def init_level():
     firstTick = True
     animations_youpi = []
     start_ticks = 0
+    has_started_music = False
     
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies,babies,character,player_has_lost,firstTick,animations_youpi,start_ticks
+    global enemies,babies,character,player_has_lost,firstTick,animations_youpi,start_ticks, has_started_music
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
+
+    if not has_started_music:
+        has_started_music = True
+        play_music(nyan_music)
+        play_music_next(birds_music)
 
     def ClearBoard(nextScreen):
         character = None
@@ -77,8 +83,10 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             if enemy.type == DropType.POOP_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(15, 30) == 0:
                 if not enemy.waiting:
                     DropBaby(enemy, enemy.rect.scale_by(0.3))
+                    play_sound(prout_sound)
             elif enemy.type == DropType.BABY_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
                 DropBaby(enemy, enemy.rect)
+                play_sound(baby_sound)
         for baby in babies:
             isMoving = baby.ApplyMoveBaby(screen)
             if not isMoving:
@@ -90,7 +98,6 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         baby.SetType(enemy.type)
         babies.append(baby)
         screen.blit(baby.image, baby_rect)
-        play_sound(down_turn_sound)
         return baby
 
     shooting = False

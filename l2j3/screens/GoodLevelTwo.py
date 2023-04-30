@@ -26,7 +26,7 @@ unicorn_image = pygame.image.load("assets/unicorn.png")
 
 
 def init_level():
-    global enemies, unicorns, babies, poops, character, player_has_lost, firstTick, animations_youpi, start_ticks
+    global enemies, unicorns, babies, poops, character, player_has_lost, firstTick, animations_youpi, start_ticks, has_started_music
     enemies = []
     unicorns = []
     babies = []
@@ -51,12 +51,17 @@ def init_level():
 
     animations_youpi = []
     start_ticks = 0
+    has_started_music = False
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, unicorns, babies, poops, character, player_has_lost, firstTick, animations_youpi, start_ticks
+    global enemies, unicorns, babies, poops, character, player_has_lost, firstTick, animations_youpi, start_ticks, has_started_music
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
+
+    if not has_started_music:
+        has_started_music = True
+        play_music(birds_music)
 
     def ClearBoard(nextScreen):
         character = None
@@ -86,10 +91,12 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             unicorn = choice(unicorns)
             if not unicorn.waiting and GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 60) == 0:
                 DropBaby(unicorn)
+                play_sound(prout_sound)
         if enemies:
             enemy = choice(enemies)
             if GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
                 DropBaby(enemy)
+                play_sound(baby_sound)
         for baby in babies:
             isMoving = baby.ApplyMoveBaby(screen)
             if not isMoving:
@@ -101,7 +108,6 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         baby.SetType(enemy.type)
         babies.append(baby)
         screen.blit(baby.image, baby.rect)
-        play_sound(down_turn_sound)
         return baby
 
     if (pygame.mouse.get_pos()[0] - character.panierBaby.rect.x) < 0:

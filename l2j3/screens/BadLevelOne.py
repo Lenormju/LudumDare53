@@ -19,7 +19,7 @@ bombexplosionimage = pygame.image.load("assets/explosion_bomb.png").convert_alph
 bombexplosionimage = pygame.transform.scale(bombexplosionimage, (100,100))
 
 def init_level():
-    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, bomb_animations, start_ticks
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, bomb_animations, start_ticks, has_started_music
     enemies = []
     babies = []
     number_of_enemies = 30
@@ -35,13 +35,17 @@ def init_level():
     shoot_animations = []
     bomb_animations = []
     start_ticks = 0
-    
+    has_started_music = False
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, bomb_animations, start_ticks
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, bomb_animations, start_ticks, has_started_music
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
+
+    if not has_started_music:
+        has_started_music = True
+        play_music(martial_music)
 
     def ClearBoard(nextScreen):
         character = None
@@ -101,7 +105,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         baby = Baby(stork.rect.scale_by(0.5), 0, randint(1, 10), "assets/bomb.png")
         babies.append(baby)
         screen.blit(baby.image, baby.rect)
-        play_sound(down_turn_sound)
+        # TODO: sound ?
         return baby
 
     shooting = False

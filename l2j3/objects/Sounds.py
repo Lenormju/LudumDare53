@@ -12,6 +12,9 @@ def play_music(music):
     background_music_channel.play(music)
     background_music_channel.set_volume(1)
 
+def play_music_next(music):
+    background_music_channel.queue(music)
+
 def play_sound(sound):
     a_sound_channel = pygame.mixer.find_channel(force=False)
     if a_sound_channel is not None:
@@ -22,8 +25,13 @@ bomb_sound = pygame.mixer.Sound("assets/bomb.mp3")
 good_box_sound = pygame.mixer.Sound("assets/positif.mp3")
 bad_box_sound = pygame.mixer.Sound("assets/negatif.mp3")
 miss_box_sound = pygame.mixer.Sound("assets/splortsh.mp3")
-left_turn_sound = pygame.mixer.Sound(r'assets/left_turn.mp3')
-right_turn_sound = pygame.mixer.Sound(r'assets/right_turn.mp3')
-down_turn_sound = pygame.mixer.Sound(r'assets/down_turn.mp3')
-explosion_sound = pygame.mixer.Sound(r'assets/explosion.mp3')
-metal_bad2_music = pygame.mixer.Sound("assets/metal_v1.mp3")
+shoot_sound = pygame.mixer.Sound("assets/shoot.mp3")
+prout_sound = pygame.mixer.Sound("assets/prout.mp3")
+baby_sound = pygame.mixer.Sound("assets/baby.mp3")
+boss_stork_sound = pygame.mixer.Sound("assets/boss_cygogne.mp3")
+explosion_sound = pygame.mixer.Sound("assets/explosion.mp3")
+
+birds_music = pygame.mixer.Sound("assets/birds.mp3")
+nyan_music = pygame.mixer.Sound("assets/nyan.mp3")
+martial_music = pygame.mixer.Sound("assets/martial.mp3")
+metal_bad2_music = pygame.mixer.Sound("assets/metal_v2.mp3")
