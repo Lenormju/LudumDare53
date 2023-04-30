@@ -5,6 +5,7 @@ from GameInfo import GAME_INFO, GameScreen
 
 pygame_screen = pygame.display.set_mode((GAME_INFO.SCREEN_WIDTH, GAME_INFO.SCREEN_HEIGHT))
 
+from objects.Sounds import background_music_channel
 from objects.Mouse import MouseButtons
 from screens import Title, GoodLevelOne, GoodLevelTwo, GoodLevelThree, GoodEnding, BadIntro, BadLevelOne, \
     BadLevelTwo, BadLevelThree, BadEnding, NeutralEnding
@@ -42,7 +43,9 @@ while keep_running:
     pygame.display.flip()  # === draw _BEFORE_ this line ===
     clock.tick(GAME_INFO.TARGET_FPS)
 
-    GAME_INFO.CURRENT_GAME_SCREEN = GAME_INFO.NEXT_GAME_SCREEN
+    if GAME_INFO.CURRENT_GAME_SCREEN != GAME_INFO.NEXT_GAME_SCREEN:
+        GAME_INFO.CURRENT_GAME_SCREEN = GAME_INFO.NEXT_GAME_SCREEN
+        background_music_channel.fadeout(1)
     if GAME_INFO.CURRENT_GAME_SCREEN is GameScreen.QUIT:
         keep_running = False
 

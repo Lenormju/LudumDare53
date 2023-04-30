@@ -3,7 +3,7 @@ import pygame
 from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
 from objects.CharacterBadLevel2 import CharacterBadLevel2
-from objects.Sounds import down_turn_sound, metal_bad2_music, play_music, play_sound
+from objects.Sounds import down_turn_sound, metal_bad2_music,left_turn_sound, play_music, play_sound
 from objects.Animation import Animation
 from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT, MY_MOUSE_BUTTON_RIGHT
 from objects.Baby import Baby
@@ -27,6 +27,9 @@ character = CharacterBadLevel2()
 player_has_lost = False
 firstTick = True
 
+backgroundbad = pygame.image.load("assets/backgroundevil.png")
+backgroundbad = pygame.transform.scale(backgroundbad, (GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT))
+backgroundbad = backgroundbad.convert()
 bombexplosionimage = pygame.image.load("assets/explosion_bomb.png").convert_alpha()
 bombexplosionimage = pygame.transform.scale(bombexplosionimage, (100,100))
 shoot_animations = []
@@ -120,7 +123,8 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == MY_MOUSE_BUTTON_RIGHT:
             shootingRight = True
 
-    screen.fill(evil_red)  # === draw _AFTER_ this line ===
+    # screen.fill(evil_red)  # === draw _AFTER_ this line ===
+    screen.blit(backgroundbad, pygame.Rect((0,0),(GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT)))  # === draw _AFTER_ this line ===
 
     screen.blit(character.gunLeft.image, character.gunLeft.rect)
     screen.blit(character.gunRight.image, character.gunRight.rect)
@@ -146,8 +150,10 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             babies.remove(baby)
             if isCollideRight:
                 animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.gunRight.rect.x, character.gunRight.rect.y, 100,100))
+                play_sound(left_turn_sound)
             if isCollideLeft:
                 animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.gunLeft.rect.x, character.gunLeft.rect.y, 100,100))
+                play_sound(left_turn_sound)
             
             bomb_animations.append(animation)
         
@@ -155,7 +161,6 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         isRunning = anim.Increment()
         if not isRunning:
             bomb_animations.remove(anim)
-            
     seconds=(pygame.time.get_ticks()-start_ticks)/1000
     ColoredTextEnd((0,0,0), "Score : "+str(GAME_INFO.SCORE), GAME_INFO.SCREEN_WIDTH-150, 0)
     ColoredTextEnd((0,0,0), "Timer : "+str(round(seconds)), GAME_INFO.SCREEN_WIDTH/3, 0)

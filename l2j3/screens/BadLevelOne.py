@@ -3,7 +3,7 @@ import pygame
 from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
 from objects.Character import Character
-from objects.Sounds import explosion_sound, down_turn_sound, play_sound
+from objects.Sounds import explosion_sound, down_turn_sound, left_turn_sound, play_sound
 from objects.Animation import Animation
 from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT
 from objects.Baby import Baby
@@ -28,6 +28,9 @@ player_has_lost = False
 firstTick = True
 
 shoot_animations = []
+bomb_animations = []
+bombexplosionimage = pygame.image.load("assets/explosion_bomb.png").convert_alpha()
+bombexplosionimage = pygame.transform.scale(bombexplosionimage, (100,100))
 start_ticks = 0
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
@@ -125,9 +128,17 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
     for baby in babies:
         isCollide = baby.isCollideBabies(character)
         if isCollide:
+            animation = Animation(15)
+            animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.rect.x, character.rect.y, 100,100))
+            play_sound(left_turn_sound)
             GAME_INFO.SCORE -= 4
             babies.remove(baby)
+            bomb_animations.append(animation)
         
+    for anim in bomb_animations:
+        isRunning = anim.Increment()
+        if not isRunning:
+            bomb_animations.remove(anim)
     seconds=(pygame.time.get_ticks()-start_ticks)/1000
     ColoredTextEnd((0,0,0), "Score : "+str(GAME_INFO.SCORE), GAME_INFO.SCREEN_WIDTH-150, 0)
     ColoredTextEnd((0,0,0), "Timer : "+str(round(seconds)), GAME_INFO.SCREEN_WIDTH/3, 0)
