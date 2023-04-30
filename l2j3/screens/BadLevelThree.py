@@ -4,6 +4,7 @@ from GameInfo import GAME_INFO, GameScreen
 from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT, MY_MOUSE_BUTTON_RIGHT
 from objects.DropType import DropType
 from objects.BigUnicorn import BigUnicorn
+from objects.Stork import Stork
 from objects.Character import Character
 from objects.Sounds import *
 from objects.Animation import Animation
