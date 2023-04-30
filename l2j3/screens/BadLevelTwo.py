@@ -109,7 +109,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 GAME_INFO.SCORE += 1  # contrebalancer le fait qu'on l'ait enlevé auparavant
 
     def DropBaby(stork):
-        baby = Baby(stork.rect, 0, randint(1, 10), "assets/bomb.png")
+        baby = Baby(stork.rect.scale_by(0.5), 0, randint(1, 10), "assets/bomb.png")
         babies.append(baby)
         screen.blit(baby.image, baby.rect)
         play_sound(down_turn_sound)
