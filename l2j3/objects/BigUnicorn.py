@@ -12,17 +12,15 @@ from itertools import cycle
 
 
 class BigUnicorn:
-    IMAGE_SIZE = 40  # carré
-    ANIMATION_SPEED = 10
+    IMAGE_SIZE = 200  # carré
+    ANIMATION_SPEED = 120
 
     def __init__(self, images, pos_x=0, pos_y=0):
         self.poops = []
         self.animation = None
-        self.images = images
-        self.images_flip = []
-        for img in self.images:
-            img_copy = img.copy()
-            self.images_flip.append(pygame.transform.flip(img_copy, True, False))
+        self.images = []
+        for img in images:
+            self.images.append(pygame.transform.scale(img, (self.IMAGE_SIZE, self.IMAGE_SIZE)))
         self.current_image = 0
         self.rect = pygame.Rect(pos_x, pos_y, self.IMAGE_SIZE, self.IMAGE_SIZE)
         self._move_deltas = itertools.cycle([(3,-1)]*90 + [(3,1)]*90 + [(-3,1)]*90 + [(-3,-1)]*90)
@@ -35,14 +33,10 @@ class BigUnicorn:
         return False
 
     def Animation(self, screen, flip):
-        if flip:
-            images = self.images_flip
-        else:
-            images = self.images
         if self.animation == None or not self.animation.Increment():
             self.animation = Animation(self.ANIMATION_SPEED)
-            self.animation.animation = lambda: screen.blit(images[self.current_image], self.rect)
-            self.current_image = (self.current_image + 1) % len(images)
+            self.animation.animation = lambda: screen.blit(self.images[self.current_image], self.rect)
+            self.current_image = (self.current_image + 1) % len(self.images)
 
     def Move(self, screen):
         dx, dy = next(self._move_deltas)

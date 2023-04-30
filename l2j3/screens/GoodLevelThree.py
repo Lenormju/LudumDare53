@@ -30,8 +30,10 @@ for _ in range(number_of_storks):
     enemies.append(StorkGood3(storks_images,
                               randint(50, GAME_INFO.SCREEN_WIDTH-50),
                               randint(0, 70)))
-unicorn_images = [pygame.image.load("assets/big_unicorn.png")]  # FIXME: missing poop animation
-enemies.append(BigUnicorn(unicorn_images, 20, 200))
+unicorn_images = [pygame.image.load("assets/unicorn_boss_1.png"),
+                  pygame.image.load("assets/unicorn_boss_2.png"),
+                  pygame.image.load("assets/unicorn_boss_3.png")]  # FIXME: missing poop animation
+enemies.append(BigUnicorn(unicorn_images, 0, 150))
 
 character = CharacterGoodLevel2()
 
@@ -78,19 +80,19 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             enemy = choice(enemies)
             if enemy.type == DropType.POOP_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(15, 30) == 0:
                 if not enemy.waiting:
-                    DropBaby(enemy)
+                    DropBaby(enemy, enemy.rect.scale_by(0.3))
             elif enemy.type == DropType.BABY_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
-                DropBaby(enemy)
+                DropBaby(enemy, enemy.rect)
         for baby in babies:
             isMoving = baby.ApplyMoveBaby(screen)
             if not isMoving:
                 babies.remove(baby)
 
-    def DropBaby(enemy):        
-        baby = Baby(enemy.rect, randint(-3, 3) if enemy.type == DropType.POOP_TYPE else 0, randint(1, 10), enemy.baby_picture_path)
+    def DropBaby(enemy, baby_rect):
+        baby = Baby(baby_rect, randint(-3, 3) if enemy.type == DropType.POOP_TYPE else 0, randint(1, 10), enemy.baby_picture_path)
         baby.SetType(enemy.type)
         babies.append(baby)
-        screen.blit(baby.image, baby.rect)
+        screen.blit(baby.image, baby_rect)
         pygame.mixer.find_channel(force=True).play(down_turn_sound)
         return baby
 
