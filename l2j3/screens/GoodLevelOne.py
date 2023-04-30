@@ -25,7 +25,7 @@ for _ in range(number_of_enemies):
                          randint(0, GAME_INFO.SCREEN_WIDTH),
                          randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
 
-character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 15, 0, "assets/panier.png")
+character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-75, 100, 75), 15, 0, "assets/panier.png")
 player_has_lost = False
 firstTick = True
 
