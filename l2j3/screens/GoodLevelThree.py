@@ -26,6 +26,9 @@ imageNotGoodBox = pygame.transform.scale(imageNotGoodBox, (50,50))
 unicorn_images = [pygame.image.load("assets/unicorn_boss_1.png"),
                     pygame.image.load("assets/unicorn_boss_2.png"),
                     pygame.image.load("assets/unicorn_boss_3.png")]
+backgroundgood = pygame.image.load("assets/backgroundgood.png")
+backgroundgood = pygame.transform.scale(backgroundgood, (GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT))
+backgroundgood = backgroundgood.convert()
 def init_level():
     global enemies,babies,character,player_has_lost,firstTick,animations_youpi,start_ticks, has_started_music
     enemies = []
@@ -106,7 +109,8 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
     elif (pygame.mouse.get_pos()[0] - character.panierBaby.rect.x) > 0:
         character.GoToRight()
 
-    screen.fill(sky_color)  # === draw _AFTER_ this line ===
+    # screen.fill(sky_color)  # === draw _AFTER_ this line ===
+    screen.blit(backgroundgood, pygame.Rect((0,0),(GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT)))  # === draw _AFTER_ this line ===
 
     screen.blit(character.panierBaby.image, character.panierBaby.rect)
     screen.blit(character.panierPoop.image, character.panierPoop.rect)
