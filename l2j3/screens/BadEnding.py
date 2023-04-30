@@ -21,5 +21,5 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
     screen.blit(comic_sans_ms.render("You sure you are a sane person ?", False, granny_color), (0, 70))
     screen.blit(comic_sans_ms.render("We are a bit concerned", False, granny_color), (0, 140))
     screen.blit(comic_sans_ms.render("You should try to be more kind", False, granny_color), (0, 210))
-    screen.blit(comic_sans_ms.render("Hope you enjoyed nonetheless", False, granny_color), (0, 350))
+    screen.blit(comic_sans_ms.render("Hope you enjoyed nonetheless !", False, granny_color), (0, 350))
     screen.blit(comic_sans_ms.render("press [escape] to quit", False, yellow_color), (0, 500))
