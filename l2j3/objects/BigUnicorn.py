@@ -13,12 +13,12 @@ from itertools import cycle
 
 class BigUnicorn:
     IMAGE_SIZE = 200  # carré
-    ANIMATION_SPEED = 120
 
-    def __init__(self, images, pos_x=0, pos_y=0):
+    def __init__(self, images, animation_speed, pos_x=0, pos_y=0):
         self.poops = []
         self.animation = None
         self.images = []
+        self.animation_speed = animation_speed
         for img in images:
             self.images.append(pygame.transform.scale(img, (self.IMAGE_SIZE, self.IMAGE_SIZE)))
         self.current_image = 0
@@ -34,7 +34,7 @@ class BigUnicorn:
 
     def Animation(self, screen, flip):
         if self.animation == None or not self.animation.Increment():
-            self.animation = Animation(self.ANIMATION_SPEED)
+            self.animation = Animation(self.animation_speed)
             self.animation.animation = lambda: screen.blit(self.images[self.current_image], self.rect)
             self.current_image = (self.current_image + 1) % len(self.images)
 

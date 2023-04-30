@@ -15,31 +15,37 @@ comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 enemies_images = []
 enemies_images.append(pygame.image.load("assets/evil_stork1.png"))
 enemies_images.append(pygame.image.load("assets/evil_stork2.png"))
-enemies = []
-babies = []
-number_of_enemies = 200
-for _ in range(number_of_enemies):
-    enemies.append(Stork(enemies_images,
-                         randint(-2000, 2000 + GAME_INFO.SCREEN_WIDTH),
-                         randint(0, GAME_INFO.SCREEN_HEIGHT/4)))
-
-character = CharacterBadLevel2()
-player_has_lost = False
-firstTick = True
 
 backgroundbad = pygame.image.load("assets/backgroundevil.png")
 backgroundbad = pygame.transform.scale(backgroundbad, (GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT))
 backgroundbad = backgroundbad.convert()
+
 bombexplosionimage = pygame.image.load("assets/explosion_bomb.png").convert_alpha()
 bombexplosionimage = pygame.transform.scale(bombexplosionimage, (100,100))
-shoot_animations = []
-bomb_animations = []
-start_ticks = 0
 
-has_started_music = False
+def init_level():
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, bomb_animations, start_ticks, has_started_music
+    enemies = []
+    babies = []
+    number_of_enemies = 200
+    for _ in range(number_of_enemies):
+        enemies.append(Stork(enemies_images,
+                            randint(-2000, 2000 + GAME_INFO.SCREEN_WIDTH),
+                            randint(0, GAME_INFO.SCREEN_HEIGHT/4)))
+
+    character = CharacterBadLevel2()
+    player_has_lost = False
+    firstTick = True
+
+    shoot_animations = []
+    bomb_animations = []
+    start_ticks = 0
+    
+
+    has_started_music = False
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, player_has_lost, character, babies, firstTick, start_ticks, has_started_music
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, bomb_animations, start_ticks, has_started_music
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
@@ -58,10 +64,10 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         global character, enemies
         if not enemies:
             if GAME_INFO.SCORE >= 100:
-                ClearBoard(GameScreen.BAD_LEVEL_THREE)
+                ClearBoard(GameScreen.BAD_LEVEL_TWO_INTERLUDE)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
-            GAME_INFO.SCORE = 0
+            
         else:
             pass  # on continue le jeu
 

@@ -8,6 +8,8 @@ from objects.Mouse import MouseButtons
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 comic_sans_ms_small = pygame.font.SysFont('Comic Sans MS', 15)
 
+def init_level():
+    pass
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
     for event in events:
@@ -18,6 +20,6 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
 
     screen.blit(comic_sans_ms.render("thanks to have played !", False, ludum_light_orange), (0, 0))
     screen.blit(comic_sans_ms.render("your score was :", False, ludum_dark_orange), (0, 50))
-    screen.blit(comic_sans_ms.render(str(GAME_INFO.SCORE), False, granny_color), (240, 50))
+    screen.blit(comic_sans_ms.render(str(GAME_INFO.CUMULATIF_SCORE), False, granny_color), (240, 50))
     screen.blit(comic_sans_ms_small.render("PS: have you tried NOT to catch the babies ?", False, evil_red), (0, 400))
     screen.blit(comic_sans_ms.render("press [escape] to quit", False, yellow_color), (0, 500))
