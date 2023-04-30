@@ -16,10 +16,8 @@ class BigUnicorn:
     def __init__(self, images, animation_speed, pos_x=0, pos_y=0):
         self.poops = []
         self.animation = None
-        self.images = []
         self.animation_speed = animation_speed
-        for img in images:
-            self.images.append(pygame.transform.scale(img, (self.IMAGE_SIZE, self.IMAGE_SIZE)))
+        self.SetImages(images)
         self.current_image = 0
         self.rect = pygame.Rect(pos_x, pos_y, self.IMAGE_SIZE, self.IMAGE_SIZE)
         self._move_deltas = itertools.cycle([(3,-1)]*90 + [(3,1)]*90 + [(-3,1)]*90 + [(-3,-1)]*90)
@@ -30,6 +28,11 @@ class BigUnicorn:
 
     def HasExit(self, screen):
         return False
+
+    def SetImages(self, images):
+        self.images = []
+        for img in images:
+            self.images.append(pygame.transform.scale(img, (self.IMAGE_SIZE, self.IMAGE_SIZE)))
 
     def Animation(self, screen, flip):
         if self.animation == None or not self.animation.Increment():

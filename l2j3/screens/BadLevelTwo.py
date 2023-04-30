@@ -3,7 +3,7 @@ import pygame
 from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
 from objects.CharacterBadLevel2 import CharacterBadLevel2
-from objects.Sounds import down_turn_sound, metal_bad2_music,left_turn_sound, play_music, play_sound
+from objects.Sounds import *
 from objects.Animation import Animation
 from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT, MY_MOUSE_BUTTON_RIGHT
 from objects.Baby import Baby
