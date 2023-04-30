@@ -15,6 +15,9 @@ def play_music(music):
 def play_music_next(music):
     background_music_channel.queue(music)
 
+def play_music_loop(music):
+    background_music_channel.play(music, loops=-1)
+
 def play_sound(sound):
     a_sound_channel = pygame.mixer.find_channel(force=False)
     if a_sound_channel is not None:

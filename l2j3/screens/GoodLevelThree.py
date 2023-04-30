@@ -53,8 +53,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
 
     if not has_started_music:
         has_started_music = True
-        play_music(nyan_music)
-        play_music_next(birds_music)
+        play_music_loop(nyan_music)
 
     def ClearBoard(nextScreen):
         character = None
