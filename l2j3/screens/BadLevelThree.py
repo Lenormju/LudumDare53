@@ -13,16 +13,21 @@ from random import *
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
-boss_enemies = []
-boss_enemies.append(pygame.image.load("assets/stork_boss_form1_1.png"))
-boss_enemies.append(pygame.image.load("assets/stork_boss_form1_2.png"))
+boss_enemies_form1 = []
+boss_enemies_form1.append(pygame.image.load("assets/stork_boss_form1_1.png"))
+boss_enemies_form1.append(pygame.image.load("assets/stork_boss_form1_2.png"))
+boss_enemies_form2 = []
+boss_enemies_form2.append(pygame.image.load("assets/stork_boss_form2_1.png"))
+boss_enemies_form2.append(pygame.image.load("assets/stork_boss_form2_2.png"))
+boss_enemies_form3= []
+boss_enemies_form3.append(pygame.image.load("assets/stork_boss_form3_1.png"))
+boss_enemies_form3.append(pygame.image.load("assets/stork_boss_form3_2.png"))
 enemies_images = []
 enemies_images.append(pygame.image.load("assets/evil_stork1.png"))
 enemies_images.append(pygame.image.load("assets/evil_stork2.png"))
 
-
 def init_level():
-    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music, boss_life, stork_boss
     enemies = []
     babies = []
     number_of_enemies = 100
@@ -30,17 +35,19 @@ def init_level():
         enemies.append(Stork(enemies_images,
                             randint(50, GAME_INFO.SCREEN_WIDTH-50),
                             randint(0, 70)))
-    enemies.append(BigUnicorn(boss_enemies,20,0, 200))
+    stork_boss = BigUnicorn(boss_enemies_form1,20,0, 200)
+    enemies.append(stork_boss)
     character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 75, 75), 10, 0, "assets/gun_left.png")
     player_has_lost = False
     firstTick = True
+    boss_life = 100
 
     shoot_animations = []
     start_ticks = 0
     has_started_music = False
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music, boss_life, stork_boss
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
@@ -71,6 +78,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         screen.blit(text_surface, (x, y))
 
     def AnimationsShoots():
+        global boss_life
         for shoot, enemy in character.ApplyShoots(screen, enemies).items():
             animation = Animation(10)
             def my_anim_action():
@@ -82,7 +90,16 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                     screen.blit(shoot.image, shoot.rect)
             animation.animation = my_anim_action
             shoot_animations.append(animation)
-            enemies.remove(enemy)
+            if enemy.type == DropType.POOP_TYPE:
+                boss_life -= 1
+                if boss_life <= 0:
+                    enemies.remove(enemy)
+                elif boss_life <= 33:
+                    enemy.SetImages(boss_enemies_form3)
+                elif boss_life <= 75:
+                    enemy.SetImages(boss_enemies_form2)
+            else:
+                enemies.remove(enemy)
 
         for animation in shoot_animations:
             isPlay = animation.Increment()
@@ -90,10 +107,11 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 shoot_animations.remove(animation)
 
     def DropAndMoveBabies():
+        global stork_boss
         if enemies:
             stork = choice(enemies)
-            if stork.type == DropType.POOP_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(15, 30) == 0:
-                DropBaby(stork.rect.scale_by(0.5))
+            if GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
+                DropBaby(stork_boss.rect.scale_by(0.5))
             if stork.type == DropType.BABY_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
                 DropBaby(stork.rect)
         for baby in babies:
