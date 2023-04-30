@@ -6,17 +6,13 @@ from GameInfo import GAME_INFO, GameScreen
 from objects.StorkGood3 import StorkGood3
 from objects.Mouse import MouseButtons
 from objects.BigUnicorn import BigUnicorn
-from objects.Direction import Direction
 from objects.DropType import DropType
 from objects.CharacterGoodLevel2 import CharacterGoodLevel2
-from objects.Sounds import background_sound
+from objects.Sounds import down_turn_sound, play_sound
 from objects.Animation import Animation
-from objects.Sounds import down_turn_sound
 from objects.Baby import Baby
 from objects.Colors import *
 from random import *
-
-background_sound.play(loops=-1)
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
@@ -93,7 +89,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         baby.SetType(enemy.type)
         babies.append(baby)
         screen.blit(baby.image, baby_rect)
-        pygame.mixer.find_channel(force=True).play(down_turn_sound)
+        play_sound(down_turn_sound)
         return baby
 
     shooting = False
