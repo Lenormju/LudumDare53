@@ -22,7 +22,7 @@ imageNotGoodBox = pygame.transform.scale(imageNotGoodBox, (100,100))
 enemies_images = []
 enemies_images.append(pygame.image.load("assets/stork_blue_1.png"))
 enemies_images.append(pygame.image.load("assets/stork_blue_2.png"))
-unicorn_image = pygame.image.load("assets/unicorn.png")
+unicorn_images = [pygame.image.load("assets/unicorn.png")]
 
 
 def init_level():
@@ -39,7 +39,7 @@ def init_level():
     unicorn_number = 5
     for _ in range(unicorn_number):
         direction = choice([Direction.LEFT, Direction.RIGHT])
-        unicorns.append(Unicorn(unicorn_image,
+        unicorns.append(Unicorn(unicorn_images,
                         direction,
                         0 if direction == Direction.RIGHT else GAME_INFO.SCREEN_WIDTH,
                         randint(0, GAME_INFO.SCREEN_HEIGHT/2),
@@ -54,7 +54,7 @@ def init_level():
     has_started_music = False
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, unicorns, babies, poops, character, player_has_lost, firstTick, animations_youpi, start_ticks, has_started_music
+    global enemies, unicorns, babies, poops, character, player_has_lost, firstTick, animations_youpi, start_ticks, has_started_music, bomb_animations
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
