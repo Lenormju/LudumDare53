@@ -4,7 +4,7 @@ from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
 from objects.Character import Character
 from objects.Animation import Animation
-from objects.Sounds import explosion_sound, down_turn_sound, play_sound
+from objects.Sounds import *
 from objects.Mouse import MouseButtons
 from objects.Baby import Baby
 from objects.Colors import *
@@ -73,6 +73,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             isMoving = baby.ApplyMoveBaby(screen)
             if not isMoving:
                 babies.remove(baby)
+                play_sound(miss_box_sound)
 
     def DropBaby(stork):
         baby = Baby(stork.rect, 0, randint(1, 10), "assets/baby.png")
@@ -102,6 +103,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             animation = Animation(15)
             animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.rect.x, character.rect.y-100, 100,100))
             shoot_animations.append(animation)
+            play_sound(good_box_sound)
             babies.remove(baby)
         
     for anim in shoot_animations:

@@ -7,7 +7,7 @@ from objects.Direction import Direction
 from objects.DropType import DropType
 from objects.CharacterGoodLevel2 import CharacterGoodLevel2
 from objects.Animation import Animation
-from objects.Sounds import down_turn_sound, play_sound
+from objects.Sounds import *
 from objects.Mouse import MouseButtons
 from objects.Baby import Baby
 from objects.Colors import *
@@ -94,6 +94,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             isMoving = baby.ApplyMoveBaby(screen)
             if not isMoving:
                 babies.remove(baby)
+                play_sound(miss_box_sound)
 
     def DropBaby(enemy):
         baby = Baby(enemy.rect, 0, randint(1, 10), enemy.baby_picture_path)
@@ -135,10 +136,12 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 if isCollideBabyInBaby:    
                     #on fait +1 dans isCollideBabies
                     animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.panierBaby.rect.x, character.panierBaby.rect.y-100, 100,100))
+                    play_sound(good_box_sound)
                 elif isCollideBabyInPoop:
                     #on fait +1 dans isCollideBabies donc -2+1 = -1
                     GAME_INFO.SCORE -= 2
                     animation.animation = lambda: screen.blit(imageNotGoodBox, pygame.Rect(character.panierPoop.rect.x, character.panierPoop.rect.y-100, 100,100))
+                    play_sound(bad_box_sound)
             elif baby.type is DropType.POOP_TYPE:
                 isCollidePoopInPoop = baby.isCollideBabies(character.panierPoop)
                 isCollidePoopInBaby = baby.isCollideBabies(character.panierBaby)
@@ -146,11 +149,13 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                     #on fait +1 dans isCollideBabies donc 1+2 = +3
                     GAME_INFO.SCORE += 2
                     animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.panierPoop.rect.x, character.panierPoop.rect.y-100, 100,100))
+                    play_sound(good_box_sound)
                 elif isCollidePoopInBaby:
                     #on fait +1 dans isCollideBabies donc -4+1 = -3
                     GAME_INFO.SCORE -= 4
                     animation.animation = lambda: screen.blit(imageNotGoodBox, pygame.Rect(character.panierBaby.rect.x, character.panierBaby.rect.y-100, 100,100))
-            
+                    play_sound(bad_box_sound)
+
             if isCollideBabyInBaby or isCollidePoopInPoop or isCollidePoopInBaby or isCollideBabyInPoop:
                 animations_youpi.append(animation)
                 babies.remove(baby)

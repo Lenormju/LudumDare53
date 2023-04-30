@@ -18,6 +18,10 @@ def play_sound(sound):
         a_sound_channel.play(sound)
         a_sound_channel.set_volume(0.2)
 
+bomb_sound = pygame.mixer.Sound("assets/bomb.mp3")
+good_box_sound = pygame.mixer.Sound("assets/positif.mp3")
+bad_box_sound = pygame.mixer.Sound("assets/negatif.mp3")
+miss_box_sound = pygame.mixer.Sound("assets/splortsh.mp3")
 left_turn_sound = pygame.mixer.Sound(r'assets/left_turn.mp3')
 right_turn_sound = pygame.mixer.Sound(r'assets/right_turn.mp3')
 down_turn_sound = pygame.mixer.Sound(r'assets/down_turn.mp3')

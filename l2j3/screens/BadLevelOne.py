@@ -3,7 +3,7 @@ import pygame
 from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
 from objects.Character import Character
-from objects.Sounds import explosion_sound, down_turn_sound, left_turn_sound, play_sound
+from objects.Sounds import *
 from objects.Animation import Animation
 from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT
 from objects.Baby import Baby
@@ -134,7 +134,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         if isCollide:
             animation = Animation(15)
             animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.rect.x, character.rect.y, 100,100))
-            play_sound(left_turn_sound)
+            play_sound(bomb_sound)
             GAME_INFO.SCORE -= 4
             babies.remove(baby)
             bomb_animations.append(animation)
