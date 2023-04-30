@@ -4,14 +4,11 @@ from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
 from objects.Character import Character
 from objects.Animation import Animation
-from objects.Sounds import background_sound, explosion_sound
-from objects.Sounds import down_turn_sound
+from objects.Sounds import explosion_sound, down_turn_sound, play_sound
 from objects.Mouse import MouseButtons
 from objects.Baby import Baby
 from objects.Colors import *
 from random import *
-
-background_sound.play(loops=-1)
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
@@ -53,7 +50,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             if GAME_INFO.SCORE >= 15:
                 ClearBoard(GameScreen.GOOD_LEVEL_TWO)
             elif GAME_INFO.SCORE < 0:
-                ClearBoard(GameScreen.BAD_INTERLUDE)
+                ClearBoard(GameScreen.BAD_INTRO)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
             GAME_INFO.SCORE = 0
@@ -78,7 +75,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         baby = Baby(stork.rect, 0, randint(1, 10), "assets/baby.png")
         babies.append(baby)
         screen.blit(baby.image, baby.rect)
-        pygame.mixer.find_channel(force=True).play(down_turn_sound)
+        play_sound(down_turn_sound)
         return baby
 
     if (pygame.mouse.get_pos()[0] - character.rect.x) < 0:
@@ -110,5 +107,12 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
     seconds=(pygame.time.get_ticks()-start_ticks)/1000
     ColoredTextEnd((0,0,0), "Score : "+str(GAME_INFO.SCORE), GAME_INFO.SCREEN_WIDTH-150, 0)
     ColoredTextEnd((0,0,0), "Timer : "+str(round(seconds)), GAME_INFO.SCREEN_WIDTH/3, 0)
+
+    # check if alien destroys the player
+    for enemy in enemies:
+        if enemy.rect.colliderect(character.rect):
+            play_sound(explosion_sound)
+            player_has_lost = True
+            break
 
     DetermineEndGame()

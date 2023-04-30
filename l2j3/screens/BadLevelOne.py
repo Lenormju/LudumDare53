@@ -3,15 +3,12 @@ import pygame
 from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
 from objects.Character import Character
-from objects.Sounds import background_sound, explosion_sound
+from objects.Sounds import explosion_sound, down_turn_sound, play_sound
 from objects.Animation import Animation
-from objects.Sounds import down_turn_sound
 from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT
 from objects.Baby import Baby
 from objects.Colors import *
 from random import *
-
-background_sound.play(loops=-1)
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
@@ -97,7 +94,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         baby = Baby(stork.rect, 0, randint(1, 10), "assets/bomb.png")
         babies.append(baby)
         screen.blit(baby.image, baby.rect)
-        pygame.mixer.find_channel(force=True).play(down_turn_sound)
+        play_sound(down_turn_sound)
         return baby
 
     shooting = False
@@ -138,7 +135,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
     # check if alien destroys the player
     for enemy in enemies:
         if enemy.rect.colliderect(character.rect):
-            explosion_sound.play()
+            play_sound(explosion_sound)
             player_has_lost = True
             break
 

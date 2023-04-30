@@ -3,15 +3,12 @@ import pygame
 from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
 from objects.CharacterBadLevel2 import CharacterBadLevel2
-from objects.Sounds import background_sound, explosion_sound
+from objects.Sounds import down_turn_sound, metal_bad2_music, play_music, play_sound
 from objects.Animation import Animation
-from objects.Sounds import down_turn_sound
 from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT, MY_MOUSE_BUTTON_RIGHT
 from objects.Baby import Baby
 from objects.Colors import *
 from random import *
-
-background_sound.play(loops=-1)
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
@@ -36,11 +33,17 @@ shoot_animations = []
 bomb_animations = []
 start_ticks = 0
 
+has_started_music = False
+
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, player_has_lost, character, babies, firstTick,start_ticks
+    global enemies, player_has_lost, character, babies, firstTick, start_ticks, has_started_music
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
+
+    if not has_started_music:
+        has_started_music = True
+        play_music(metal_bad2_music)
 
     def ClearBoard(nextScreen):
         character = None
@@ -100,7 +103,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         baby = Baby(stork.rect, 0, randint(1, 10), "assets/bomb.png")
         babies.append(baby)
         screen.blit(baby.image, baby.rect)
-        pygame.mixer.find_channel(force=True).play(down_turn_sound)
+        play_sound(down_turn_sound)
         return baby
 
     shootingLeft = False
