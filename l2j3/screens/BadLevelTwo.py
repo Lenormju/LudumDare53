@@ -158,7 +158,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.gunRight.rect.x, character.gunRight.rect.y, 100,100))
                 play_sound(left_turn_sound)
             if isCollideLeft:
-                animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.gunLeft.rect.x, character.gunLeft.rect.y, 100,100))
+                animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.gunLeft.rect.x-20, character.gunLeft.rect.y, 100,100))
                 play_sound(left_turn_sound)
             
             bomb_animations.append(animation)

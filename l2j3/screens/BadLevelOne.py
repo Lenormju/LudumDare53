@@ -133,7 +133,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         isCollide = baby.isCollideBabies(character)
         if isCollide:
             animation = Animation(15)
-            animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.rect.x, character.rect.y, 100,100))
+            animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.rect.x-20, character.rect.y, 100,100))
             play_sound(left_turn_sound)
             GAME_INFO.SCORE -= 4
             babies.remove(baby)
