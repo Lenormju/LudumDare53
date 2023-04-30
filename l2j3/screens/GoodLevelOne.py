@@ -18,6 +18,10 @@ enemies_images = []
 enemies_images.append(pygame.image.load("assets/stork_blue_1.png"))
 enemies_images.append(pygame.image.load("assets/stork_blue_2.png"))
 
+backgroundgood = pygame.image.load("assets/backgroundgood.png")
+backgroundgood = pygame.transform.scale(backgroundgood, (GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT))
+backgroundgood = backgroundgood.convert()
+
 def init_level():
     global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music
     enemies = []
@@ -91,7 +95,8 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
     elif (pygame.mouse.get_pos()[0] - character.rect.x) > 0:
         character.GoToRight()
 
-    screen.fill(sky_color)  # === draw _AFTER_ this line ===
+    # screen.fill(sky_color)  # === draw _AFTER_ this line ===
+    screen.blit(backgroundgood, pygame.Rect((0,0),(GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT)))  # === draw _AFTER_ this line ===
 
     screen.blit(character.image, character.rect)
     for enemy in enemies:
