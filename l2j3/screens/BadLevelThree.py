@@ -4,7 +4,8 @@ from GameInfo import GAME_INFO, GameScreen
 from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT, MY_MOUSE_BUTTON_RIGHT
 from objects.DropType import DropType
 from objects.BigUnicorn import BigUnicorn
-from objects.Stork import Stork
+from objects.Unicorn import Unicorn
+from objects.Direction import Direction
 from objects.Character import Character
 from objects.Sounds import *
 from objects.Animation import Animation
@@ -31,28 +32,37 @@ backgroundbad = pygame.image.load("assets/backgroundevil.png")
 backgroundbad = pygame.transform.scale(backgroundbad, (GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT))
 backgroundbad = backgroundbad.convert()
 
+bombexplosionimage = pygame.image.load("assets/explosion_bomb.png").convert_alpha()
+bombexplosionimage = pygame.transform.scale(bombexplosionimage, (100,100))
+
 def init_level():
-    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music, boss_life, stork_boss
-    enemies = []
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music, boss_life, stork_boss, bomb_animations, win_tick
     babies = []
-    number_of_enemies = 100
+    number_of_enemies = 200
+    enemies = []
     for _ in range(number_of_enemies):
-        enemies.append(Stork(enemies_images,
-                            randint(50, GAME_INFO.SCREEN_WIDTH-50),
-                            randint(0, 70)))
+        direction = choice([Direction.LEFT, Direction.RIGHT])
+        enemies.append(Unicorn(enemies_images,
+                        direction,
+                        0 if direction == Direction.RIGHT else GAME_INFO.SCREEN_WIDTH,
+                        randint(0, GAME_INFO.SCREEN_HEIGHT/2),
+                        randint(60, 10000)))
     stork_boss = BigUnicorn(boss_enemies_form1,20,0, 200)
+    stork_boss.type = DropType.BABY_TYPE
     enemies.append(stork_boss)
     character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 75, 75), 10, 0, "assets/gun_left.png")
     player_has_lost = False
     firstTick = True
     boss_life = 100
 
+    bomb_animations = []
     shoot_animations = []
     start_ticks = 0
     has_started_music = False
+    win_tick = 0
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music, boss_life, stork_boss
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music, boss_life, stork_boss, win_tick
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
@@ -69,12 +79,14 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         GAME_INFO.NEXT_GAME_SCREEN = nextScreen
 
     def DetermineEndGame():
-        global character, enemies
-        if not enemies:
-            if GAME_INFO.SCORE > 15:
-                ClearBoard(GameScreen.BAD_ENDING)
-            else:
-                ClearBoard(GameScreen.NEUTRAL_ENDING)
+        global character, boss_life, win_tick
+        if boss_life <= 0:
+            win_tick += 1
+            if win_tick > 30:
+                if GAME_INFO.SCORE > 15:
+                    ClearBoard(GameScreen.BAD_ENDING)
+                else:
+                    ClearBoard(GameScreen.NEUTRAL_ENDING)
         else:
             pass  # on continue le jeu
 
@@ -95,14 +107,16 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                     screen.blit(shoot.image, shoot.rect)
             animation.animation = my_anim_action
             shoot_animations.append(animation)
-            if enemy.type == DropType.POOP_TYPE:
+            if enemy.type == DropType.BABY_TYPE:
                 boss_life -= 1
                 if boss_life <= 0:
+                    GAME_INFO.SCORE += 1
                     enemies.remove(enemy)
                 elif boss_life <= 33:
                     enemy.SetImages(boss_enemies_form3)
                 elif boss_life <= 75:
                     enemy.SetImages(boss_enemies_form2)
+                GAME_INFO.SCORE -= 1
             else:
                 enemies.remove(enemy)
 
@@ -115,9 +129,9 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         global stork_boss
         if enemies:
             stork = choice(enemies)
-            if GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
+            if GAME_INFO.CURRENT_TICK_NUMBER % randint(60, 150) == 0:
                 DropBaby(stork_boss.rect.scale_by(0.5))
-            if stork.type == DropType.BABY_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
+            if stork.type == DropType.POOP_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
                 DropBaby(stork.rect)
         for baby in babies:
             isMoving = baby.ApplyMoveBaby(screen)
@@ -164,7 +178,17 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
     for baby in babies:
         isCollide = baby.isCollideBabies(character)
         if isCollide:
+            animation = Animation(15)
+            animation.animation = lambda: screen.blit(bombexplosionimage, pygame.Rect(character.rect.x, character.rect.y, 100,100))
+            play_sound(bomb_sound)
+            GAME_INFO.SCORE -= 4
             babies.remove(baby)
+            bomb_animations.append(animation)
+        
+    for anim in bomb_animations:
+        isRunning = anim.Increment()
+        if not isRunning:
+            bomb_animations.remove(anim)
         
     seconds=(pygame.time.get_ticks()-start_ticks)/1000
     ColoredTextEnd((255,0,0), "Score : "+str(GAME_INFO.SCORE), GAME_INFO.SCREEN_WIDTH-150, 0)
