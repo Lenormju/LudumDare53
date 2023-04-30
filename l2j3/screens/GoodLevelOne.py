@@ -13,7 +13,7 @@ from random import *
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
 imageInTheBox = pygame.image.load("assets/in_the_box.png").convert_alpha()
-imageInTheBox = pygame.transform.scale(imageInTheBox, (100,100))
+imageInTheBox = pygame.transform.scale(imageInTheBox, (100,50))
 enemies_images = []
 enemies_images.append(pygame.image.load("assets/stork_blue_1.png"))
 enemies_images.append(pygame.image.load("assets/stork_blue_2.png"))
@@ -105,7 +105,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         isCollide = baby.isCollideBabies(character)
         if isCollide:
             animation = Animation(15)
-            animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.rect.x, character.rect.y-100, 100,100))
+            animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.rect.x, character.rect.y-40, 100,100))
             shoot_animations.append(animation)
             play_sound(good_box_sound)
             babies.remove(baby)
