@@ -22,6 +22,7 @@ enemies_images = []
 enemies_images.append(pygame.image.load("assets/stork_blue_1.png"))
 enemies_images.append(pygame.image.load("assets/stork_blue_2.png"))
 enemies = []
+unicorns = []
 babies = []
 poops = []
 number_of_enemies = 15
@@ -33,7 +34,7 @@ unicorn_image = pygame.image.load("assets/unicorn.png")
 unicorn_number = 5
 for _ in range(unicorn_number):
     direction = choice([Direction.LEFT, Direction.RIGHT])
-    enemies.append(Unicorn(unicorn_image,
+    unicorns.append(Unicorn(unicorn_image,
                     direction,
                     0 if direction == Direction.RIGHT else GAME_INFO.SCREEN_WIDTH,
                     randint(0, GAME_INFO.SCREEN_HEIGHT/2),
@@ -53,7 +54,7 @@ animations_youpi = []
 start_ticks = 0
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, player_has_lost, character, babies, firstTick,start_ticks
+    global enemies, unicorns, player_has_lost, character, babies, firstTick,start_ticks
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
@@ -61,12 +62,13 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
     def ClearBoard(nextScreen):
         character = None
         enemies.clear()
+        unicorns.clear()
         babies.clear()
         GAME_INFO.NEXT_GAME_SCREEN = nextScreen
 
     def DetermineEndGame():
-        global character, enemies
-        if not enemies:
+        global character, enemies, unicorns
+        if not enemies and not unicorns:
             if GAME_INFO.SCORE >= 15:
                 ClearBoard(GameScreen.GOOD_LEVEL_THREE)
             else:
@@ -81,12 +83,13 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
 
     
     def DropAndMoveBabies():
+        if unicorns:
+            unicorn = choice(unicorns)
+            if not unicorn.waiting and GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 60) == 0:
+                DropBaby(unicorn)
         if enemies:
             enemy = choice(enemies)
-            if enemy.type == DropType.POOP_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(15, 30) == 0:
-                if not enemy.waiting:
-                    DropBaby(enemy)
-            elif enemy.type == DropType.BABY_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
+            if GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
                 DropBaby(enemy)
         for baby in babies:
             isMoving = baby.ApplyMoveBaby(screen)
@@ -110,10 +113,13 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
 
     screen.blit(character.panierBaby.image, character.panierBaby.rect)
     screen.blit(character.panierPoop.image, character.panierPoop.rect)
-    for enemy in enemies:
+    
+    for enemy in enemies + unicorns:
         enemy.Move(screen)
-        if enemy.HasExit(screen):
+        if enemy.HasExit(screen) and enemy.type == DropType.BABY_TYPE:
             enemies.remove(enemy)
+        if enemy.HasExit(screen) and enemy.type == DropType.POOP_TYPE:
+            unicorns.remove(enemy)
     
 
     DropAndMoveBabies()

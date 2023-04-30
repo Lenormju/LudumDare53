@@ -3,6 +3,7 @@ import pygame
 from GameInfo import GAME_INFO, GameScreen
 from objects.Stork import Stork
 from objects.Character import Character
+from objects.Animation import Animation
 from objects.Sounds import background_sound, explosion_sound
 from objects.Sounds import down_turn_sound
 from objects.Mouse import MouseButtons
@@ -29,6 +30,8 @@ character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEI
 player_has_lost = False
 firstTick = True
 
+imageInTheBox = pygame.image.load("assets/in_the_box.png").convert_alpha()
+imageInTheBox = pygame.transform.scale(imageInTheBox, (100,100))
 shoot_animations = []
 start_ticks = 0
 
@@ -96,23 +99,16 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
     for baby in babies:
         isCollide = baby.isCollideBabies(character)
         if isCollide:
+            animation = Animation(15)
+            animation.animation = lambda: screen.blit(imageInTheBox, pygame.Rect(character.rect.x, character.rect.y-100, 100,100))
+            shoot_animations.append(animation)
             babies.remove(baby)
         
+    for anim in shoot_animations:
+        if not anim.Increment():
+            shoot_animations.remove(anim)
     seconds=(pygame.time.get_ticks()-start_ticks)/1000
     ColoredTextEnd((0,0,0), "Score : "+str(GAME_INFO.SCORE), GAME_INFO.SCREEN_WIDTH-150, 0)
     ColoredTextEnd((0,0,0), "Timer : "+str(round(seconds)), GAME_INFO.SCREEN_WIDTH/3, 0)
 
-    # check if alien destroys the player
-    for enemy in enemies:
-        if enemy.rect.colliderect(character.rect):
-            explosion_sound.play()
-            player_has_lost = True
-            break
-
     DetermineEndGame()
-
-    # if mouse_buttons.left_is_pressed: print("left")
-    # if mouse_buttons.middle_is_pressed: print("middle")
-    # if mouse_buttons.right_is_pressed: print("right")
-    # if (pygame.mouse.get_pos()[0] - character.rect.x) > 0: print("<<<-")
-    # elif (pygame.mouse.get_pos()[0] - character.rect.x) < 0: print("->>>")
