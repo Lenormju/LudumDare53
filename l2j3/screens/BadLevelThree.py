@@ -2,6 +2,7 @@ import pygame
 
 from GameInfo import GAME_INFO, GameScreen
 from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT, MY_MOUSE_BUTTON_RIGHT
+from objects.Stork import Stork
 from objects.BigUnicorn import BigUnicorn
 from objects.Character import Character
 from objects.Sounds import explosion_sound, down_turn_sound, play_sound
@@ -12,17 +13,23 @@ from random import *
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
+boss_enemies = []
+boss_enemies.append(pygame.image.load("assets/stork_boss_form1_1.png"))
+boss_enemies.append(pygame.image.load("assets/stork_boss_form1_2.png"))
 enemies_images = []
-enemies_images.append(pygame.image.load("assets/stork_boss_form1_1.png"))
-enemies_images.append(pygame.image.load("assets/stork_boss_form1_2.png"))
+enemies_images.append(pygame.image.load("assets/evil_stork1.png"))
+enemies_images.append(pygame.image.load("assets/evil_stork2.png"))
 enemies = []
 babies = []
-number_of_enemies = 1
+number_of_enemies = 100
 for _ in range(number_of_enemies):
-    enemies.append(BigUnicorn(enemies_images,
-                              20,
-                              0,
-                              200))
+    enemies.append(Stork(enemies_images,
+                         randint(-2000, 2000 + GAME_INFO.SCREEN_WIDTH),
+                         randint(0, GAME_INFO.SCREEN_HEIGHT/4)))
+enemies.append(BigUnicorn(boss_enemies,
+                        20,
+                        0,
+                        200))
 
 character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, 0, "assets/gun_left.png")
 player_has_lost = False
