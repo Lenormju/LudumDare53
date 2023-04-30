@@ -11,6 +11,7 @@ from screens import Title, GoodLevelOne, GoodLevelTwo, GoodLevelThree, GoodEndin
 
 clock = pygame.time.Clock()
 pygame.mouse.set_visible(False)
+pygame.event.set_grab(True)
 
 keep_running = True
 while keep_running:
