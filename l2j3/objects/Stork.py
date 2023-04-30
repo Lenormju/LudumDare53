@@ -8,7 +8,7 @@ from objects.Sounds import left_turn_sound, right_turn_sound, down_turn_sound
 from GameInfo import GAME_INFO
 
 class Stork:
-    IMAGE_SIZE = 40  # carré
+    IMAGE_SIZE = 50  # carré
     ANIMATION_SPEED = 10
 
     def __init__(self, images, pos_x=0, pos_y=0):
