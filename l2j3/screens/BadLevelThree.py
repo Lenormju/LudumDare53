@@ -2,6 +2,8 @@ import pygame
 
 from GameInfo import GAME_INFO, GameScreen
 from objects.Mouse import MouseButtons, MY_MOUSE_BUTTON_LEFT, MY_MOUSE_BUTTON_RIGHT
+from objects.Stork import Stork
+from objects.DropType import DropType
 from objects.BigUnicorn import BigUnicorn
 from objects.Character import Character
 from objects.Sounds import explosion_sound, down_turn_sound, play_sound
@@ -12,6 +14,9 @@ from random import *
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
+boss_enemies = []
+boss_enemies.append(pygame.image.load("assets/stork_boss_form1_1.png"))
+boss_enemies.append(pygame.image.load("assets/stork_boss_form1_2.png"))
 enemies_images = []
 enemies_images.append(pygame.image.load("assets/stork_boss_form1_1.png"))
 enemies_images.append(pygame.image.load("assets/stork_boss_form1_2.png"))
@@ -81,10 +86,12 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 shoot_animations.remove(animation)
 
     def DropAndMoveBabies():
-        if GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
-            if enemies:
-                stork = choice(enemies)
-                DropBaby(stork.rect.scale_by(0.3))
+        if enemies:
+            stork = choice(enemies)
+            if stork.type == DropType.POOP_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(15, 30) == 0:
+                DropBaby(stork.rect.scale_by(0.5))
+            if stork.type == DropType.BABY_TYPE and GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
+                DropBaby(stork.rect)
         for baby in babies:
             isMoving = baby.ApplyMoveBaby(screen)
             if not isMoving:
