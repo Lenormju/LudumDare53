@@ -9,9 +9,9 @@ class CharacterBadLevel2():
     shoots = []
 
     def __init__(self):
-        self.gunLeft = PanierGun(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2-110, GAME_INFO.SCREEN_HEIGHT-100,100, 100), 10, 0, "assets/gun_left.png")
+        self.gunLeft = PanierGun(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2-110, GAME_INFO.SCREEN_HEIGHT-100,75, 75), 15, 0, "assets/gun_left.png")
         self.gunLeft.SetType(DropType.BABY_TYPE)
-        self.gunRight = PanierGun(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100,100, 100), 10, 0, "assets/gun_right.png")
+        self.gunRight = PanierGun(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100,75, 75), 15, 0, "assets/gun_right.png")
         self.gunRight.SetType(DropType.BABY_TYPE)
 
     def GoToRight(self):
