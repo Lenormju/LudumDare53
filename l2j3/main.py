@@ -6,7 +6,7 @@ from GameInfo import GAME_INFO, GameScreen
 pygame_screen = pygame.display.set_mode((GAME_INFO.SCREEN_WIDTH, GAME_INFO.SCREEN_HEIGHT))
 
 from objects.Mouse import MouseButtons
-from screens import Title, GoodLevelOne, GoodLevelTwo, GoodLevelThree, GoodEnding, BadInterlude, BadLevelOne, \
+from screens import Title, GoodLevelOne, GoodLevelTwo, GoodLevelThree, GoodEnding, BadIntro, BadLevelOne, \
     BadLevelTwo, BadLevelThree, BadEnding, NeutralEnding
 
 clock = pygame.time.Clock()
@@ -26,11 +26,11 @@ while keep_running:
 
     render_function = {
         GameScreen.TITLE: Title.render,
-        GameScreen.GOOD_LEVEL_ONE: GoodLevelOne.render,
+        GameScreen.GOOD_LEVEL_ONE: BadLevelTwo.render,
         GameScreen.GOOD_LEVEL_TWO: GoodLevelTwo.render,
         GameScreen.GOOD_LEVEL_THREE: GoodLevelThree.render,
         GameScreen.GOOD_ENDING: GoodEnding.render,
-        GameScreen.BAD_INTERLUDE: BadInterlude.render,
+        GameScreen.BAD_INTRO: BadIntro.render,
         GameScreen.BAD_LEVEL_ONE: BadLevelOne.render,
         GameScreen.BAD_LEVEL_TWO: BadLevelTwo.render,
         GameScreen.BAD_LEVEL_THREE: BadLevelThree.render,
