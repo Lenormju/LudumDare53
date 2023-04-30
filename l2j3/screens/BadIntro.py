@@ -7,6 +7,8 @@ from objects.Mouse import MouseButtons
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
+def init_level():
+    pass
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
     if mouse_buttons.left_is_pressed:

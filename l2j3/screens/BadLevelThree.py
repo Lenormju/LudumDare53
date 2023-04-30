@@ -15,24 +15,28 @@ comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 enemies_images = []
 enemies_images.append(pygame.image.load("assets/stork_boss_form1_1.png"))
 enemies_images.append(pygame.image.load("assets/stork_boss_form1_2.png"))
-enemies = []
-babies = []
-number_of_enemies = 1
-for _ in range(number_of_enemies):
-    enemies.append(BigUnicorn(enemies_images,
-                              20,
-                              0,
-                              200))
 
-character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, 0, "assets/gun_left.png")
-player_has_lost = False
-firstTick = True
 
-shoot_animations = []
-start_ticks = 0
+def init_level():
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks
+    enemies = []
+    babies = []
+    number_of_enemies = 1
+    for _ in range(number_of_enemies):
+        enemies.append(BigUnicorn(enemies_images,
+                                20,
+                                0,
+                                200))
+
+    character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, 0, "assets/gun_left.png")
+    player_has_lost = False
+    firstTick = True
+
+    shoot_animations = []
+    start_ticks = 0
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, player_has_lost, character, babies, firstTick,start_ticks
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False

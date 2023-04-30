@@ -19,33 +19,33 @@ comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 storks_images = []
 storks_images.append(pygame.image.load("assets/stork_blue_1.png"))
 storks_images.append(pygame.image.load("assets/stork_blue_2.png"))
-enemies = []
-babies = []
-number_of_storks = 6
-for _ in range(number_of_storks):
-    enemies.append(StorkGood3(storks_images,
-                              randint(50, GAME_INFO.SCREEN_WIDTH-50),
-                              randint(0, 70)))
-unicorn_images = [pygame.image.load("assets/unicorn_boss_1.png"),
-                  pygame.image.load("assets/unicorn_boss_2.png"),
-                  pygame.image.load("assets/unicorn_boss_3.png")]  # FIXME: missing poop animation
-enemies.append(BigUnicorn(unicorn_images, 120, 0, 150))
-
-character = CharacterGoodLevel2()
-
 imageInTheBox = pygame.image.load("assets/in_the_box.png").convert_alpha()
 imageInTheBox = pygame.transform.scale(imageInTheBox, (100,100))
 imageNotGoodBox = pygame.image.load("assets/not_good_box.png").convert_alpha()
 imageNotGoodBox = pygame.transform.scale(imageNotGoodBox, (100,100))
-
-player_has_lost = False
-firstTick = True
-
-animations_youpi = []
-start_ticks = 0
+unicorn_images = [pygame.image.load("assets/unicorn_boss_1.png"),
+                    pygame.image.load("assets/unicorn_boss_2.png"),
+                    pygame.image.load("assets/unicorn_boss_3.png")]  # FIXME: missing poop animation
+def init_level():
+    global enemies,babies,character,player_has_lost,firstTick,animations_youpi,start_ticks
+    enemies = []
+    babies = []
+    number_of_storks = 6
+    for _ in range(number_of_storks):
+        enemies.append(StorkGood3(storks_images,
+                                randint(50, GAME_INFO.SCREEN_WIDTH-50),
+                                randint(0, 70)))
+    
+    enemies.append(BigUnicorn(unicorn_images, 0, 150))
+    character = CharacterGoodLevel2()
+    player_has_lost = False
+    firstTick = True
+    animations_youpi = []
+    start_ticks = 0
+    
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, player_has_lost, character, babies, firstTick,start_ticks
+    global enemies,babies,character,player_has_lost,firstTick,animations_youpi,start_ticks
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False

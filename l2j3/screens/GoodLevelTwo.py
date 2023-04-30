@@ -15,43 +15,45 @@ from random import *
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
-enemies_images = []
-enemies_images.append(pygame.image.load("assets/stork_blue_1.png"))
-enemies_images.append(pygame.image.load("assets/stork_blue_2.png"))
-enemies = []
-unicorns = []
-babies = []
-poops = []
-number_of_enemies = 15
-for _ in range(number_of_enemies):
-    enemies.append(Stork(enemies_images,
-                         randint(0, GAME_INFO.SCREEN_WIDTH),
-                         randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
-unicorn_image = pygame.image.load("assets/unicorn.png")
-unicorn_number = 5
-for _ in range(unicorn_number):
-    direction = choice([Direction.LEFT, Direction.RIGHT])
-    unicorns.append(Unicorn(unicorn_image,
-                    direction,
-                    0 if direction == Direction.RIGHT else GAME_INFO.SCREEN_WIDTH,
-                    randint(0, GAME_INFO.SCREEN_HEIGHT/2),
-                    randint(60, 1000)))
-
-character = CharacterGoodLevel2()
-
 imageInTheBox = pygame.image.load("assets/in_the_box.png").convert_alpha()
 imageInTheBox = pygame.transform.scale(imageInTheBox, (100,100))
 imageNotGoodBox = pygame.image.load("assets/not_good_box.png").convert_alpha()
 imageNotGoodBox = pygame.transform.scale(imageNotGoodBox, (100,100))
+enemies_images = []
+enemies_images.append(pygame.image.load("assets/stork_blue_1.png"))
+enemies_images.append(pygame.image.load("assets/stork_blue_2.png"))
+unicorn_image = pygame.image.load("assets/unicorn.png")
 
-player_has_lost = False
-firstTick = True
 
-animations_youpi = []
-start_ticks = 0
+def init_level():
+    global enemies, unicorns, babies, poops, character, player_has_lost, firstTick, animations_youpi, start_ticks
+    enemies = []
+    unicorns = []
+    babies = []
+    poops = []
+    number_of_enemies = 15
+    for _ in range(number_of_enemies):
+        enemies.append(Stork(enemies_images,
+                            randint(0, GAME_INFO.SCREEN_WIDTH),
+                            randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
+    unicorn_number = 5
+    for _ in range(unicorn_number):
+        direction = choice([Direction.LEFT, Direction.RIGHT])
+        unicorns.append(Unicorn(unicorn_image,
+                        direction,
+                        0 if direction == Direction.RIGHT else GAME_INFO.SCREEN_WIDTH,
+                        randint(0, GAME_INFO.SCREEN_HEIGHT/2),
+                        randint(60, 1000)))
+
+    character = CharacterGoodLevel2()
+    player_has_lost = False
+    firstTick = True
+
+    animations_youpi = []
+    start_ticks = 0
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, unicorns, player_has_lost, character, babies, firstTick,start_ticks
+    global enemies, unicorns, babies, poops, character, player_has_lost, firstTick, animations_youpi, start_ticks
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
@@ -70,7 +72,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 ClearBoard(GameScreen.GOOD_LEVEL_THREE)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
-            GAME_INFO.SCORE = 0
+            
         else:
             pass  # on continue le jeu
 

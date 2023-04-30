@@ -12,33 +12,36 @@ from random import *
 
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
+imageInTheBox = pygame.image.load("assets/in_the_box.png").convert_alpha()
+imageInTheBox = pygame.transform.scale(imageInTheBox, (100,100))
 enemies_images = []
 enemies_images.append(pygame.image.load("assets/stork_blue_1.png"))
 enemies_images.append(pygame.image.load("assets/stork_blue_2.png"))
-enemies = []
-babies = []
-number_of_enemies = 15
-for _ in range(number_of_enemies):
-    enemies.append(Stork(enemies_images,
-                         randint(0, GAME_INFO.SCREEN_WIDTH),
-                         randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
 
-character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-75, 100, 75), 15, 0, "assets/panier.png")
-player_has_lost = False
-firstTick = True
+def init_level():
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks
+    enemies = []
+    babies = []
+    number_of_enemies = 20
+    for _ in range(number_of_enemies):
+        enemies.append(Stork(enemies_images,
+                             randint(0, GAME_INFO.SCREEN_WIDTH),
+                             randint(0, GAME_INFO.SCREEN_HEIGHT/2)))
 
-imageInTheBox = pygame.image.load("assets/in_the_box.png").convert_alpha()
-imageInTheBox = pygame.transform.scale(imageInTheBox, (100,100))
-shoot_animations = []
-start_ticks = 0
+    character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-75, 100, 75), 15, 0, "assets/panier.png")
+    player_has_lost = False
+    firstTick = True
+    shoot_animations = []
+    start_ticks = 0
 
 def render(screen, events, keys, mouse_buttons: MouseButtons):
-    global enemies, player_has_lost, character, babies, firstTick,start_ticks
+    global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks
     if firstTick:
         start_ticks=pygame.time.get_ticks()
         firstTick = False
 
     def ClearBoard(nextScreen):
+        global character
         character = None
         enemies.clear()
         babies.clear()
@@ -53,7 +56,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
                 ClearBoard(GameScreen.BAD_INTRO)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
-            GAME_INFO.SCORE = 0
+            
         else:
             pass  # on continue le jeu
 
