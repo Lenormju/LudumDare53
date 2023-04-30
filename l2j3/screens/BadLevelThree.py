@@ -13,14 +13,15 @@ from random import *
 comic_sans_ms = pygame.font.SysFont('Comic Sans MS', 30)
 
 enemies_images = []
-enemies_images.append(pygame.image.load("assets/evil_stork1.png"))
-enemies_images.append(pygame.image.load("assets/evil_stork2.png"))
+enemies_images.append(pygame.image.load("assets/stork_boss_form1_1.png"))
+enemies_images.append(pygame.image.load("assets/stork_boss_form1_2.png"))
 enemies = []
 babies = []
 number_of_enemies = 1
 for _ in range(number_of_enemies):
     enemies.append(BigUnicorn(enemies_images,
                               20,
+                              0,
                               200))
 
 character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 100, 100), 10, 0, "assets/gun_left.png")
@@ -79,17 +80,17 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         if GAME_INFO.CURRENT_TICK_NUMBER % randint(30, 90) == 0:
             if enemies:
                 stork = choice(enemies)
-                DropBaby(stork)
+                DropBaby(stork.rect.scale_by(0.3))
         for baby in babies:
             isMoving = baby.ApplyMoveBaby(screen)
             if not isMoving:
                 babies.remove(baby)
                 GAME_INFO.SCORE += 1  # contrebalancer le fait qu'on l'ait enlevé auparavant
 
-    def DropBaby(stork):
-        baby = Baby(stork.rect,  randint(-3, 3), randint(1, 10), "assets/bomb.png")
+    def DropBaby(rect):
+        baby = Baby(rect,  randint(-3, 3), randint(1, 10), "assets/bomb.png")
         babies.append(baby)
-        screen.blit(baby.image, baby.rect)
+        screen.blit(baby.image, rect)
         play_sound(down_turn_sound)
         return baby
 

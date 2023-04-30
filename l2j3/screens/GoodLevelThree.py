@@ -29,7 +29,7 @@ for _ in range(number_of_storks):
 unicorn_images = [pygame.image.load("assets/unicorn_boss_1.png"),
                   pygame.image.load("assets/unicorn_boss_2.png"),
                   pygame.image.load("assets/unicorn_boss_3.png")]  # FIXME: missing poop animation
-enemies.append(BigUnicorn(unicorn_images, 0, 150))
+enemies.append(BigUnicorn(unicorn_images, 120, 0, 150))
 
 character = CharacterGoodLevel2()
 
