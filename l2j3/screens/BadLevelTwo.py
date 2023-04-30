@@ -30,6 +30,11 @@ character = CharacterBadLevel2()
 player_has_lost = False
 firstTick = True
 
+backgroundbad = pygame.image.load("assets/backgroundevil.png")
+backgroundbad = pygame.transform.scale(backgroundbad, (GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT))
+backgroundbad = backgroundbad.convert()
+bombexplosionimage = pygame.image.load("assets/explosion_bomb.png").convert_alpha()
+bombexplosionimage = pygame.transform.scale(bombexplosionimage, (100,100))
 shoot_animations = []
 start_ticks = 0
 
@@ -114,7 +119,8 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == MY_MOUSE_BUTTON_RIGHT:
             shootingRight = True
 
-    screen.fill(evil_red)  # === draw _AFTER_ this line ===
+    # screen.fill(evil_red)  # === draw _AFTER_ this line ===
+    screen.blit(backgroundbad, pygame.Rect((0,0),(GAME_INFO.SCREEN_WIDTH,GAME_INFO.SCREEN_HEIGHT)))  # === draw _AFTER_ this line ===
 
     screen.blit(character.gunLeft.image, character.gunLeft.rect)
     screen.blit(character.gunRight.image, character.gunRight.rect)
@@ -138,6 +144,11 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
             GAME_INFO.SCORE -= 4
             babies.remove(baby)
         
+    for anim in bomb_animations:
+        isRunning = anim.Increment()
+        if not isRunning:
+            bomb_animations.remove(anim)
+
     seconds=(pygame.time.get_ticks()-start_ticks)/1000
     ColoredTextEnd((0,0,0), "Score : "+str(GAME_INFO.SCORE), GAME_INFO.SCREEN_WIDTH-150, 0)
     ColoredTextEnd((0,0,0), "Timer : "+str(round(seconds)), GAME_INFO.SCREEN_WIDTH/3, 0)
