@@ -17,21 +17,20 @@ boss_enemies = []
 boss_enemies.append(pygame.image.load("assets/stork_boss_form1_1.png"))
 boss_enemies.append(pygame.image.load("assets/stork_boss_form1_2.png"))
 enemies_images = []
-enemies_images.append(pygame.image.load("assets/stork_boss_form1_1.png"))
-enemies_images.append(pygame.image.load("assets/stork_boss_form1_2.png"))
+enemies_images.append(pygame.image.load("assets/evil_stork1.png"))
+enemies_images.append(pygame.image.load("assets/evil_stork2.png"))
 
 
 def init_level():
     global enemies, babies, character, player_has_lost, firstTick, shoot_animations, start_ticks, has_started_music
     enemies = []
     babies = []
-    number_of_enemies = 1
+    number_of_enemies = 100
     for _ in range(number_of_enemies):
-        enemies.append(BigUnicorn(enemies_images,
-                                20,
-                                0,
-                                200))
-
+        enemies.append(Stork(enemies_images,
+                            randint(50, GAME_INFO.SCREEN_WIDTH-50),
+                            randint(0, 70)))
+    enemies.append(BigUnicorn(boss_enemies,20,0, 200))
     character = Character(pygame.Rect(GAME_INFO.SCREEN_WIDTH/2, GAME_INFO.SCREEN_HEIGHT-100, 75, 75), 10, 0, "assets/gun_left.png")
     player_has_lost = False
     firstTick = True
