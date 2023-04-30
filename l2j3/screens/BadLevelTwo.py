@@ -64,7 +64,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         global character, enemies
         if not enemies:
             if GAME_INFO.SCORE >= 100:
-                ClearBoard(GameScreen.BAD_LEVEL_THREE)
+                ClearBoard(GameScreen.BAD_LEVEL_TWO_INTERLUDE)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
             

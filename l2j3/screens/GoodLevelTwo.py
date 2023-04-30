@@ -69,7 +69,7 @@ def render(screen, events, keys, mouse_buttons: MouseButtons):
         global character, enemies, unicorns
         if not enemies and not unicorns:
             if GAME_INFO.SCORE >= 15:
-                ClearBoard(GameScreen.GOOD_LEVEL_THREE)
+                ClearBoard(GameScreen.GOOD_LEVEL_TWO_INTERLUDE)
             else:
                 ClearBoard(GameScreen.NEUTRAL_ENDING)
             

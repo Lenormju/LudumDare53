@@ -8,7 +8,7 @@ pygame_screen = pygame.display.set_mode((GAME_INFO.SCREEN_WIDTH, GAME_INFO.SCREE
 from objects.Sounds import background_music_channel
 from objects.Mouse import MouseButtons
 from screens import Title, GoodLevelOne, GoodLevelTwo, GoodLevelThree, GoodEnding, BadIntro, BadLevelOne, \
-    BadLevelTwo, BadLevelThree, BadEnding, NeutralEnding
+    BadLevelTwo, BadLevelThree, BadEnding, NeutralEnding, GoodLevelOneInterlude, GoodLevelTwoInterlude, BadLevelOneInterlude, BadLevelTwoInterlude
 
 clock = pygame.time.Clock()
 pygame.mouse.set_visible(False)
@@ -17,12 +17,16 @@ pygame.event.set_grab(True)
 levels = {
     GameScreen.TITLE: Title,
     GameScreen.GOOD_LEVEL_ONE: GoodLevelOne,
+    GameScreen.GOOD_LEVEL_ONE_INTERLUDE: GoodLevelOneInterlude,
     GameScreen.GOOD_LEVEL_TWO: GoodLevelTwo,
+    GameScreen.GOOD_LEVEL_TWO_INTERLUDE: GoodLevelTwoInterlude,
     GameScreen.GOOD_LEVEL_THREE: GoodLevelThree,
     GameScreen.GOOD_ENDING: GoodEnding,
     GameScreen.BAD_INTRO: BadIntro,
     GameScreen.BAD_LEVEL_ONE: BadLevelOne,
+    GameScreen.BAD_LEVEL_ONE_INTERLUDE: BadLevelOneInterlude,
     GameScreen.BAD_LEVEL_TWO: BadLevelTwo,
+    GameScreen.BAD_LEVEL_TWO_INTERLUDE: BadLevelTwoInterlude,
     GameScreen.BAD_LEVEL_THREE: BadLevelThree,
     GameScreen.NEUTRAL_ENDING: NeutralEnding,
     GameScreen.BAD_ENDING: BadEnding,
